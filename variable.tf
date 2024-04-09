@@ -1,3 +1,9 @@
+variable "region" { 
+  description = "AWS region" 
+  type        = string 
+  default     = "ap-northeast-1" 
+}
+
 variable "vpc_name" {
   type = string
   default = "Final-VPC"
@@ -19,11 +25,6 @@ variable "enable_dns_support" {
   type        = bool
   default     = true
 }
-
-# variable "vpc_id" {
-#   description = "ID of the VPC to associate subnets with"
-#   type        = string
-# }
 
 variable "public_subnet_name" {
     description = "Public Subnets name values"
