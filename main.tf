@@ -35,14 +35,6 @@ module "final_vpc" {
   vpc_name = var.vpc_name
 }
 
-data "terraform_remote_state" "vpc" {
-  backend = "local"
-
-  config = {
-    path = "./modules/vpc/terraform.tfstate"
-  }
-}
-
 module "final_subnet" {
   source = "./modules/subnet"
 
