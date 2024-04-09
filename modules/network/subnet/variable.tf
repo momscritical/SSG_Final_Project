@@ -4,7 +4,6 @@ variable "vpc_id" {
   default = ""
 }
 
-
 variable "public_subnet_name" {
     description = "Public Subnets name values"
   type = string

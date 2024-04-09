@@ -29,14 +29,14 @@ provider "aws" {
 }
 
 module "final_vpc" {
-  source = "./modules/vpc"
+  source = "./modules/network/vpc"
 
   vpc_cidr = var.vpc_cidr
   vpc_name = var.vpc_name
 }
 
 module "final_subnet" {
-  source = "./modules/subnet"
+  source = "./modules/network/subnet"
 
   vpc_id = module.final_vpc.vpc_id
   public_subnet_cidr = var.public_subnet_cidr
@@ -51,5 +51,11 @@ module "final_subnet" {
   db_subnet_cidr = var.db_subnet_cidr
   db_subnet_name = var.db_subnet_name
   availability_zones = var.availability_zones
-  # depends_on = [module.final_vpc]
+  depends_on = [module.final_vpc]
+}
+
+module "final_gateway" {
+  source = "./modules/network/gateway"
+
+  
 }
