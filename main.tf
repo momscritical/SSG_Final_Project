@@ -46,7 +46,7 @@ data "terraform_remote_state" "vpc" {
 module "final_subnet" {
   source = "./modules/subnet"
 
-  vpc_id = data.terraform_remote_state.vpc
+  vpc_id = module.final_vpc.vpc_id
   public_subnet_cidr = var.public_subnet_cidr
   public_subnet_name = var.public_subnet_name
 
@@ -59,4 +59,5 @@ module "final_subnet" {
   db_subnet_cidr = var.db_subnet_cidr
   db_subnet_name = var.db_subnet_name
   availability_zones = var.availability_zones
+  # depends_on = [module.final_vpc]
 }
