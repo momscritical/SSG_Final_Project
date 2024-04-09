@@ -1,12 +1,9 @@
-resource "aws_vpc" "vpcs" {
-  count = length(var.vpc_configs)
+resource "aws_vpc" "vpc" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_dns_support   = var.enable_dns_support
 
-  cidr_block = var.vpc_configs[count.index].cidr_block
-
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
-  tags = { 
-    Name = var.vpc_configs[count.index].name
+  tags = {
+    Name = var.vpc_name
   }
 }
