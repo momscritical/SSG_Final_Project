@@ -1,11 +1,11 @@
-variable "vpc_cidr" {
-  description = "CIDR block for the VPC"
-  type        = string
+variable "vpc_name" {
+  type = string
+  default = ""
 }
 
-variable "vpc_name" {
-  description = "Name tag for the VPC"
-  type        = string
+variable "vpc_cidr" {
+  type = string
+  default = ""
 }
 
 variable "enable_dns_hostnames" {
@@ -19,4 +19,3 @@ variable "enable_dns_support" {
   type        = bool
   default     = true
 }
-
