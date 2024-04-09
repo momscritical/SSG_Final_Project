@@ -1,28 +1,23 @@
-###
-# 1. Elastic IP
-###
-resource "aws_eip" "project_nat_eip" {
+resource "aws_eip" "nat_eip" {
   domain   = "vpc"
 
   lifecycle {
     create_before_destroy = true
   }
 }
-###
-#2. Internet & NAT Gateways
-###
+
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.project_vpc.id 
+  vpc_id = var.vpc_id
   
   tags = {
-    Name = "projectVPC-IGW"
+    Name = var.igw_name
  }
 }
 resource "aws_nat_gateway" "ngw" {
-  allocation_id = aws_eip.project_nat_eip.id
-  subnet_id     = aws_subnet.public[0].id
+  allocation_id = var.nat_eip_id
+  subnet_id     = var.subnet_id
+  
   tags = {
-    Name = "projectVPC-NGW"
+    Name = var.ngw_name
  }
- depends_on = [aws_internet_gateway.igw]
 }
