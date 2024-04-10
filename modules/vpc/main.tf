@@ -1,12 +1,12 @@
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
 
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_dns_support   = var.enable_dns_support
+
   tags = { 
     Name = var.vpc_name
   }
-
-  enable_dns_hostnames = var.enable_dns_hostnames
-  enable_dns_support   = var.enable_dns_support
 }
 
 resource "aws_subnet" "public" {
@@ -19,7 +19,6 @@ resource "aws_subnet" "public" {
   tags = {
     Name = "${var.public_subnet_name}-0${count.index + 1}"
   }
-
 }
 
 resource "aws_subnet" "web" {
@@ -74,12 +73,12 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public[0].id
-  
+
   tags = {
     Name = var.ngw_name
  }
 
- depends_on = [aws_internet_gateway.igw]
+  depends_on = [aws_internet_gateway.igw]
 }
 
 resource "aws_route_table" "public_rt" {
@@ -113,18 +112,21 @@ resource "aws_route_table_association" "public_subnet_asso" {
   subnet_id      = element(aws_subnet.public[*].id, count.index) 
   route_table_id = aws_route_table.public_rt.id
 }
+
 resource "aws_route_table_association" "web_subnet_asso" {
   count = length(var.web_subnet_cidr)
   subnet_id      = element(aws_subnet.web[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id
 }
+
 resource "aws_route_table_association" "app_subnet_asso" {
   count = length(var.was_subnet_cidr) 
   subnet_id      = element(aws_subnet.was[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id
 }
+
 resource "aws_route_table_association" "db_subnet_asso" {
   count = length(var.db_subnet_cidr) 
-  subnet_id      = element(aws_subnet.wdb[*].id, count.index) 
+  subnet_id      = element(aws_subnet.db[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id
 }
