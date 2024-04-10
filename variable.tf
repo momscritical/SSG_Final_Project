@@ -1,3 +1,4 @@
+#################################### VPC ####################################
 variable "region" {
   description = "AWS region"
   type        = string
@@ -102,4 +103,101 @@ variable "enable_dns_support" {
   description = "Whether to enable DNS support for the VPC"
   type        = bool
   default     = true
+}
+
+#################################### Security Group ####################################
+variable "bastion_sg_name" {
+  description = "The Name of the Security Group for Bastion Instance"
+  type = string
+  default = "Public-SG"
+}
+
+variable "web_sg_name" {
+  description = "The Name of the Security Group for Web Instance"
+  type = string
+  default = "Web-SG"
+}
+
+variable "was_sg_name" {
+  description = "The Name of the Security Group for WAS Instance"
+  type = string
+  default = "WAS-SG"
+}
+
+variable "db_sg_name" {
+  description = "The Name of the Security Group for DataBase"
+  type = string
+  default = "DataBase-SG"
+}
+
+variable "elb_sg_name" {
+  description = "The Name of the Security Group External Load Balancer"
+  type = string
+  default = "Ext-LB-SG"
+}
+
+variable "ilb_sg_name" {
+  description = "The Name of the Security Group Internal Load Balancer"
+  type = string
+  default = "Int-LB-SG"
+}
+
+variable "web_efs_sg_name" {
+  description = "The Name of the Security Group for Web EFS"
+  type = string
+  default = "Web-EFS-SG"
+}
+
+variable "was_efs_sg_name" {
+  description = "The Name of the Security Group for WAS EFS"
+  type = string
+  default = "WAS-EFS-SG"
+}
+
+variable "bastion_ing_ports" {
+  description = "List of Ingress Ports for Bastion"
+  type        = list(number)
+  default     = ["22","9090","3000"]
+}
+
+variable "web_ing_ports" {
+  description = "List of Ingress Ports for Web"
+  type        = list(number)
+  default     = ["22","9100","5000"]
+}
+
+variable "was_ing_ports" {
+  description = "List of Ingress Ports for WAS"
+  type        = list(number)
+  default     = ["22","9100","5000"]
+}
+
+variable "db_ing_ports" {
+  description = "List of Ingress Ports for DataBase"
+  type        = list(number)
+  default     = ["3306"]
+}
+
+variable "elb_ing_ports" {
+  description = "List of Ingress Ports for External Loadbalancer"
+  type        = list(number)
+  default     = ["80"]
+}
+
+variable "ilb_ing_ports" {
+  description = "List of Ingress Ports for Internal Loadbalancer"
+  type        = list(number)
+  default     = ["80","5000"]
+}
+
+variable "web_efs_ing_ports" {
+  description = "List of Ingress Ports for Web EFS"
+  type        = list(number)
+  default     = ["2049"]
+}
+
+variable "was_efs_ing_ports" {
+  description = "List of Ingress Ports for WAS EFS"
+  type        = list(number)
+  default     = ["2049"]
 }
