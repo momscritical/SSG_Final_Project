@@ -56,7 +56,7 @@ resource "aws_subnet" "db" {
 }
 
 resource "aws_eip" "nat_eip" {
-  domain   = "vpc"
+  vpc   = true
 
   lifecycle {
     create_before_destroy = true
