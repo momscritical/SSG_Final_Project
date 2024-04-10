@@ -29,33 +29,8 @@ provider "aws" {
 }
 
 module "final_vpc" {
-  source = "./modules/network/vpc"
+  source = "./modules/vpc"
 
   vpc_cidr = var.vpc_cidr
   vpc_name = var.vpc_name
-}
-
-module "final_subnet" {
-  source = "./modules/network/subnet"
-
-  vpc_id = module.final_vpc.vpc_id
-  public_subnet_cidr = var.public_subnet_cidr
-  public_subnet_name = var.public_subnet_name
-
-  web_subnet_cidr = var.web_subnet_cidr
-  web_subnet_name = var.web_subnet_name
-
-  was_subnet_cidr = var.was_subnet_cidr
-  was_subnet_name = var.was_subnet_name
-
-  db_subnet_cidr = var.db_subnet_cidr
-  db_subnet_name = var.db_subnet_name
-  availability_zones = var.availability_zones
-  depends_on = [module.final_vpc]
-}
-
-module "final_gateway" {
-  source = "./modules/network/gateway"
-
-  
 }
