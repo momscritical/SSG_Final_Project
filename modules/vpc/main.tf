@@ -76,7 +76,10 @@ resource "aws_nat_gateway" "ngw" {
     Name = var.ngw_name
  }
 
-  depends_on = [aws_internet_gateway.igw]
+  depends_on = [
+    aws_internet_gateway.igw,
+    aws_eip.nat_eip
+    ]
 }
 
 resource "aws_route_table" "public_rt" {
