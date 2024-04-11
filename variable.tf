@@ -193,17 +193,17 @@ variable "web_ing_rules" {
     {
       from_port       = 22
       to_port         = 22
-      security_groups = ["module.final_sg.bastion_sg_id"]
+      security_groups = [module.final_sg.bastion_sg_id]
     },
     {
       from_port       = 5000
       to_port         = 5000
-      security_groups = ["module.final_sg.elb_sg_id"]
+      security_groups = [module.final_sg.elb_sg_id]
     },
     {
       from_port       = 9100
       to_port         = 9100
-      security_groups = ["module.final_sg.bastion_sg_id"]
+      security_groups = [module.final_sg.bastion_sg_id]
     }
   ]
 }
@@ -219,17 +219,17 @@ variable "was_ing_rules" {
     {
       from_port       = 22
       to_port         = 22
-      security_groups = ["module.final_sg.bastion_sg_id"]
+      security_groups = [module.final_sg.bastion_sg_id]
     },
     {
       from_port       = 5000
       to_port         = 5000
-      security_groups = ["module.final_sg.ilb_sg_id"]
+      security_groups = [module.final_sg.ilb_sg_id]
     },
     {
       from_port       = 9100
       to_port         = 9100
-      security_groups = ["module.final_sg.bastion_sg_id"]
+      security_groups = [module.final_sg.bastion_sg_id]
     }
   ]
 }
@@ -245,12 +245,12 @@ variable "db_ing_rules" {
     {
       from_port       = 3306
       to_port         = 3306
-      security_groups = ["module.final_sg.web_sg_id"]
+      security_groups = [module.final_sg.web_sg_id]
     },
     {
       from_port       = 3306
       to_port         = 3306
-      security_groups = ["module.final_sg.was_sg_id"]
+      security_groups = [module.final_sg.was_sg_id]
     }
   ]
 }
@@ -280,7 +280,7 @@ variable "ilb_ing_rules" {
     {
       from_port       = 5000
       to_port         = 5000
-      security_groups = ["module.final_sg.web_sg_id"]
+      security_groups = [module.final_sg.web_sg_id]
     }
   ]
 }
@@ -296,7 +296,7 @@ variable "web_efs_ing_rules" {
     {
       from_port       = 2049
       to_port         = 2049
-      security_groups = ["module.final_sg.web_sg_id"]
+      security_groups = [module.final_sg.web_sg_id]
     }
   ]
 }
@@ -312,7 +312,7 @@ variable "was_efs_ing_rules" {
     {
       from_port       = 2049
       to_port         = 2049
-      security_groups = ["module.final_sg.was_sg_id.id"]
+      security_groups = [module.final_sg.was_sg_id.id]
     }
   ]
 }
