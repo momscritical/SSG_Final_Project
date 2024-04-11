@@ -19,11 +19,11 @@ output "db_sg_id" {
 }
 
 output "elb_sg_id" {
-    value = aws_security_group.elb.id
+    value = aws_security_group.ext_lb.id
 }
 
 output "ilb_sg_id" {
-    value = aws_security_group.ilb.id
+    value = aws_security_group.int_lb.id
 }
 
 output "web_efs_sg_id" {
