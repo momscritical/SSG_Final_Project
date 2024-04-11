@@ -172,6 +172,6 @@ module "final_bastion" {
   security_group_id = [module.final_sg.bastion_sg_id]
   key_name = module.final_key.key_name
   subnet_id = module.final_vpc.public_subnet_id[0]
-  bastion_user_data = templatefile("./user_data_file/user_data_bastion.sh")
+  bastion_user_data = templatefile("./user_data_file/user_data_bastion.sh", {})
   bastion_name = "Bastion"
 }
