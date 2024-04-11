@@ -312,7 +312,7 @@ variable "was_efs_ing_rules" {
     {
       from_port       = 2049
       to_port         = 2049
-      security_groups = [module.final_sg.was_sg_id.id]
+      security_groups = [module.final_sg.was_sg_id]
     }
   ]
 }
