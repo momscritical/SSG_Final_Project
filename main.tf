@@ -48,6 +48,7 @@ module "final_sg" {
       to_port   = 9090
     }
   ]
+
   web_ing_rules = [
     {
       from_port       = 22
@@ -65,6 +66,7 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     }
   ]
+
   was_ing_rules = [
     {
       from_port       = 22
@@ -82,6 +84,7 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     }
   ]
+
   db_ing_rules = [
     {
       from_port       = 3306
@@ -94,12 +97,14 @@ module "final_sg" {
       security_groups = [module.final_sg.was_sg_id]
     }
   ]
+
   elb_ing_rules = [
     {
       from_port = 80
       to_port   = 80
     }
   ]
+
   ilb_ing_rules = [
     {
       from_port       = 5000
@@ -107,6 +112,7 @@ module "final_sg" {
       security_groups = [module.final_sg.web_sg_id]
     }
   ]
+
   web_efs_ing_rules = [
     {
       from_port       = 2049
@@ -114,6 +120,7 @@ module "final_sg" {
       security_groups = [module.final_sg.web_sg_id]
     }
   ]
+
   was_efs_ing_rules = [
     {
       from_port       = 2049
