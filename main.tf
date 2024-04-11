@@ -167,7 +167,7 @@ data "aws_ami" "amazon_linux_2023" {
 module "final_bastion" {
   source = "./modules/ec2"
   
-  ami = data.aws_ami.amazon_linux_2023
+  ami = data.aws_ami.amazon_linux_2023.id
   instance_type = "t2.small"
   security_group_id = [module.final_sg.bastion_sg_id]
   key_name = module.final_key.key_name
