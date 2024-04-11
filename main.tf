@@ -131,3 +131,47 @@ module "final_sg" {
 
   depends_on = [module.final_vpc]
 }
+
+module "final_key" {
+  source = "./modules/key_pair"
+  key_name = "final-key"
+  public_key_location = "~/.ssh/final-key.pub"
+  key_tags = "Final-Key"
+}
+
+data "aws_ami" "amazon_linux_2023" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+module "final_bastion" {
+  source = "./modules/ec2"
+  
+  ami = data.aws_ami.amazon_linux_2023
+  instance_type = "t2.small"
+  security_group_id = [module.final_sg.bastion_sg_id]
+  key_name = module.final_key.key_name
+  subnet_id = module.final_vpc.public_subnet_id[0]
+  bastion_user_data = templatefile("./user_data_file/user_data_bastion.sh")
+  bastion_name = "Bastion"
+}
