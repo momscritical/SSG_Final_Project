@@ -23,7 +23,7 @@ module "final_vpc" {
 module "final_sg" {
   source = "./modules/sg"
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id = module.final_vpc.vpc_id
 
   bastion_sg_name = var.bastion_sg_name
   web_sg_name = var.web_sg_name
