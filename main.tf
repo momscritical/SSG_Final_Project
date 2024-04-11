@@ -34,14 +34,14 @@ module "final_sg" {
   web_efs_sg_name = var.web_efs_sg_name
   was_efs_sg_name = var.was_efs_sg_name
 
-  bastion_ing_ports = var.bastion_ing_ports
-  web_ing_ports = var.web_ing_ports
-  was_ing_ports = var.was_ing_ports
-  db_ing_ports = var.db_ing_ports
-  elb_ing_ports = var.elb_ing_ports
-  ilb_ing_ports = var.ilb_ing_ports
-  web_efs_ing_ports = var.web_efs_ing_ports
-  was_efs_ing_ports = var.was_efs_ing_ports
+  bastion_ing_rules = var.bastion_ing_rules
+  web_ing_rules = var.web_ing_rules
+  was_ing_rules = var.was_ing_rules
+  db_ing_rules = var.db_ing_rules
+  elb_ing_rules = var.elb_ing_rules
+  ilb_ing_rules = var.ilb_ing_rules
+  web_efs_ing_rules = var.web_efs_ing_rules
+  was_efs_ing_rules = var.was_efs_ing_rules
 
   depends_on = [module.final_vpc]
 }

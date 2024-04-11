@@ -154,50 +154,127 @@ variable "was_efs_sg_name" {
   default = "WAS-EFS-SG"
 }
 
-variable "bastion_ing_ports" {
-  description = "List of Ingress Ports for Bastion"
-  type        = list(number)
-  default     = ["22","9090","3000"]
+variable "vpc_id" {
+  description = "The ID of the VPC"
+  type        = string
+  default     = ""
 }
 
-variable "web_ing_ports" {
-  description = "List of Ingress Ports for Web"
-  type        = list(number)
-  default     = ["22","9100","5000"]
+variable "bastion_ing_rules" {
+  description = "List of ingress rules for Bastion Instance"
+  type        = list(object(
+        {
+            from_port       = 22
+            to_port         = 22
+        },
+        {
+            from_port       = 3000
+            to_port         = 3000
+        },
+        {
+            from_port       = 9090
+            to_port         = 9090
+        }
+    ))
 }
 
-variable "was_ing_ports" {
-  description = "List of Ingress Ports for WAS"
-  type        = list(number)
-  default     = ["22","9100","5000"]
+variable "web_ing_rules" {
+  description = "List of ingress rules for Web Instance"
+  type        = list(object(
+    {
+    from_port       = 22
+    to_port         = 22
+    security_groups = ["aws_security_group.bastion.id"]
+    },
+    {
+    from_port       = 5000
+    to_port         = 5000
+    security_groups = ["aws_security_group.ext_lb.id"]
+    },
+    {
+    from_port       = 9100
+    to_port         = 9100
+    security_groups = ["aws_security_group.bastion.id"]
+    }
+  ))
 }
 
-variable "db_ing_ports" {
-  description = "List of Ingress Ports for DataBase"
-  type        = list(number)
-  default     = ["3306"]
+variable "was_ing_rules" {
+  description = "List of ingress rules for WAS Instance"
+  type        = list(object(
+    {
+    from_port       = 22
+    to_port         = 22
+    security_groups = ["aws_security_group.bastion.id"]
+    },
+    {
+    from_port       = 5000
+    to_port         = 5000
+    security_groups = ["aws_security_group.int_lb.id"]
+    },
+    {
+    from_port       = 9100
+    to_port         = 9100
+    security_groups = ["aws_security_group.bastion.id"]
+    }
+  ))
 }
 
-variable "elb_ing_ports" {
-  description = "List of Ingress Ports for External Loadbalancer"
-  type        = list(number)
-  default     = ["80"]
+variable "db_ing_rules" {
+  description = "List of ingress rules for DataBase"
+  type        = list(object(
+    {
+    from_port       = 3306
+    to_port         = 3306
+    security_groups = ["aws_security_group.web.id"]
+    },
+    {
+    from_port       = 3306
+    to_port         = 3306
+    security_groups = ["aws_security_group.was.id"]
+    }
+  ))
 }
 
-variable "ilb_ing_ports" {
-  description = "List of Ingress Ports for Internal Loadbalancer"
-  type        = list(number)
-  default     = ["80","5000"]
+variable "elb_ing_rules" {
+  description = "List of ingress rules for External Load Balancer"
+  type        = list(object(
+        {
+            from_port       = 80
+            to_port         = 80
+        }
+  ))
 }
 
-variable "web_efs_ing_ports" {
-  description = "List of Ingress Ports for Web EFS"
-  type        = list(number)
-  default     = ["2049"]
+variable "ilb_ing_rules" {
+  description = "List of ingress rules for Internal Load Balancer"
+  type        = list(object(
+    {
+    from_port       = 5000
+    to_port         = 5000
+    security_groups = ["aws_security_group.web.id"]
+    }
+  ))
 }
 
-variable "was_efs_ing_ports" {
-  description = "List of Ingress Ports for WAS EFS"
-  type        = list(number)
-  default     = ["2049"]
+variable "web_efs_ing_rules" {
+  description = "List of ingress rules for Web EFS"
+  type        = list(object(
+    {
+    from_port       = 2049
+    to_port         = 2049
+    security_groups = ["aws_security_group.web.id"]
+    }
+  ))
+}
+
+variable "was_efs_ing_rules" {
+  description = "List of ingress rules for WAS EFS"
+  type        = list(object(
+    {
+    from_port       = 2049
+    to_port         = 2049
+    security_groups = ["aws_security_group.was.id"]
+    }
+  ))
 }
