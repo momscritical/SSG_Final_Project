@@ -120,7 +120,7 @@ resource "aws_route_table_association" "web_subnet_asso" {
   route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_route_table_association" "app_subnet_asso" {
+resource "aws_route_table_association" "was_subnet_asso" {
   count = length(var.was_subnet_cidr) 
   subnet_id      = element(aws_subnet.was[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id

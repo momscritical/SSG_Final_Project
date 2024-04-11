@@ -166,7 +166,7 @@ resource "aws_security_group" "web_efs" {
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.was_ing_rules
+    for_each = var.web_efs_ing_rules
     content {
       from_port       = ingress.value.from_port
       to_port         = ingress.value.to_port
