@@ -58,6 +58,7 @@ variable "bastion_ing_rules" {
     from_port       = number
     to_port         = number
   }))
+  default     = []
 }
 
 variable "web_ing_rules" {
@@ -67,6 +68,7 @@ variable "web_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "was_ing_rules" {
@@ -76,6 +78,7 @@ variable "was_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "db_ing_rules" {
@@ -85,6 +88,7 @@ variable "db_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "elb_ing_rules" {
@@ -92,8 +96,8 @@ variable "elb_ing_rules" {
   type        = list(object({
     from_port       = number
     to_port         = number
-    security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "ilb_ing_rules" {
@@ -103,6 +107,7 @@ variable "ilb_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "web_efs_ing_rules" {
@@ -112,6 +117,7 @@ variable "web_efs_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }
 
 variable "was_efs_ing_rules" {
@@ -121,4 +127,5 @@ variable "was_efs_ing_rules" {
     to_port         = number
     security_groups = list(string)
   }))
+  default     = []
 }

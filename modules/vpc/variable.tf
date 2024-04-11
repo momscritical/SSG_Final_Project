@@ -59,7 +59,7 @@ variable "web_subnet_cidr" {
 variable "was_subnet_cidr" {
   description = "WAS Subnet CIDR values"
   type        = list(string)
-   default     = []
+  default     = []
 }
 
 variable "db_subnet_cidr" {

@@ -108,50 +108,50 @@ variable "enable_dns_support" {
 #################################### Security Group ####################################
 variable "bastion_sg_name" {
   description = "The Name of the Security Group for Bastion Instance"
-  type = string
-  default = "Public-SG"
+  type        = string
+  default     = "Public-SG"
 }
 
 variable "web_sg_name" {
   description = "The Name of the Security Group for Web Instance"
-  type = string
-  default = "Web-SG"
+  type        = string
+  default     = "Web-SG"
 }
 
 variable "was_sg_name" {
   description = "The Name of the Security Group for WAS Instance"
-  type = string
-  default = "WAS-SG"
+  type        = string
+  default     = "WAS-SG"
 }
 
 variable "db_sg_name" {
   description = "The Name of the Security Group for DataBase"
-  type = string
-  default = "DataBase-SG"
+  type        = string
+  default     = "DataBase-SG"
 }
 
 variable "elb_sg_name" {
   description = "The Name of the Security Group External Load Balancer"
-  type = string
-  default = "Ext-LB-SG"
+  type        = string
+  default     = "Ext-LB-SG"
 }
 
 variable "ilb_sg_name" {
   description = "The Name of the Security Group Internal Load Balancer"
-  type = string
-  default = "Int-LB-SG"
+  type        = string
+  default     = "Int-LB-SG"
 }
 
 variable "web_efs_sg_name" {
   description = "The Name of the Security Group for Web EFS"
-  type = string
-  default = "Web-EFS-SG"
+  type        = string
+  default     = "Web-EFS-SG"
 }
 
 variable "was_efs_sg_name" {
   description = "The Name of the Security Group for WAS EFS"
-  type = string
-  default = "WAS-EFS-SG"
+  type        = string
+  default     = "WAS-EFS-SG"
 }
 
 variable "vpc_id" {
@@ -162,119 +162,157 @@ variable "vpc_id" {
 
 variable "bastion_ing_rules" {
   description = "List of ingress rules for Bastion Instance"
-  type        = list(object(
-        {
-            from_port       = 22
-            to_port         = 22
-        },
-        {
-            from_port       = 3000
-            to_port         = 3000
-        },
-        {
-            from_port       = 9090
-            to_port         = 9090
-        }
-    ))
+  type        = list(object({
+    from_port   = number
+    to_port     = number
+  }))
+  default     = [
+    {
+      from_port = 22
+      to_port   = 22
+    },
+    {
+      from_port = 3000
+      to_port   = 3000
+    },
+    {
+      from_port = 9090
+      to_port   = 9090
+    }
+  ]
 }
 
 variable "web_ing_rules" {
   description = "List of ingress rules for Web Instance"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 22
-    to_port         = 22
-    security_groups = ["aws_security_group.bastion.id"]
+      from_port       = 22
+      to_port         = 22
+      security_groups = ["aws_security_group.bastion.id"]
     },
     {
-    from_port       = 5000
-    to_port         = 5000
-    security_groups = ["aws_security_group.ext_lb.id"]
+      from_port       = 5000
+      to_port         = 5000
+      security_groups = ["aws_security_group.ext_lb.id"]
     },
     {
-    from_port       = 9100
-    to_port         = 9100
-    security_groups = ["aws_security_group.bastion.id"]
+      from_port       = 9100
+      to_port         = 9100
+      security_groups = ["aws_security_group.bastion.id"]
     }
-  ))
+  ]
 }
 
 variable "was_ing_rules" {
   description = "List of ingress rules for WAS Instance"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 22
-    to_port         = 22
-    security_groups = ["aws_security_group.bastion.id"]
+      from_port       = 22
+      to_port         = 22
+      security_groups = ["aws_security_group.bastion.id"]
     },
     {
-    from_port       = 5000
-    to_port         = 5000
-    security_groups = ["aws_security_group.int_lb.id"]
+      from_port       = 5000
+      to_port         = 5000
+      security_groups = ["aws_security_group.int_lb.id"]
     },
     {
-    from_port       = 9100
-    to_port         = 9100
-    security_groups = ["aws_security_group.bastion.id"]
+      from_port       = 9100
+      to_port         = 9100
+      security_groups = ["aws_security_group.bastion.id"]
     }
-  ))
+  ]
 }
 
 variable "db_ing_rules" {
   description = "List of ingress rules for DataBase"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 3306
-    to_port         = 3306
-    security_groups = ["aws_security_group.web.id"]
+      from_port       = 3306
+      to_port         = 3306
+      security_groups = ["aws_security_group.web.id"]
     },
     {
-    from_port       = 3306
-    to_port         = 3306
-    security_groups = ["aws_security_group.was.id"]
+      from_port       = 3306
+      to_port         = 3306
+      security_groups = ["aws_security_group.was.id"]
     }
-  ))
+  ]
 }
 
 variable "elb_ing_rules" {
   description = "List of ingress rules for External Load Balancer"
-  type        = list(object(
-        {
-            from_port       = 80
-            to_port         = 80
-        }
-  ))
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+  }))
+  default     = [
+    {
+      from_port = 80
+      to_port   = 80
+    }
+  ]
 }
 
 variable "ilb_ing_rules" {
   description = "List of ingress rules for Internal Load Balancer"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 5000
-    to_port         = 5000
-    security_groups = ["aws_security_group.web.id"]
+      from_port       = 5000
+      to_port         = 5000
+      security_groups = ["aws_security_group.web.id"]
     }
-  ))
+  ]
 }
 
 variable "web_efs_ing_rules" {
   description = "List of ingress rules for Web EFS"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 2049
-    to_port         = 2049
-    security_groups = ["aws_security_group.web.id"]
+      from_port       = 2049
+      to_port         = 2049
+      security_groups = ["aws_security_group.web.id"]
     }
-  ))
+  ]
 }
 
 variable "was_efs_ing_rules" {
   description = "List of ingress rules for WAS EFS"
-  type        = list(object(
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = [
     {
-    from_port       = 2049
-    to_port         = 2049
-    security_groups = ["aws_security_group.was.id"]
+      from_port       = 2049
+      to_port         = 2049
+      security_groups = ["aws_security_group.was.id"]
     }
-  ))
+  ]
 }
