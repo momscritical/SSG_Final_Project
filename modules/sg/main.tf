@@ -213,3 +213,30 @@ resource "aws_security_group" "was_efs" {
     Name = var.was_efs_sg_name
   }
 }
+
+resource "aws_security_group" "cluster" {
+  name        = var.cluster_sg_name
+  description = "Security Group for was EKS CLuster" 
+  vpc_id      = var.vpc_id
+
+  dynamic "ingress" {
+    for_each = var.cluster_ing_rules
+    content {
+      from_port       = ingress.value.from_port
+      to_port         = ingress.value.to_port
+      protocol        = "tcp"
+      security_groups = ingress.value.security_groups
+    }
+  }
+
+  egress {
+    from_port     = 0
+    to_port       = 0
+    protocol      = "-1"
+    cidr_blocks   = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = var.cluster_sg_name
+  }
+}

@@ -164,7 +164,7 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
-module "final_bastion" {
+module "final_bastion_control_plane" {
   source = "./modules/ec2"
   
   ami = data.aws_ami.amazon_linux_2023.id
