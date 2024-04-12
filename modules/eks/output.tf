@@ -8,7 +8,7 @@ output "kubeconfig-certificate-authority-data" {
   value = aws_eks_cluster.cluster.certificate_authority[0].data
 }
 
-# 클러스터 토큰 값 출력
-output "cluster_token" {
-  value = aws_eks_cluster.cluster.api_token
-}
+# # 클러스터 토큰 값 출력
+# output "cluster_token" {
+#   value = aws_eks_cluster.cluster.api_token
+# }
