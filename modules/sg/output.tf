@@ -29,3 +29,11 @@ output "web_efs_sg_id" {
 output "was_efs_sg_id" {
     value = aws_security_group.was_efs.id
 }
+
+output "cluster_sg_id" {
+    value = aws_security_group.cluster.id
+}
+
+output "control_plane_sg_id" {
+    value = aws_security_group.control_plane.id
+}

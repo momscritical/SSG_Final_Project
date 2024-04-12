@@ -164,14 +164,42 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
-module "final_bastion" {
+module "final_bastion_control_plane" {
   source = "./modules/ec2"
   
-  ami = data.aws_ami.amazon_linux_2023.id
-  instance_type = "t2.small"
-  security_group_id = [module.final_sg.bastion_sg_id]
-  key_name = module.final_key.key_name
-  subnet_id = module.final_vpc.public_subnet_id[0]
-  bastion_user_data = templatefile("./user_data_file/user_data_bastion.sh", {})
-  bastion_name = "Bastion"
+  ami                    = data.aws_ami.amazon_linux_2023.id
+  instance_type          = "t2.small"
+  key_name               = module.final_key.key_name
+  bastion_sg_id          = [module.final_sg.bastion_sg_id]
+  bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
+  bastion_user_data      = templatefile("./user_data_file/user_data_bastion.sh", {})
+  bastion_name           = "Bastion"
+
+  control_plane_sg_id    = [module.final_sg.control_plane_sg_id]
+  control_plane_subnet_id = module.final_vpc.was_subnet_id[0]
+  control_plane_user_data = templatefile("./user_data_file/user_data_control.sh", {})
+  control_plane_name     = "EKS-Controll-Plane"
+}
+
+module "final_eks" {
+  source                 = "./modules/eks"
+  cluster_role_name      = "EKS-Cluster-Role"
+  cluster_name           = "EKS-Cluster"
+  node_group_role_name   = "SSG-1-EKS-NodeGroup-Role"
+  web_node_group_name    = "Web-Node"
+  was_node_group_name    = "WAS-Node"
+
+  cluster_subnet_ids     = module.final_vpc.web_was_subnet_ids
+  web_node_group_subnet_ids = module.final_vpc.web_subnet_id
+  was_node_group_subnet_ids = module.final_vpc.was_subnet_id
+
+  web_node_group_desired_size = 2
+  web_node_group_max_size = 3
+  web_node_group_min_size = 1
+  was_node_group_desired_size = 2
+  was_node_group_max_size = 3
+  was_node_group_min_size = 1
+  
+  web_max_unavailable   = 1
+  was_max_unavailable   = 1
 }
