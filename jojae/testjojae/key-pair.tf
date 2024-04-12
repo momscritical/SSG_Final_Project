@@ -5,3 +5,5 @@ resource "aws_key_pair" "project-key" {
     Name = "project-key"
   }
 }
+
+

@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "EKS-TEST" {
   role_arn = aws_iam_role.EKS-TESTC.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id]
+    subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id, aws_subnet.private_subnets[2].id, aws_subnet.private_subnets[3].id]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -52,12 +52,12 @@ resource "aws_iam_role_policy_attachment" "EKS-TESTC-AmazonEKSVPCResourceControl
   role       = aws_iam_role.EKS-TESTC.name
 }
 
-resource "aws_eks_addon" "coredns" {
-  cluster_name                = aws_eks_cluster.EKS-TEST.name
-  addon_name                  = "coredns"
-  addon_version               = "v1.11.1-eksbuild.4" #e.g., previous version v1.9.3-eksbuild.3 and the new version is v1.10.1-eksbuild.1
-  resolve_conflicts_on_update = "PRESERVE"
-}
+#resource "aws_eks_addon" "coredns" {
+#  cluster_name                = aws_eks_cluster.EKS-TEST.name
+#  addon_name                  = "coredns"
+#  addon_version               = "v1.11.1-eksbuild.4" #e.g., previous version v1.9.3-eksbuild.3 and the new version is v1.10.1-eksbuild.1
+#  resolve_conflicts_on_update = "PRESERVE"
+#}
 
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name                = aws_eks_cluster.EKS-TEST.name
