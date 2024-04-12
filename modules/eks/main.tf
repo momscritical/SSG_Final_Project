@@ -139,7 +139,7 @@ resource "aws_eks_node_group" "web" {
     # 업데이트 중 사용할 수 없는 노드의 최대 수를 제한 => 클러스터의 가용성을 유지하면서 노드 그룹 업데이트
   }
 
-  taints {
+  taint {
     effect = var.web_node_group_taints[0].effect
     key    = var.web_node_group_taints[0].key
     value  = var.web_node_group_taints[0].value
@@ -173,7 +173,7 @@ resource "aws_eks_node_group" "was" {
     max_unavailable = 1
   }
 
-  taints {
+  taint {
     effect = var.was_node_group_taints[0].effect
     key    = var.was_node_group_taints[0].key
     value  = var.was_node_group_taints[0].value
