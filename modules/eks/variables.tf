@@ -46,36 +46,40 @@ variable "was_node_group_subnet_ids" {
   default     = []
 }
 
-variable "web_scaling_config" {
-  description = "List of Scaling Config for Web Node Group"
-  type        = list(object({
-    desired_size = number
-    max_size     = number
-    min_size     = number
-  }))
-  default     = [
-    {
-      desired_size = 2  # 원하는 노드 수
-      max_size     = 3  # 최대 노드 수
-      min_size     = 1  # 최소 노드 수
-    }
-  ]
+variable "web_node_group_desired_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 2
 }
 
-variable "was_scaling_config" {
-  description = "List of Scaling Configs for WAS Node Group"
-  type        = list(object({
-    desired_size = number
-    max_size     = number
-    min_size     = number
-  }))
-  default     = [
-    {
-      desired_size = 2
-      max_size     = 3
-      min_size     = 1
-    }
-  ]
+variable "web_node_group_max_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 3
+}
+
+variable "web_node_group_min_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 1
+}
+
+variable "was_node_group_desired_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 2
+}
+
+variable "was_node_group_max_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 3
+}
+
+variable "was_node_group_min_size" {
+  description = "IAM Role Name Values for EKS WAS Node Group"
+  type        = number
+  default     = 1
 }
 
 variable "web_max_unavailable" {

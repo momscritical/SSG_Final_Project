@@ -192,20 +192,12 @@ module "final_eks" {
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
 
-  web_scaling_config     = [
-    {
-      desired_size = 2
-      max_size     = 3
-      min_size     = 1
-    }
-  ]
-  was_scaling_config     = [
-    {
-      desired_size = 2
-      max_size     = 3
-      min_size     = 1
-    }
-  ]
+  web_node_group_desired_size = 2
+  web_node_group_max_size = 3
+  web_node_group_min_size = 1
+  was_node_group_desired_size = 2
+  was_node_group_max_size = 3
+  was_node_group_min_size = 1
   
   web_max_unavailable   = 1
   was_max_unavailable   = 1

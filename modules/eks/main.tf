@@ -128,9 +128,9 @@ resource "aws_eks_node_group" "web" {
   subnet_ids      = var.web_node_group_subnet_ids
 
   scaling_config {
-    desired_size = var.web_scaling_config.desired_size
-    max_size     = var.web_scaling_config.max_size
-    min_size     = var.web_scaling_config.min_size
+    desired_size = var.web_node_group_desired_size
+    max_size     = var.web_node_group_max_size
+    min_size     = var.web_node_group_min_size
   }
 
   update_config {
@@ -157,9 +157,9 @@ resource "aws_eks_node_group" "was" {
   subnet_ids      = var.was_node_group_subnet_ids
 
   scaling_config {
-    desired_size = var.was_scaling_config.desired_size
-    max_size     = var.was_scaling_config.max_size
-    min_size     = var.was_scaling_config.min_size
+    desired_size = var.web_node_group_desired_size
+    max_size     = var.web_node_group_max_size
+    min_size     = var.web_node_group_min_size
   }
 
   update_config {
