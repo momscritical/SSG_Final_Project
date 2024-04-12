@@ -1,3 +1,3 @@
 # SSG_Final_Project
-# 화이팅
-# 와아아
+# 조재형
+# 테스트 git
