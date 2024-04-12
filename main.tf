@@ -204,30 +204,4 @@ module "final_eks" {
 
   web_max_unavailable   = 1
   was_max_unavailable   = 1
-
-  web_node_group_taints = [
-    {
-      effect = "NoSchedule"
-      key    = "web"
-      value  = "true"
-    },
-    {
-      effect = "NoExpose"
-      key    = "dedicated"
-      value  = "true"
-    }
-  ]
-
-  was_node_group_taints = [
-    {
-      effect = "NoSchedule"
-      key    = "web"
-      value  = "true"
-    },
-    {
-      effect = "NoExpose"
-      key    = "dedicated"
-      value  = "true"
-    }
-  ]
 }
