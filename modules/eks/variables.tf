@@ -95,11 +95,11 @@ variable "was_max_unavailable" {
 }
 
 variable "web_node_group_taints" {
-  type = list(map(object({
+  type = list(object({
     effect = string
     key    = string
     value  = bool
-  })))
+  }))
   default = [
     {
       effect = "NoSchedule"
@@ -110,11 +110,11 @@ variable "web_node_group_taints" {
 }
 
 variable "was_node_group_taints" {
-  type = list(map(object({
+  type = list(object({
     effect = string
     key    = string
     value  = bool
-  })))
+  }))
   default = [
     {
       effect = "NoSchedule"
