@@ -48,22 +48,22 @@ variable "was_node_group_subnet_ids" {
 
 variable "web_scaling_config" {
   description = "List of Scaling Config for Web Node Group"
-  type        = list(object({
+  type        = object({
     desired_size = number
     max_size     = number
     min_size     = number
-  }))
-  default     = []
+  })
+  default     = {}
 }
 
 variable "was_scaling_config" {
   description = "List of Scaling Configs for WAS Node Group"
-  type        = list(object({
+  type        = object({
     desired_size = number
     max_size     = number
     min_size     = number
-  }))
-  default     = []
+  })
+  default     = {}
 }
 
 variable "web_max_unavailable" {
