@@ -1,105 +1,97 @@
-resource "aws_eks_cluster" "final" {
-  name     = "was"
-  role_arn = aws_iam_role.was.arn
-
-  vpc_config {
-    subnet_ids = [aws_subnet.was-subnet1.id, aws_subnet.was-subnet2.id]
-  }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.final-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.final-AmazonEKSVPCResourceController,
-    aws_cloudwatch_log_group.was
-  ]
-
-}
-
-output "endpoint" {
-  value = aws_eks_cluster.was.endpoint
-}
-
-output "kubeconfig-certificate-authority-data" {
-  value = aws_eks_cluster.was.certificate_authority[0].data
-}
-
+# EKS Cluster ########################################################
+# EKS 클러스터가 IAM 권한을 사용할 수 있게 해주는 정책 문서 생성
+# => 클러스터가 필요할 때만 권한을 주고 다시 회수
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
+    # EKS 클러스터에게 권한을 부여
 
     principals {
+      # 권한을 부여받는 대상
       type        = "Service"
+      # "Service"로 설정되어 EKS 서비스만 이 권한을 사용할 수 있도록 설정 
       identifiers = ["eks.amazonaws.com"]
+      # 권한을 부여받는 서비스의 ARN 목록을 지정
     }
 
     actions = ["sts:AssumeRole"]
+    # 부여되는 권한의 목록을 지정 => sts:AssumeRole 권한만 부여
   }
 }
 
-resource "aws_iam_role" "was" {
-  name               = "eks-cluster-was"
+# 클러스터가 IAM 권한을 가지고 사용할 역할
+resource "aws_iam_role" "cluster" {
+  name = var.cluster_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
+# cluster Role에 청책 추가
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.was.name
+  role       = aws_iam_role.cluster.name
 }
-
-# Optionally, enable Security Groups for Pods
-# Reference: https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSVPCResourceController" {
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSVPCResourceController" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-  role       = aws_iam_role.was.name
+  role       = aws_iam_role.cluster.name
 }
 
-resource "aws_cloudwatch_log_group" "was" {
-  # The log group name format is /aws/eks/<cluster-name>/cluster
-  # Reference: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
-  name              = "/aws/eks/was/cluster"
-  retention_in_days = 7
-
-  # ... potentially other configuration ...
+# EKS 클러스터의 기능을 확장하기 위한 애드온설정
+# 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온
+# 클러스터에서 도메인 이름을 IP 주소로 변환하는 서비스
+resource "aws_eks_addon" "coredns" {
+  cluster_name                = aws_eks_cluster.cluster.name
+  addon_name                  = "coredns"
+  addon_version               = "v1.11.1-eksbuild.4"
+  resolve_conflicts_on_update = "PRESERVE"
 }
-data "tls_certificate" "was" {
-  url = aws_eks_cluster.was.identity[0].oidc[0].issuer
+# 서비스에 대한 트래픽 라우팅을 담당하는 서비스
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name                = aws_eks_cluster.cluster.name
+  addon_name                  = "kube-proxy"
+  addon_version               = "v1.29.0-eksbuild.1"
+  resolve_conflicts_on_update = "PRESERVE"
+}
+# 클러스터의 Pod가 VPC 네트워킹을 사용하도록 설정하는 플러그
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name                = aws_eks_cluster.cluster.name
+  addon_name                  = "vpc-cni"
+  addon_version               = "v1.16.0-eksbuild.1"
+  resolve_conflicts_on_update = "PRESERVE"
 }
 
-resource "aws_iam_openid_connect_provider" "was" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.was.certificates[0].sha1_fingerprint]
-  url             = data.tls_certificate.was.url
-}
+# 클러스터 생성
+resource "aws_eks_cluster" "cluster" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.cluster.arn
 
-
-
-resource "aws_eks_node_group" "was" {
-  cluster_name    = aws_eks_cluster.was.name
-  node_group_name = "was_nodeGroup"
-  node_role_arn   = aws_iam_role.was-node.arn
-  subnet_ids      = [ aws_subnet.was-subnet1.id ,aws_subnet.was-subnet2.id]
-
-  scaling_config {
-    desired_size = 2
-    max_size     = 3
-    min_size     = 1
+  vpc_config {
+    subnet_ids = var.cluster_subnet_ids
   }
 
-  update_config {
-    max_unavailable = 1
+  tags = {
+    Name = var.cluster_name
   }
 
-  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
-  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
-    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSVPCResourceController,
   ]
 }
 
+# 클러스터의 엔드포인트 정보 출력
+output "cluster_endpoint" {
+  value = aws_eks_cluster.cluster.endpoint
+}
 
-resource "aws_iam_role" "was-node" {
-  name = "eks-node-group-was-node"
+# kubectl 명령어를 사용하여 클러스터에 연결하는 데 필요한 인증 기관 데이터 출력
+output "kubeconfig-certificate-authority-data" {
+  value = aws_eks_cluster.cluster.certificate_authority[0].data
+}
+
+# EKS Node Group ########################################################
+# Node Group이 사용할 역할(Role) 생성
+resource "aws_iam_role" "node_group" {
+  name = var.node_group_role_name
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -113,19 +105,74 @@ resource "aws_iam_role" "was-node" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "example-AmazonEKSWorkerNodePolicy" {
+# node_group Role에 청책 추가
+resource "aws_iam_role_policy_attachment" "node_group_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.was-node.name
+  role       = aws_iam_role.node_group.name
 }
-
-resource "aws_iam_role_policy_attachment" "example-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "node_group_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.was-node.name
+  role       = aws_iam_role.node_group.name
 }
-
-resource "aws_iam_role_policy_attachment" "example-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "node_group_AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.was-node.name
+  role       = aws_iam_role.node_group.name
 }
 
-#nodegroup.tf
+# Node Group 생성
+# Web Node Group
+resource "aws_eks_node_group" "web" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = var.web_node_group_name
+  node_role_arn   = aws_iam_role.node_group.arn
+  subnet_ids      = var.web_node_group_subnet_ids
+
+  scaling_config {
+    desired_size = var.web_scaling_config.desired_size
+    max_size     = var.web_scaling_config.max_size
+    min_size     = var.web_scaling_config.min_size
+  }
+
+  update_config {
+    max_unavailable = var.web_max_unavailable
+    # 업데이트 중 사용할 수 없는 노드의 최대 수를 제한 => 클러스터의 가용성을 유지하면서 노드 그룹 업데이트
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+  ]
+
+  tags = {
+    Name = var.web_node_group_name
+  }
+}
+
+# WAS Node Group
+resource "aws_eks_node_group" "was" {
+  cluster_name    = aws_eks_cluster.node_group.name
+  node_group_name = var.was_node_group_name
+  node_role_arn   = aws_iam_role.node_group.arn
+  subnet_ids      = var.was_node_group_subnet_ids
+
+  scaling_config {
+    desired_size = var.was_scaling_config.desired_size
+    max_size     = var.was_scaling_config.max_size
+    min_size     = var.was_scaling_config.min_size
+  }
+
+  update_config {
+    max_unavailable = 1
+  }
+
+  tags = {
+    Name = var.was_node_group_name
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+  ]
+}

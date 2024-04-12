@@ -22,3 +22,8 @@ output "db_subnet_id" {
   description = "ID of the DataBase Subnet"
   value       = aws_subnet.db[*].id
 }
+
+output "web_was_subnet_ids" {
+  description = "Combined list of Web and WAS Subnet IDs"
+  value       = concat(aws_subnet.web[*].id, aws_subnet.was[*].id)
+}
