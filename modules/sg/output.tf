@@ -30,10 +30,6 @@ output "was_efs_sg_id" {
     value = aws_security_group.was_efs.id
 }
 
-output "was_efs_sg_id" {
-    value = aws_security_group.was_efs.id
-}
-
 output "cluster_sg_id" {
     value = aws_security_group.cluster.id
 }
