@@ -140,12 +140,6 @@ resource "aws_eks_node_group" "web" {
   }
 
   taint {
-    effect = var.web_node_group_taints[0].effect
-    key    = var.web_node_group_taints[0].key
-    value  = var.web_node_group_taints[0].value
-  }
-
-  taint {
     key = "web"
     value  = "true"
     effect = "NO_SCHEDULE"
