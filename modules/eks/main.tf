@@ -140,9 +140,9 @@ resource "aws_eks_node_group" "web" {
   }
 
   taint {
-    key = "web"
-    value  = "true"
-    effect = "NO_SCHEDULE"
+    key = var.web_taint_key
+    value  = var.web_taint_value
+    effect = var.web_taint_effect
   }
 
   tags = {
@@ -179,8 +179,10 @@ resource "aws_eks_node_group" "was" {
     effect = "NO_SCHEDULE"
   }
 
-  tags = {
-    Name = var.was_node_group_name
+  taint {
+    key = var.was_taint_key
+    value  = var.was_taint_value
+    effect = var.was_taint_effect
   }
 
   depends_on = [

@@ -204,4 +204,12 @@ module "final_eks" {
 
   web_max_unavailable   = 1
   was_max_unavailable   = 1
+
+  web_taint_key = "web"
+  web_taint_value = "true"
+  web_taint_effect = "NO_SCHEDULE"
+
+  was_taint_key = "web"
+  was_taint_value = "true"
+  was_taint_effect = "NO_SCHEDULE"
 }

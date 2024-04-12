@@ -93,3 +93,39 @@ variable "was_max_unavailable" {
   type        = string
   default     = ""
 }
+
+variable "web_taint_key" {
+  description = "Web Taint Key Variable"
+  type        = string
+  default     = "web"
+}
+
+variable "web_taint_value" {
+  description = "Web Taint Value Variable"
+  type        = string
+  default     = "true"
+}
+
+variable "web_taint_effect" {
+  description = "Web Taint Effect Variable"
+  type        = string
+  default     = "NO_SCHEDULE"
+}
+
+variable "was_taint_key" {
+  description = "Web Taint Key Variable"
+  type        = string
+  default     = "web"
+}
+
+variable "was_taint_value" {
+  description = "Web Taint Value Variable"
+  type        = string
+  default     = "true"
+}
+
+variable "was_taint_effect" {
+  description = "Web Taint Effect Variable"
+  type        = string
+  default     = "NO_SCHEDULE"
+}
