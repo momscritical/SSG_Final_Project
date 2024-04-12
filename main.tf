@@ -197,7 +197,6 @@ module "final_eks" {
   web_node_group_desired_size = 2
   web_node_group_max_size = 3
   web_node_group_min_size = 1
-
   was_node_group_desired_size = 2
   was_node_group_max_size = 3
   was_node_group_min_size = 1
@@ -208,7 +207,6 @@ module "final_eks" {
   web_taint_key = "web"
   web_taint_value = "true"
   web_taint_effect = "NO_SCHEDULE"
-
   was_taint_key = "was"
   was_taint_value = "true"
   was_taint_effect = "NO_SCHEDULE"
