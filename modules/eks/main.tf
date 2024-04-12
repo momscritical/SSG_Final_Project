@@ -145,6 +145,12 @@ resource "aws_eks_node_group" "web" {
     value  = var.web_node_group_taints[0].value
   }
 
+  taint {
+    key = "web"
+    value  = "true"
+    effect = "NO_SCHEDULE"
+  }
+
   tags = {
     Name = var.web_node_group_name
   }
@@ -174,9 +180,9 @@ resource "aws_eks_node_group" "was" {
   }
 
   taint {
-    effect = var.was_node_group_taints[0].effect
-    key    = var.was_node_group_taints[0].key
-    value  = var.was_node_group_taints[0].value
+    key = "web"
+    value  = "true"
+    effect = "NO_SCHEDULE"
   }
 
   tags = {
