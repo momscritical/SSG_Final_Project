@@ -209,12 +209,12 @@ module "final_eks" {
     {
       effect = "NoSchedule"
       key    = "web"
-      value  = true
+      value  = "true"
     },
     {
       effect = "NoExpose"
       key    = "dedicated"
-      value  = true
+      value  = "true"
     }
   ]
 
@@ -222,12 +222,12 @@ module "final_eks" {
     {
       effect = "NoSchedule"
       key    = "web"
-      value  = true
+      value  = "true"
     },
     {
       effect = "NoExpose"
       key    = "dedicated"
-      value  = true
+      value  = "true"
     }
   ]
 }
