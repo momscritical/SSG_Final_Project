@@ -98,7 +98,7 @@ variable "web_node_group_taints" {
   type = list(object({
     effect = string
     key    = string
-    value  = bool
+    value  = string
   }))
   default = [
     {
