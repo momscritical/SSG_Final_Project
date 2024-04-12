@@ -139,15 +139,17 @@ resource "aws_eks_node_group" "web" {
     # 업데이트 중 사용할 수 없는 노드의 최대 수를 제한 => 클러스터의 가용성을 유지하면서 노드 그룹 업데이트
   }
 
+  taint = var.web_node_group_taints
+
+  tags = {
+    Name = var.web_node_group_name
+  }
+  
   depends_on = [
     aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
   ]
-
-  tags = {
-    Name = var.web_node_group_name
-  }
 }
 
 # WAS Node Group
@@ -166,6 +168,8 @@ resource "aws_eks_node_group" "was" {
   update_config {
     max_unavailable = 1
   }
+
+  taint = var.was_node_group_taints
 
   tags = {
     Name = var.was_node_group_name

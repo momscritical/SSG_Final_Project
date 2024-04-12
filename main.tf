@@ -183,6 +183,7 @@ module "final_bastion_control_plane" {
 
 module "final_eks" {
   source                 = "./modules/eks"
+
   cluster_role_name      = "EKS-Cluster-Role"
   cluster_name           = "EKS-Cluster"
   node_group_role_name   = "SSG-1-EKS-NodeGroup-Role"
@@ -196,10 +197,37 @@ module "final_eks" {
   web_node_group_desired_size = 2
   web_node_group_max_size = 3
   web_node_group_min_size = 1
+
   was_node_group_desired_size = 2
   was_node_group_max_size = 3
   was_node_group_min_size = 1
-  
+
   web_max_unavailable   = 1
   was_max_unavailable   = 1
+
+  web_node_group_taints = [
+    {
+      effect = "NoSchedule"
+      key    = "web"
+      value  = true
+    },
+    {
+      effect = "NoExpose"
+      key    = "dedicated"
+      value  = true
+    }
+  ]
+
+  was_node_group_taints = [
+    {
+      effect = "NoSchedule"
+      key    = "web"
+      value  = true
+    },
+    {
+      effect = "NoExpose"
+      key    = "dedicated"
+      value  = true
+    }
+  ]
 }
