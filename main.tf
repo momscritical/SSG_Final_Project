@@ -209,7 +209,7 @@ module "final_eks" {
   web_taint_value = "true"
   web_taint_effect = "NO_SCHEDULE"
 
-  was_taint_key = "web"
+  was_taint_key = "was"
   was_taint_value = "true"
   was_taint_effect = "NO_SCHEDULE"
 }
