@@ -2,10 +2,10 @@ resource "aws_eks_node_group" "WEB" {
   cluster_name    = aws_eks_cluster.EKS-TEST.name
   node_group_name = "WEB"
   node_role_arn   = aws_iam_role.EKS-TEST.arn
-  subnet_ids      = [
-			aws_subnet.private_subnets[0].id,
-		    	aws_subnet.private_subnets[1].id
-]
+  subnet_ids = [
+    aws_subnet.private_subnets[0].id,
+    aws_subnet.private_subnets[1].id
+  ]
 
   scaling_config {
     desired_size = 2
@@ -16,6 +16,16 @@ resource "aws_eks_node_group" "WEB" {
   update_config {
     max_unavailable = 1
   }
+  remote_access {
+    ec2_ssh_key               = "project-key"
+    source_security_group_ids = [aws_security_group.terrarform-asg-sg.id] 
+# 보안 그룹 ID를 여기에 지정합니다.
+  }
+  tags = {
+    Name        = "WEB-instance"  # EC2 인스턴스에 부여할 이름 태그
+    Environment = "production"
+    instance_tags = "WEB"
+}
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -30,10 +40,10 @@ resource "aws_eks_node_group" "WAS" {
   cluster_name    = aws_eks_cluster.EKS-TEST.name
   node_group_name = "WAS"
   node_role_arn   = aws_iam_role.EKS-TEST.arn
-  subnet_ids      = [
-                        aws_subnet.private_subnets[2].id,
-                        aws_subnet.private_subnets[3].id
-]
+  subnet_ids = [
+    aws_subnet.private_subnets[2].id,
+    aws_subnet.private_subnets[3].id
+  ]
 
   scaling_config {
     desired_size = 2
@@ -43,6 +53,11 @@ resource "aws_eks_node_group" "WAS" {
 
   update_config {
     max_unavailable = 1
+  }
+  remote_access {
+    ec2_ssh_key               = "project-key"
+    source_security_group_ids = [aws_security_group.terrarform-internal-asg-sg.id] 
+# 보안 그룹 ID를 여기에 지정합니다.
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
