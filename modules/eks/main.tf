@@ -23,6 +23,10 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "cluster" {
   name = var.cluster_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # cluster Role에 청책 추가
@@ -94,6 +98,10 @@ resource "aws_iam_role" "node_group" {
     }]
     Version = "2012-10-17"
   })
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # node_group Role에 청책 추가
