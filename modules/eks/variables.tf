@@ -104,7 +104,7 @@ variable "web_node_group_taints" {
     {
       effect = "NoSchedule"
       key    = "web"
-      value  = true
+      value  = "true"
     },
   ]
 }
@@ -113,13 +113,13 @@ variable "was_node_group_taints" {
   type = list(object({
     effect = string
     key    = string
-    value  = bool
+    value  = string
   }))
   default = [
     {
       effect = "NoSchedule"
       key    = "was"
-      value  = true
+      value  = "true"
     },
   ]
 }
