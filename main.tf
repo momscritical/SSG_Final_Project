@@ -170,11 +170,12 @@ module "final_bastion_control_plane" {
   ami                    = data.aws_ami.amazon_linux_2023.id
   instance_type          = "t2.small"
   key_name               = module.final_key.key_name
-  bastion_sg_id          = module.final_sg.bastion_sg_id
+  bastion_sg_id          = [module.final_sg.bastion_sg_id]
   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
   bastion_user_data      = templatefile("./user_data_file/user_data_bastion.sh", {})
   bastion_name           = "Bastion"
-  control_plane_sg_id    = module.final_sg.control_plane_sg_id
+
+  control_plane_sg_id    = [module.final_sg.control_plane_sg_id]
   control_plane_subnet_id = module.final_vpc.was_subnet_id[0]
   control_plane_user_data = templatefile("./user_data_file/user_data_control.sh", {})
   control_plane_name     = "EKS-Controll-Plane"
