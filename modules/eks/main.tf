@@ -151,7 +151,7 @@ resource "aws_eks_node_group" "web" {
 
 # WAS Node Group
 resource "aws_eks_node_group" "was" {
-  cluster_name    = aws_eks_cluster.node_group.name
+  cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = var.was_node_group_name
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.was_node_group_subnet_ids
