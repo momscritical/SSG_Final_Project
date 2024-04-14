@@ -221,8 +221,8 @@ module "final_lb" {
   int_lb_name = "Int-LB"
   int_tg_name = "Int-TG"
 
-  ext_subnet_id = module.final_vpc.public_subnet_id
-  int_subnet_id = module.final_vpc.web_subnet_id
+  public_subnet_id = module.final_vpc.public_subnet_id
+  web_subnet_id = module.final_vpc.web_subnet_id
 
   ext_sg_id = module.final_sg.elb_sg_id
   int_sg_id = module.final_sg.ilb_sg_id

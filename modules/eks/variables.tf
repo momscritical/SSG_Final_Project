@@ -23,7 +23,7 @@ variable "cluster_subnet_ids" {
 }
 
 variable "web_node_group_name" {
-  description = "IAM Role Name Values for EKS Web Node Group"
+  description = "Name Values for EKS Web Node Group"
   type        = string
   default     = ""
 }
@@ -35,7 +35,7 @@ variable "web_node_group_subnet_ids" {
 }
 
 variable "was_node_group_name" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "Name Values for EKS WAS Node Group"
   type        = string
   default     = ""
 }
@@ -47,37 +47,37 @@ variable "was_node_group_subnet_ids" {
 }
 
 variable "web_node_group_desired_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Desired Number of Web Nodes"
   type        = number
   default     = 2
 }
 
 variable "web_node_group_max_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Maximum Number of Web Nodes"
   type        = number
   default     = 3
 }
 
 variable "web_node_group_min_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Minimum Number of Web Nodes"
   type        = number
   default     = 1
 }
 
 variable "was_node_group_desired_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Desired Number of WAS Nodes"
   type        = number
   default     = 2
 }
 
 variable "was_node_group_max_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Maximum Number of WAS Nodes"
   type        = number
   default     = 3
 }
 
 variable "was_node_group_min_size" {
-  description = "IAM Role Name Values for EKS WAS Node Group"
+  description = "The Minimum Number of WAS Nodes"
   type        = number
   default     = 1
 }

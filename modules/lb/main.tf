@@ -3,7 +3,7 @@ resource "aws_lb" "ext" {
   name               = var.ext_lb_name
   load_balancer_type = "application"
   internal = false
-  subnets = var.ext_subnet_id
+  subnets = var.public_subnet_id
   security_groups = var.ext_sg_id
 
   tags = {
@@ -41,7 +41,7 @@ resource "aws_lb" "int" {
   name               = var.int_lb_name
   internal           = true
   load_balancer_type = "application"
-  subnets = var.int_subnet_id
+  subnets = var.web_subnet_id
   security_groups = var.int_sg_id
 
   tags = {

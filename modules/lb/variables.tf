@@ -28,13 +28,13 @@ variable "int_tg_name" {
   default = ""
 }
 
-variable "ext_subnet_id" {
+variable "public_subnet_id" {
   description = "Subnet ID for Enternal LaodBalancer"
   type        = list(string)
   default     = []
 }
 
-variable "int_subnet_id" {
+variable "web_subnet_id" {
   description = "Subnet ID for Internal LaodBalancer"
   type        = list(string)
   default     = []
