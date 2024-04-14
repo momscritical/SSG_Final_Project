@@ -237,3 +237,13 @@ module "final_lb" {
   int_tg_port = "80"
   int_tg_protocol = "HTTP"
 }
+
+module "final_rds" {
+  source = "./modules/rds"
+
+  rds_name = "Final-RDS"
+  db_sg_ids = module.final_sg.db_sg_id
+  
+  rds_subnet_group_name = "RDS-Subnet-Group"
+  rds_subnet_ids = module.final_vpc.db_subnet_id
+}

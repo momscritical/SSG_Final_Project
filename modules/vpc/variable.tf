@@ -11,7 +11,7 @@ variable "vpc_cidr" {
 }
 
 variable "enable_dns_hostnames" {
-  description = "Whether to enable DNS HostNames for the VPC"
+  description = "Whether to Enable DNS HostNames for the VPC"
   type        = bool
   default     = true
 }
