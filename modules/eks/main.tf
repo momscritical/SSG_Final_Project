@@ -101,6 +101,8 @@ resource "aws_eks_node_group" "web" {
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.web_node_group_subnet_ids
 
+  autoscaling_groups = [aws_autoscaling_group.web.arn]
+
   scaling_config {
     desired_size = var.web_node_group_desired_size
     max_size     = var.web_node_group_max_size
