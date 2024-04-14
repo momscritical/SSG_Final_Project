@@ -39,31 +39,6 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSVPCResourceContr
   role       = aws_iam_role.cluster.name
 }
 
-# # EKS 클러스터의 기능을 확장하기 위한 애드온설정
-# # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온
-# # 클러스터에서 도메인 이름을 IP 주소로 변환하는 서비스
-# 콘솔 화면에서 보면, 기본값이므로 굳이 추가 안 해줘도 되는 듯 하다
-# resource "aws_eks_addon" "coredns" {
-#   cluster_name                = aws_eks_cluster.cluster.name
-#   addon_name                  = "coredns"
-#   addon_version               = "v1.11.1-eksbuild.4"
-#   resolve_conflicts_on_update = "PRESERVE"
-# }
-# # 서비스에 대한 트래픽 라우팅을 담당하는 서비스
-# resource "aws_eks_addon" "kube_proxy" {
-#   cluster_name                = aws_eks_cluster.cluster.name
-#   addon_name                  = "kube-proxy"
-#   addon_version               = "v1.29.0-eksbuild.1"
-#   resolve_conflicts_on_update = "PRESERVE"
-# }
-# # 클러스터의 Pod가 VPC 네트워킹을 사용하도록 설정하는 플러그
-# resource "aws_eks_addon" "vpc_cni" {
-#   cluster_name                = aws_eks_cluster.cluster.name
-#   addon_name                  = "vpc-cni"
-#   addon_version               = "v1.16.0-eksbuild.1"
-#   resolve_conflicts_on_update = "PRESERVE"
-# }
-
 # 클러스터 생성
 resource "aws_eks_cluster" "cluster" {
   name     = var.cluster_name
@@ -189,3 +164,28 @@ resource "aws_eks_node_group" "was" {
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
+# # EKS 클러스터의 기능을 확장하기 위한 애드온설정
+# # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온
+# # 클러스터에서 도메인 이름을 IP 주소로 변환하는 서비스
+# 콘솔 화면에서 보면, 기본값이므로 굳이 추가 안 해줘도 되는 듯 하다
+# resource "aws_eks_addon" "coredns" {
+#   cluster_name                = aws_eks_cluster.cluster.name
+#   addon_name                  = "coredns"
+#   addon_version               = "v1.11.1-eksbuild.4"
+#   resolve_conflicts_on_update = "PRESERVE"
+# }
+# # 서비스에 대한 트래픽 라우팅을 담당하는 서비스
+# resource "aws_eks_addon" "kube_proxy" {
+#   cluster_name                = aws_eks_cluster.cluster.name
+#   addon_name                  = "kube-proxy"
+#   addon_version               = "v1.29.0-eksbuild.1"
+#   resolve_conflicts_on_update = "PRESERVE"
+# }
+# # 클러스터의 Pod가 VPC 네트워킹을 사용하도록 설정하는 플러그
+# resource "aws_eks_addon" "vpc_cni" {
+#   cluster_name                = aws_eks_cluster.cluster.name
+#   addon_name                  = "vpc-cni"
+#   addon_version               = "v1.16.0-eksbuild.1"
+#   resolve_conflicts_on_update = "PRESERVE"
+# }

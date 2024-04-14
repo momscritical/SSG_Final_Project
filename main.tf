@@ -211,3 +211,29 @@ module "final_eks" {
   was_taint_value = "true"
   was_taint_effect = "NO_SCHEDULE"
 }
+
+module "final_lb" {
+  source = "./modules/lb"
+
+  vpc_id = module.final_vpc.vpc_id
+  ext_lb_name = "Ext-LB"
+  ext_tg_name = "Ext-TG"
+  int_lb_name = "Int-LB"
+  int_tg_name = "Int-TG"
+
+  ext_subnet_id = module.final_vpc.public_subnet_id
+  int_subnet_id = module.final_vpc.web_subnet_id
+
+  ext_sg_id = module.final_sg.elb_sg_id
+  int_sg_id = module.final_sg.ilb_sg_id
+
+  ext_listener_port = "80"
+  ext_listener_protocol = "HTTP"
+  ext_tg_port = "80"
+  ext_tg_protocol = "HTTP"
+
+  int_listener_port = "80"
+  int_listener_protocol = "HTTP"
+  int_tg_port = "80"
+  int_tg_protocol = "HTTP"
+}

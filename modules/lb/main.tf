@@ -1,100 +1,88 @@
+# External Load Balancer ####################################################
+resource "aws_lb" "ext" {
+  name               = var.ext_lb_name
+  load_balancer_type = "application"
+  internal = false
+  subnets = var.ext_subnet_id
+  security_groups = var.ext_sg_id
 
-
-data "aws_eks_cluster" "example" {
-  name = "example"
-}
-
-data "aws_eks_cluster_auth" "example" {
-  name = "example"
-}
-
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.example.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.example.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.example.token
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-locals {
-  lb_controller_iam_role_name        = "inhouse-eks-aws-lb-ctrl"
-  lb_controller_service_account_name = "aws-load-balancer-controller"
-}
-
-data "aws_eks_cluster_auth" "this" {
-  name = local.cluster_name
-}
-
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    token                  = data.aws_eks_cluster_auth.this.token
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  tags = {
+    Name = var.ext_lb_name
   }
 }
 
-module "lb_controller_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-
-  create_role = true
-
-  role_name        = local.lb_controller_iam_role_name
-  role_path        = "/"
-  role_description = "Used by AWS Load Balancer Controller for EKS"
-
-  role_permissions_boundary_arn = ""
-
-  provider_url = replace(module.eks.cluster_oidc_issuer_url, "https://", "")
-  oidc_fully_qualified_subjects = [
-    "system:serviceaccount:kube-system:${local.lb_controller_service_account_name}"
-  ]
-  oidc_fully_qualified_audiences = [
-    "sts.amazonaws.com"
-  ]
-}
-
-data "http" "iam_policy" {
-  url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/install/iam_policy.json"
-}
-
-resource "aws_iam_role_policy" "controller" {
-  name_prefix = "AWSLoadBalancerControllerIAMPolicy"
-  policy      = data.http.iam_policy.body
-  role        = module.lb_controller_role.iam_role_name
-}
-
-resource "helm_release" "release" {
-  name       = "aws-load-balancer-controller"
-  chart      = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  namespace  = "kube-system"
-
-  dynamic "set" {
-    for_each = {
-      "clusterName"           = module.eks.cluster_id
-      "serviceAccount.create" = "true"
-      "serviceAccount.name"   = local.lb_controller_service_account_name
-      "region"                = "ap-northeast-2"
-      "vpcId"                 = module.vpc.vpc_id
-      "image.repository"      = "602401143452.dkr.ecr.ap-northeast-2.amazonaws.com/amazon/aws-load-balancer-controller"
-
-      "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn" = module.lb_controller_role.iam_role_arn
-    }
-    content {
-      name  = set.key
-      value = set.value
-    }
+resource "aws_lb_listener" "ext" {
+  load_balancer_arn = aws_alb.ext.arn
+  port              = var.ext_listener_port
+  protocol          = var.ext_listener_protocol
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ext.arn
   }
 }
+
+resource "aws_lb_target_group" "ext" {
+  name        = var.ext_tg_name
+  port        = var.ext_tg_port
+  protocol    = var.ext_tg_protocol
+  vpc_id      = var.vpc_id
+  health_check {
+    matcher = "200,301,302"
+    path = "/"
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout             = 5   # 5초의 타임아웃
+    interval            = 30  # 30초 간격으로 헬스 체크
+  }
+}
+
+# Internal Load Balancer ####################################################
+resource "aws_lb" "int" {
+  name               = var.int_lb_name
+  internal           = true
+  load_balancer_type = "application"
+  subnets = var.int_subnet_id
+  security_groups = var.int_sg_id
+
+  tags = {
+    Name = var.int_lb_name
+  }
+}
+
+resource "aws_lb_listener" "int" {
+  load_balancer_arn = aws_alb.internal_lb.arn
+  port              = var.int_listener_port
+  protocol          = var.int_listener_protocol
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.int.arn
+  }
+}
+
+resource "aws_lb_target_group" "int" {
+  name        = var.int_tg_name
+  port        = var.int_tg_port
+  protocol    = var.int_tg_protocol
+  # target_type = "ip"
+  vpc_id      = var.vpc_id
+  health_check {
+    matcher = "200,301,302"
+    path = "/"
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    timeout             = 5   # 5초의 타임아웃
+    interval            = 30  # 30초 간격으로 헬스 체크
+  }
+}
+
+# resource "aws_lb_target_group_attachment" "ext" {
+#     target_group_arn = aws_lb_target_group.ext-tg.arn
+#     target_id = aws_instance.project_web.id
+#     port = 5000
+# }
+
+# resource "aws_lb_target_group_attachment" "int" {
+#     target_group_arn = aws_lb_target_group.int-tg.arn
+#     target_id = aws_instance.project_app.id
+#     port = 5000
+# }
