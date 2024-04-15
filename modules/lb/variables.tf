@@ -66,14 +66,14 @@ variable "web_subnet_id" {
 
 variable "ext_sg_id" {
   description = "External Security Group ID Values for External LaodBalancer"
-  type        = string
-  default     = ""
+  type        = list(string)
+  default     = []
 }
 
 variable "int_sg_id" {
   description = "External Security Group ID Values for External LaodBalancer"
-  type        = string
-  default     = ""
+  type        = list(string)
+  default     = []
 }
 
 variable "ext_listener_port" {
