@@ -52,6 +52,18 @@ variable "was_efs_sg_name" {
   default     = ""
 }
 
+variable "cluster_sg_name" {
+  description = "The Name of the Security Group for EKS Cluster"
+  type        = string
+  default     = ""
+}
+
+variable "control_plane_sg_name" {
+  description = "The Name of the Security Group for EKS Cluster"
+  type        = string
+  default     = ""
+}
+
 variable "bastion_ing_rules" {
   description = "List of ingress rules for Bastion Instance"
   type        = list(object({
@@ -122,6 +134,26 @@ variable "web_efs_ing_rules" {
 
 variable "was_efs_ing_rules" {
   description = "List of ingress rules for WAS EFS"
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = []
+}
+
+variable "cluster_ing_rules" {
+  description = "List of ingress rules for WAS EKS Cluster"
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = []
+}
+
+variable "control_plane_ing_rules" {
+  description = "List of ingress rules for WAS EKS Control Plane"
   type        = list(object({
     from_port       = number
     to_port         = number
