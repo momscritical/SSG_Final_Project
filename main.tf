@@ -224,8 +224,8 @@ module "final_lb" {
   public_subnet_id = module.final_vpc.public_subnet_id
   web_subnet_id = module.final_vpc.web_subnet_id
 
-  ext_sg_id = module.final_sg.elb_sg_id
-  int_sg_id = module.final_sg.ilb_sg_id
+  ext_sg_id = [ module.final_sg.elb_sg_id ]
+  int_sg_id = [ module.final_sg.ilb_sg_id ]
 
   ext_listener_port = "80"
   ext_listener_protocol = "HTTP"
@@ -242,7 +242,7 @@ module "final_rds" {
   source = "./modules/rds"
 
   rds_name = "Final-RDS"
-  db_sg_ids = module.final_sg.db_sg_id
+  db_sg_ids = [ module.final_sg.db_sg_id ]
   
   rds_subnet_group_name = "rds-subnet-group"
   rds_subnet_ids = module.final_vpc.db_subnet_id
