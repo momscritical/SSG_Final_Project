@@ -241,7 +241,7 @@ module "final_lb" {
 module "final_rds" {
   source = "./modules/rds"
 
-  rds_name = "Final-RDS"
+  rds_name = "final-rds"
   db_sg_ids = [ module.final_sg.db_sg_id ]
   
   rds_subnet_group_name = "rds-subnet-group"
