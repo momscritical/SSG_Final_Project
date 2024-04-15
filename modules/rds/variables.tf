@@ -75,8 +75,8 @@ variable "skip_final_snapshot" {
 
 variable "db_sg_ids" {
   description = "Data Base Subnet CIDR Values"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = ""
 }
 
 variable "rds_subnet_group_name" {

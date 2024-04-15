@@ -244,6 +244,6 @@ module "final_rds" {
   rds_name = "Final-RDS"
   db_sg_ids = module.final_sg.db_sg_id
   
-  rds_subnet_group_name = "RDS-Subnet-Group"
+  rds_subnet_group_name = "rds-subnet-group"
   rds_subnet_ids = module.final_vpc.db_subnet_id
 }
