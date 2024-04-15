@@ -120,6 +120,8 @@ resource "aws_eks_node_group" "web" {
 
   tags = {
     Name = var.web_node_group_name
+    Environment   = var.web_environment
+    ASG-Tag = var.web_asg_tag
   }
   
   depends_on = [

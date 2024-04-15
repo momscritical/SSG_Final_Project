@@ -1,7 +1,7 @@
 # External Load Balancer ####################################################
 resource "aws_lb" "ext" {
   name               = var.ext_lb_name
-  load_balancer_type = "application"
+  load_balancer_type = var.ext_lb_type
   internal = false
   subnets = var.public_subnet_id
   security_groups = var.ext_sg_id
@@ -15,8 +15,9 @@ resource "aws_lb_listener" "ext" {
   load_balancer_arn = aws_alb.ext.arn
   port              = var.ext_listener_port
   protocol          = var.ext_listener_protocol
+
   default_action {
-    type             = "forward"
+    type             = var.ext_default_action_type
     target_group_arn = aws_lb_target_group.ext.arn
   }
 }
@@ -26,13 +27,15 @@ resource "aws_lb_target_group" "ext" {
   port        = var.ext_tg_port
   protocol    = var.ext_tg_protocol
   vpc_id      = var.vpc_id
+  target_type = var.ext_tg_type
+
   health_check {
-    matcher = "200,301,302"
-    path = "/"
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout             = 5   # 5초의 타임아웃
-    interval            = 30  # 30초 간격으로 헬스 체크
+    matcher = var.ext_hc_matcher
+    path = var.ext_hc_path
+    healthy_threshold = var.ext_hc_healthy_threshold
+    unhealthy_threshold = var.ext_hc_unhealthy_threshold
+    timeout = var.ext_hc_timeout
+    interval = var.ext_hc_interval
   }
 }
 
@@ -40,7 +43,7 @@ resource "aws_lb_target_group" "ext" {
 resource "aws_lb" "int" {
   name               = var.int_lb_name
   internal           = true
-  load_balancer_type = "application"
+  load_balancer_type = var.int_lb_type
   subnets = var.web_subnet_id
   security_groups = var.int_sg_id
 
@@ -54,7 +57,7 @@ resource "aws_lb_listener" "int" {
   port              = var.int_listener_port
   protocol          = var.int_listener_protocol
   default_action {
-    type             = "forward"
+    type             = var.int_default_action_type
     target_group_arn = aws_lb_target_group.int.arn
   }
 }
@@ -63,15 +66,17 @@ resource "aws_lb_target_group" "int" {
   name        = var.int_tg_name
   port        = var.int_tg_port
   protocol    = var.int_tg_protocol
-  # target_type = "ip"
+  target_type = var.int_tg_type
+
   vpc_id      = var.vpc_id
+
   health_check {
-    matcher = "200,301,302"
-    path = "/"
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout             = 5   # 5초의 타임아웃
-    interval            = 30  # 30초 간격으로 헬스 체크
+    matcher = var.int_hc_matcher
+    path = var.int_hc_path
+    healthy_threshold = var.int_hc_healthy_threshold
+    unhealthy_threshold = var.int_hc_unhealthy_threshold
+    timeout = var.int_hc_timeout
+    interval = var.int_hc_interval
   }
 }
 

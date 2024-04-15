@@ -40,6 +40,30 @@ variable "was_node_group_name" {
   default     = ""
 }
 
+variable "web_environment" {
+  description = "Name Values for EKS WAS Node Group"
+  type        = string
+  default     = "production"
+}
+
+variable "web_asg_tag" {
+  description = "Name Values for EKS WAS Node Group"
+  type        = string
+  default     = "Web-Node"
+}
+
+variable "web_environment" {
+  description = "Name Values for EKS WAS Node Group"
+  type        = string
+  default     = "production"
+}
+
+variable "web_asg_tag" {
+  description = "Name Values for EKS WAS Node Group"
+  type        = string
+  default     = "WAS-Node"
+}
+
 variable "was_node_group_subnet_ids" {
   description = "Subnet CIDR Values for EKS WAS Node Group"
   type        = list(string)
