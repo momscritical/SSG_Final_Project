@@ -52,13 +52,13 @@ variable "web_asg_tag" {
   default     = "Web-Node"
 }
 
-variable "web_environment" {
+variable "was_environment" {
   description = "Name Values for EKS WAS Node Group"
   type        = string
   default     = "production"
 }
 
-variable "web_asg_tag" {
+variable "was_asg_tag" {
   description = "Name Values for EKS WAS Node Group"
   type        = string
   default     = "WAS-Node"
