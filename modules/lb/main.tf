@@ -12,7 +12,7 @@ resource "aws_lb" "ext" {
 }
 
 resource "aws_lb_listener" "ext" {
-  load_balancer_arn = aws_alb.ext.arn
+  load_balancer_arn = aws_lb.ext.arn
   port              = var.ext_listener_port
   protocol          = var.ext_listener_protocol
 
@@ -53,7 +53,7 @@ resource "aws_lb" "int" {
 }
 
 resource "aws_lb_listener" "int" {
-  load_balancer_arn = aws_alb.internal_lb.arn
+  load_balancer_arn = aws_lb.int.arn
   port              = var.int_listener_port
   protocol          = var.int_listener_protocol
   default_action {
