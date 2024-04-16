@@ -7,7 +7,7 @@ data "aws_autoscaling_groups" "web" {
 }
 
 data "aws_autoscaling_group" "web" {
-  name = data.aws_autoscaling_groups.web.name[0]
+  name = data.aws_autoscaling_groups.web.names[0]
 }
 
 # 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
@@ -25,7 +25,7 @@ data "aws_autoscaling_groups" "was" {
 }
 
 data "aws_autoscaling_group" "was" {
-  name = data.aws_autoscaling_groups.was.name[0]
+  name = data.aws_autoscaling_groups.was.names[0]
 }
 
 # 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결

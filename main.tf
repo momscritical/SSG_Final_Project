@@ -282,4 +282,9 @@ module "final_asg" {
   was_asg_tag = module.final_eks.was_asg_tag
   ext_lb_tg_arn = module.final_lb.ext_tg_arns
   int_lb_tg_arn = module.final_lb.int_tg_arns
+
+  depends_on = [
+    module.final_eks,
+    module.final_lb
+  ]
 }
