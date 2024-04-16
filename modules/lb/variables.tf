@@ -4,6 +4,18 @@ variable "vpc_id" {
   default     = ""
 }
 
+variable "public_subnet_id" {
+  description = "Subnet ID for External LaodBalancer"
+  type        = list(string)
+  default     = []
+}
+
+variable "web_subnet_id" {
+  description = "Subnet ID for Internal LaodBalancer"
+  type        = list(string)
+  default     = []
+}
+
 variable "ext_lb_name" {
   description = "External Laod Balancer Name Value"
   type = string
@@ -52,18 +64,6 @@ variable "int_default_action_type" {
   default = "forward"
 }
 
-variable "public_subnet_id" {
-  description = "Subnet ID for External LaodBalancer"
-  type        = list(string)
-  default     = []
-}
-
-variable "web_subnet_id" {
-  description = "Subnet ID for Internal LaodBalancer"
-  type        = list(string)
-  default     = []
-}
-
 variable "ext_sg_id" {
   description = "External Security Group ID Values for External LaodBalancer"
   type        = list(string)
@@ -100,7 +100,7 @@ variable "ext_tg_protocol" {
   default = ""
 }
 
-variable "ext_tg_type" {
+variable "ext_listener_tg_type" {
   description = "Target Type for External LaodBalancer Listener"
   type = string
   default = "instance"
@@ -138,7 +138,7 @@ variable "ext_hc_interval" {
   default = 30
 }
 
-variable "int_tg_type" {
+variable "int_listener_tg_type" {
   description = "Target Type for Internal LaodBalancer Listener"
   type = string
   default = "instance"

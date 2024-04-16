@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "ext" {
     name        = var.ext_tg_name
     port        = var.ext_tg_port
     protocol    = var.ext_tg_protocol
-    target_type = var.ext_tg_type
+    target_type = var.ext_listener_tg_type
     vpc_id      = var.vpc_id
 
     health_check {
@@ -67,7 +67,7 @@ resource "aws_lb_target_group" "int" {
     name        = var.int_tg_name
     port        = var.int_tg_port
     protocol    = var.int_tg_protocol
-    target_type = var.int_tg_type
+    target_type = var.int_listener_tg_type
     vpc_id      = var.vpc_id
 
     health_check {
