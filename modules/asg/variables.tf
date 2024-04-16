@@ -12,12 +12,12 @@ variable "was_asg_tag" {
 
 variable "ext_lb_tg_arn" {
   description = "ARN of External Target Group"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = ""
 }
 
 variable "int_lb_tg_arn" {
   description = "ARN of Internal Target Group"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = ""
 }
