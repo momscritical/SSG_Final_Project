@@ -16,11 +16,7 @@ resource "aws_eks_node_group" "WEB" {
   update_config {
     max_unavailable = 1
   }
-  remote_access {
-    ec2_ssh_key               = "project-key"
-    source_security_group_ids = [aws_security_group.terrarform-asg-sg.id]
-    # 보안 그룹 ID를 여기에 지정합니다.
-  }
+  # 보안 그룹 ID를 여기에 지정합니다.
   tags = {
     Name          = "WEB-instance" # EC2 인스턴스에 부여할 이름 태그
     Environment   = "production"
@@ -54,11 +50,7 @@ resource "aws_eks_node_group" "WAS" {
   update_config {
     max_unavailable = 1
   }
-  remote_access {
-    ec2_ssh_key               = "project-key"
-    source_security_group_ids = [aws_security_group.terrarform-internal-asg-sg.id]
-    # 보안 그룹 ID를 여기에 지정합니다.
-  }
+
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.

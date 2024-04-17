@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: was
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: was
+  template:
+    metadata:
+      labels:
+        app: was
+    spec:
+      nodeSelector:
+        was: "true"  # 노드에 이 레이블이 있는지 확인
+      containers:
+      - name: was
+        image: quay.io/whwo1124/was:v1.1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: was  # Deployment 이름과 일치
+spec:
+  selector:
+    app: was  # Deployment의 selector와 일치
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30441
+  type: NodePort  # 외부 접근을 위해 NodePort에서 Service 노출
+
