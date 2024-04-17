@@ -210,22 +210,32 @@ module "final_eks" {
   was_taint_key = "was"
   was_taint_value = "true"
   was_taint_effect = "NO_SCHEDULE"
+
+  web_environment = "production"
+  web_asg_tag = "Web-Node"
+  was_environment = "production"
+  was_asg_tag = "WAS-Node"
 }
 
 module "final_lb" {
   source = "./modules/lb"
 
   vpc_id = module.final_vpc.vpc_id
+  public_subnet_id = module.final_vpc.public_subnet_id
+  web_subnet_id = module.final_vpc.web_subnet_id
+
   ext_lb_name = "Ext-LB"
   ext_tg_name = "Ext-TG"
   int_lb_name = "Int-LB"
   int_tg_name = "Int-TG"
 
-  public_subnet_id = module.final_vpc.public_subnet_id
-  web_subnet_id = module.final_vpc.web_subnet_id
+  ext_lb_type = "application"
+  int_lb_type = "application"
+  ext_default_action_type = "forward"
+  int_default_action_type = "forward"
 
-  ext_sg_id = module.final_sg.elb_sg_id
-  int_sg_id = module.final_sg.ilb_sg_id
+  ext_sg_id = [ module.final_sg.elb_sg_id ]
+  int_sg_id = [ module.final_sg.ilb_sg_id ]
 
   ext_listener_port = "80"
   ext_listener_protocol = "HTTP"
@@ -236,4 +246,45 @@ module "final_lb" {
   int_listener_protocol = "HTTP"
   int_tg_port = "80"
   int_tg_protocol = "HTTP"
+
+  ext_listener_tg_type = "instance"
+  int_listener_tg_type = "instance"
+
+  ext_hc_matcher = "200,301,302"
+  ext_hc_path = "/"
+  ext_hc_healthy_threshold = 2
+  ext_hc_unhealthy_threshold = 2
+  ext_hc_timeout = 5
+  ext_hc_interval = 30
+
+  int_hc_matcher = "200,301,302"
+  int_hc_path = "/"
+  int_hc_healthy_threshold = 2
+  int_hc_unhealthy_threshold = 2
+  int_hc_timeout = 5
+  int_hc_interval = 30
+}
+
+module "final_rds" {
+  source = "./modules/rds"
+
+  rds_name = "final-rds"
+  db_sg_ids = [ module.final_sg.db_sg_id ]
+  
+  rds_subnet_group_name = "rds-subnet-group"
+  rds_subnet_ids = module.final_vpc.db_subnet_id
+}
+
+module "final_asg" {
+  source = "./modules/asg"
+
+  web_asg_tag = module.final_eks.web_asg_tag
+  was_asg_tag = module.final_eks.was_asg_tag
+  ext_lb_tg_arn = module.final_lb.ext_tg_arns
+  int_lb_tg_arn = module.final_lb.int_tg_arns
+
+  depends_on = [
+    module.final_eks,
+    module.final_lb
+  ]
 }

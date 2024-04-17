@@ -1,61 +1,35 @@
 # Web Instance ASG ####################################################
-resource "aws_autoscaling_group" "web" {
-  name = var.web_asg_name
-  min_size             = var.web_min_size
-  desired_capacity     = var.web_desired_capacity
-  max_size             = var.web_max_size
-  target_group_arns = var.ext_tg_arns
-
-  health_check_type    = "EC2"
-#  launch_configuration = aws_launch_configuration.web.name
-  enabled_metrics = [
-    "GroupMinSize",
-    "GroupMaxSize",
-    "GroupDesiredCapacity",
-    "GroupInServiceInstances",
-    "GroupTotalInstances"
-  ]
-  metrics_granularity = "1Minute"
-  vpc_zone_identifier  = var.web_subnet_id
-
-  lifecycle {
-    create_before_destroy = true
+data "aws_autoscaling_groups" "web" {
+  filter {
+    name  = "tag:eks:nodegroup-name"
+    values = [ var.web_asg_tag ]
   }
+}
 
-  tag {
-    key = "Name"
-    value = var.web_asg_name
-    propagate_at_launch = true
-    }
+data "aws_autoscaling_group" "web" {
+  name = data.aws_autoscaling_groups.web.names[0]
+}
+
+# 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
+resource "aws_autoscaling_attachment" "asg_attach" {
+  autoscaling_group_name = data.aws_autoscaling_group.web.name
+  lb_target_group_arn    = var.ext_lb_tg_arn
 }
 
 # WAS Instance ASG ####################################################
-resource "aws_autoscaling_group" "was" {
-  name = var.was_asg_name
-  min_size             = var.was_min_size
-  desired_capacity     = var.was_desired_capacity
-  max_size             = var.was_max_size
-  target_group_arns = var.int_tg_arns
-
-  health_check_type    = "EC2"
-#  launch_configuration = aws_launch_configuration.app.name
-  enabled_metrics = [
-    "GroupMinSize",
-    "GroupMaxSize",
-    "GroupDesiredCapacity",
-    "GroupInServiceInstances",
-    "GroupTotalInstances"
-  ]
-  metrics_granularity = "1Minute"
-  vpc_zone_identifier  = var.web_subnet_id
-
-  lifecycle {
-    create_before_destroy = true
+data "aws_autoscaling_groups" "was" {
+  filter {
+    name  = "tag:eks:nodegroup-name"
+    values = [ var.was_asg_tag ]
   }
-  
-  tag {
-    key ="Name"
-    value = var.was_asg_name
-    propagate_at_launch = true
-    }
+}
+
+data "aws_autoscaling_group" "was" {
+  name = data.aws_autoscaling_groups.was.names[0]
+}
+
+# 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
+resource "aws_autoscaling_attachment" "asg_was_attach" {
+  autoscaling_group_name = data.aws_autoscaling_group.was.name
+  lb_target_group_arn    = var.int_lb_tg_arn
 }

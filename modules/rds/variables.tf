@@ -55,6 +55,24 @@ variable "db_user_pass" {
   sensitive   = true
 }
 
+variable "multi_az" {
+  description = "Whether to Enable Multi Availability Zones"
+  type        = bool
+  default     = true
+}
+
+variable "publicly_accessible" {
+  description = "Whether to Publicly Accessible to RDS"
+  type        = bool
+  default     = false
+}
+
+variable "skip_final_snapshot" {
+  description = "Whether to Skip Final Snapshot when RDS Destroy"
+  type        = bool
+  default     = true
+}
+
 variable "db_sg_ids" {
   description = "Data Base Subnet CIDR Values"
   type        = list(string)
