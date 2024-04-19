@@ -16,11 +16,11 @@ variable "node_group_role_name" {
   default     = ""
 }
 
-variable "k8s_version" {
-  description = "IAM Role Name Values for EKS Cluster"
-  type        = string
-  default     = "19.0.4"
-}
+# variable "k8s_version" {
+#   description = "IAM Role Name Values for EKS Cluster"
+#   type        = string
+#   default     = "19.0.4"
+# }
 
 variable "cluster_subnet_ids" {
   description = "Subnet CIDR Values for EKS Cluster"
