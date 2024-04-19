@@ -190,7 +190,7 @@ module "final_eks" {
   web_node_group_name    = "Web-Node"
   was_node_group_name    = "WAS-Node"
 
-  # k8s_version = "19.0.4"
+  k8s_version = "1.29.0"
 
   cluster_subnet_ids     = module.final_vpc.web_was_subnet_ids
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
