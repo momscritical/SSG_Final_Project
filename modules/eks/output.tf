@@ -21,10 +21,12 @@ output "was_asg_tag" {
 #   value = aws_eks_cluster.cluster.api_token
 # }
 
+#resources.autoscaling_groups.name
 output "web_asg_name" {
-  value = aws_eks_node_group.web.resources.autoscaling_groups.name
+  value = aws_eks_node_group.web.resources
 }
 
+#.autoscaling_groups.name
 output "was_asg_name" {
-  value = aws_eks_node_group.was.resources.autoscaling_groups.name
+  value = aws_eks_node_group.was.resources
 }
