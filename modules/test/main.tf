@@ -4,7 +4,7 @@ resource "null_resource" "modify_file" {
   }
 }
 
-resource "null_resource" "modify_file" {
+resource "null_resource" "copy_file" {
   provisioner "local-exec" {
     command = "cp ./yaml/before_nginx.conf > ./yaml/nginx.conf"
   }
