@@ -7,7 +7,7 @@ module "final_vpc" {
   was_subnet_cidr     = ["10.0.101.0/24", "10.0.102.0/24"]
   db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
 
-  availability_zones  = ["ap-northeast-1a", "ap-northeast-1c"]
+  availability_zones  = ["ap-northeast-2a", "ap-northeast-2c"]
 
   vpc_name            = "Final-VPC"
   public_subnet_name  = "Bastion-Subnet"
@@ -267,15 +267,15 @@ module "final_lb" {
   int_hc_interval = 30
 }
 
-module "final_rds" {
-  source = "./modules/rds"
+# module "final_rds" {
+#   source = "./modules/rds"
 
-  rds_name = "final-rds"
-  db_sg_ids = [ module.final_sg.db_sg_id ]
+#   rds_name = "final-rds"
+#   db_sg_ids = [ module.final_sg.db_sg_id ]
   
-  rds_subnet_group_name = "rds-subnet-group"
-  rds_subnet_ids = module.final_vpc.db_subnet_id
-}
+#   rds_subnet_group_name = "rds-subnet-group"
+#   rds_subnet_ids = module.final_vpc.db_subnet_id
+# }
 
 module "final_asg" {
   source = "./modules/asg"
