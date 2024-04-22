@@ -9,3 +9,11 @@ resource "null_resource" "modify_file" {
 #     command = "cp ./yaml/before_nginx.conf ./yaml/nginx.conf"
 #   }
 # }
+
+resource "null_resource" "clean_up" {
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm -rf .nginx.conf"
+  }
+}
