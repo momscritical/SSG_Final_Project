@@ -12,11 +12,8 @@ spec:
       labels:
         app: nginx
     spec:
-      tolerations:
-      - key: "web"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
+      nodeSelector:
+        webserver: "true"
       containers:
       - name: nginx
         image: quay.io/whwo1124/nginx-proxy
