@@ -12,8 +12,11 @@ spec:
       labels:
         app: was
     spec:
-      nodeSelector:
-        was: "true"  # 노드에 이 레이블이 있는지 확인
+      tolerations:
+      - key: "was"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
       containers:
       - name: was
         image: quay.io/whwo1124/was:v1.1
@@ -33,4 +36,3 @@ spec:
     targetPort: 80
     nodePort: 30441
   type: NodePort  # 외부 접근을 위해 NodePort에서 Service 노출
-
