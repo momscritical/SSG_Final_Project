@@ -27,7 +27,7 @@ override.tf.json
 terraform.rc
 
 .terraform.lock.hcl
-project-key
-project-key.pem
-project-pub
-test.pem
+*-key
+*-key.pem
+*-pub
+*.pem
