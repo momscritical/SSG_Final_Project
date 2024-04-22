@@ -39,14 +39,14 @@ module "final_sg" {
       from_port = 22
       to_port   = 22
     },
-    {
-      from_port = 3000
-      to_port   = 3000
-    },
-    {
-      from_port = 9090
-      to_port   = 9090
-    }
+    # {
+    #   from_port = 3000
+    #   to_port   = 3000
+    # },
+    # {
+    #   from_port = 9090
+    #   to_port   = 9090
+    # }
   ]
 
   web_ing_rules = [
@@ -56,15 +56,15 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 32706
+      to_port         = 32706
       security_groups = [module.final_sg.elb_sg_id]
     },
-    {
-      from_port       = 9100
-      to_port         = 9100
-      security_groups = [module.final_sg.bastion_sg_id]
-    }
+    # {
+    #   from_port       = 9100
+    #   to_port         = 9100
+    #   security_groups = [module.final_sg.bastion_sg_id]
+    # }
   ]
 
   was_ing_rules = [
@@ -74,15 +74,15 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 30441
+      to_port         = 30441
       security_groups = [module.final_sg.ilb_sg_id]
     },
-    {
-      from_port       = 9100
-      to_port         = 9100
-      security_groups = [module.final_sg.bastion_sg_id]
-    }
+    # {
+    #   from_port       = 9100
+    #   to_port         = 9100
+    #   security_groups = [module.final_sg.bastion_sg_id]
+    # }
   ]
 
   db_ing_rules = [
@@ -107,8 +107,8 @@ module "final_sg" {
 
   ilb_ing_rules = [
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 80
+      to_port         = 80
       security_groups = [module.final_sg.web_sg_id]
     }
   ]
@@ -241,12 +241,12 @@ module "final_lb" {
 
   ext_listener_port = "80"
   ext_listener_protocol = "HTTP"
-  ext_tg_port = "80"
+  ext_tg_port = "32706"
   ext_tg_protocol = "HTTP"
 
   int_listener_port = "80"
   int_listener_protocol = "HTTP"
-  int_tg_port = "80"
+  int_tg_port = "30441"
   int_tg_protocol = "HTTP"
 
   ext_listener_tg_type = "instance"

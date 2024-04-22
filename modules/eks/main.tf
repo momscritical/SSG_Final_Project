@@ -80,7 +80,7 @@ resource "aws_iam_role" "node_group" {
   }
 }
 
-# node_group Role에 청책 추가
+# Node Group Role에 청책 추가
 resource "aws_iam_role_policy_attachment" "node_group_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group.name
