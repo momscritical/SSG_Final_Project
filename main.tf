@@ -280,12 +280,12 @@ module "final_lb" {
 module "final_asg" {
   source = "./modules/asg"
 
+  web_asg_name = module.final_eks.web_asg_name
+  was_asg_name = module.final_eks.was_asg_name
   web_asg_tag = module.final_eks.web_asg_tag
   was_asg_tag = module.final_eks.was_asg_tag
   ext_lb_tg_arn = module.final_lb.ext_tg_arns
   int_lb_tg_arn = module.final_lb.int_tg_arns
-  web_asg_name = module.final_eks.web_asg_name
-  was_asg_name = module.final_eks.was_asg_name
 
   depends_on = [
     module.final_eks,
