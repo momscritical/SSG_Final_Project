@@ -16,7 +16,7 @@ spec:
         webserver: "true"
       containers:
       - name: nginx
-        image: quay.io/whwo1124/nginx-proxy
+        image: quay.io/whwo1124/nginx-proxy:v1.0
         ports:
         - containerPort: 80
 ---
