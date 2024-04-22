@@ -14,6 +14,6 @@ resource "null_resource" "clean_up" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "rm -rf .nginx.conf"
+    command = "rm -rf ./yaml/nginx.conf"
   }
 }
