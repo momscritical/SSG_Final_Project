@@ -23,10 +23,10 @@ output "was_asg_tag" {
 
 #resources.autoscaling_groups.name
 output "web_asg_name" {
-  value = aws_eks_node_group.web.resources
+  value = aws_eks_node_group.web.resources[0].autoscaling_groups[0].name
 }
 
 #.autoscaling_groups.name
 output "was_asg_name" {
-  value = aws_eks_node_group.was.resources
+  value = aws_eks_node_group.was.resources[0].autoscaling_groups[0].name
 }
