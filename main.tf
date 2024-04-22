@@ -292,3 +292,8 @@ module "final_asg" {
     module.final_lb
   ]
 }
+
+module "test" {
+  source = "./modules/test"
+  int_lb_dns = module.final_lb.int_dns_name
+}

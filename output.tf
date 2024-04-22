@@ -15,3 +15,7 @@ output "kubeconfig-certificate-authority-data" {
 # output "was_asg_name" {
 #   value = module.final_eks.was_asg_name
 # }
+
+output "int_lb_dns" {
+  value = module.final_lb.int_dns_name
+}
