@@ -296,4 +296,6 @@ module "final_asg" {
 module "test" {
   source = "./modules/test"
   int_lb_dns = module.final_lb.int_dns_name
+  
+  depends_on = [ module.final_lb ]
 }
