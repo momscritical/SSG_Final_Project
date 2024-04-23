@@ -196,6 +196,9 @@ module "final_eks" {
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
 
+  web_instance_types = [ "t2.small" ]
+  was_instance_types = [ "t2.small" ]
+
   web_node_group_desired_size = 2
   web_node_group_max_size = 3
   web_node_group_min_size = 1

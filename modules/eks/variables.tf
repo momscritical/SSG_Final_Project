@@ -40,6 +40,18 @@ variable "web_node_group_subnet_ids" {
   default     = []
 }
 
+variable "web_instance_types" {
+  description = "List of Instance Types for Web Servers"
+  type        = list(string)
+  default     = [ "t2.small" ]
+}
+
+variable "was_instance_types" {
+  description = "List of Instance Types for WAS Servers"
+  type        = list(string)
+  default     = [ "t2.small" ]
+}
+
 variable "was_node_group_name" {
   description = "Name Values for EKS WAS Node Group"
   type        = string
