@@ -101,6 +101,7 @@ resource "aws_eks_node_group" "web" {
   node_group_name = var.web_node_group_name
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.web_node_group_subnet_ids
+  instance_types  = var.web_instance_types
 
   scaling_config {
     desired_size = var.web_node_group_desired_size
@@ -138,6 +139,7 @@ resource "aws_eks_node_group" "was" {
   node_group_name = var.was_node_group_name
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.was_node_group_subnet_ids
+  instance_types  = var.was_instance_types
 
   scaling_config {
     desired_size = var.web_node_group_desired_size

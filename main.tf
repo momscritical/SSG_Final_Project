@@ -196,6 +196,9 @@ module "final_eks" {
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
 
+  web_instance_types = [ "t2.small" ]
+  was_instance_types = [ "t2.small" ]
+
   web_node_group_desired_size = 2
   web_node_group_max_size = 3
   web_node_group_min_size = 1
@@ -293,8 +296,8 @@ module "final_asg" {
   ]
 }
 
-module "test" {
-  source = "./modules/test"
+module "edit_conf" {
+  source = "./modules/edit_conf"
   int_lb_dns = module.final_lb.int_dns_name
   
   depends_on = [ module.final_lb ]
