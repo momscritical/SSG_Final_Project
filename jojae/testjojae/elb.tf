@@ -9,7 +9,7 @@ resource "aws_lb" "web" {
 # Target Group 리소스 정의
 resource "aws_lb_target_group" "asg_tg" {
   name        = "terraform-asg-tg"
-  port        = 32706
+  port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main-vpc.id
   target_type = "instance"
@@ -40,7 +40,7 @@ resource "aws_lb" "was" {
   name               = "WasElb"
   load_balancer_type = "application"
   internal           = true
-  subnets            = [aws_subnet.private_subnets[2].id, aws_subnet.private_subnets[3].id]
+  subnets            = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id]
 
   security_groups = [aws_security_group.internal-alb-sg.id]
 }
@@ -49,7 +49,7 @@ resource "aws_lb" "was" {
 # Target Group 리소스 정의
 resource "aws_lb_target_group" "internal_asg_tg" {
   name        = "terraform-internal-asg-tg"
-  port        = 30441
+  port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main-vpc.id
   target_type = "instance"

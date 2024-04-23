@@ -16,9 +16,17 @@ spec:
         webserver: "true"
       containers:
       - name: nginx
-        image: quay.io/whwo1124/nginx-proxy:v1.0
+        image: nginx:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +39,6 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 32706
+      nodePort: 80
   type: NodePort
 

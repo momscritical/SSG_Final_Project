@@ -31,6 +31,6 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 30441
+    nodePort: 80
   type: NodePort  # 외부 접근을 위해 NodePort에서 Service 노출
 
