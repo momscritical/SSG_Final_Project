@@ -6,12 +6,10 @@ resource "null_resource" "copy_file" {
 
 resource "null_resource" "modify_file" {
   provisioner "local-exec" {
-    command = "sed 's/INT_LB_DNS/${var.int_lb_dns}/g' ./yaml/nginx.conf"
+    command = "sed -i \"s/INT_LB_DNS/${var.int_lb_dns}/g\" ./yaml/nginx.conf"
   }
   depends_on = [ null_resource.copy_file ]
 }
-
-
 
 resource "null_resource" "clean_up" {
   provisioner "local-exec" {
