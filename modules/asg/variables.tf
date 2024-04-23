@@ -21,3 +21,15 @@ variable "int_lb_tg_arn" {
   type        = string
   default     = ""
 }
+
+variable "web_asg_name" {
+  description = "Web Node Group's Auto Scaling Group Name Value"
+  type        = string
+  default     = ""
+}
+
+variable "was_asg_name" {
+  description = "WAS Node Group's Auto Scaling Group Name Value"
+  type        = string
+  default     = ""
+}

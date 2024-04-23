@@ -43,7 +43,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSVPCResourceContr
 resource "aws_eks_cluster" "cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.cluster.arn
-  # version =  var.k8s_version
+  version =  var.k8s_version
 
   vpc_config {
     subnet_ids = var.cluster_subnet_ids
@@ -80,7 +80,7 @@ resource "aws_iam_role" "node_group" {
   }
 }
 
-# node_group Role에 청책 추가
+# Node Group Role에 청책 추가
 resource "aws_iam_role_policy_attachment" "node_group_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group.name

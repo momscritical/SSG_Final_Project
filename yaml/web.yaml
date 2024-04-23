@@ -12,21 +12,16 @@ spec:
       labels:
         app: nginx
     spec:
-      nodeSelector:
-        webserver: "true"
+      tolerations:
+      - key: "web"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
       containers:
       - name: nginx
-        image: nginx:latest
+        image: quay.io/whwo1124/nginx-proxy:v1.0
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: nginx-config-volume
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
-      volumes:
-      - name: nginx-config-volume
-        configMap:
-          name: nginx-config
 ---
 apiVersion: v1
 kind: Service
@@ -39,11 +34,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-<<<<<<< HEAD
-      nodePort: 80
-  type: NodePort
-
-=======
       nodePort: 32706
   type: NodePort
->>>>>>> 87b7856ccec7e42220f74a2f775789eedb1d8b14

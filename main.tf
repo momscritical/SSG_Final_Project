@@ -7,7 +7,7 @@ module "final_vpc" {
   was_subnet_cidr     = ["10.0.101.0/24", "10.0.102.0/24"]
   db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
 
-  availability_zones  = ["ap-northeast-1a", "ap-northeast-1c"]
+  availability_zones  = ["ap-northeast-2a", "ap-northeast-2c"]
 
   vpc_name            = "Final-VPC"
   public_subnet_name  = "Bastion-Subnet"
@@ -39,14 +39,14 @@ module "final_sg" {
       from_port = 22
       to_port   = 22
     },
-    {
-      from_port = 3000
-      to_port   = 3000
-    },
-    {
-      from_port = 9090
-      to_port   = 9090
-    }
+    # {
+    #   from_port = 3000
+    #   to_port   = 3000
+    # },
+    # {
+    #   from_port = 9090
+    #   to_port   = 9090
+    # }
   ]
 
   web_ing_rules = [
@@ -56,15 +56,15 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 32706
+      to_port         = 32706
       security_groups = [module.final_sg.elb_sg_id]
     },
-    {
-      from_port       = 9100
-      to_port         = 9100
-      security_groups = [module.final_sg.bastion_sg_id]
-    }
+    # {
+    #   from_port       = 9100
+    #   to_port         = 9100
+    #   security_groups = [module.final_sg.bastion_sg_id]
+    # }
   ]
 
   was_ing_rules = [
@@ -74,15 +74,15 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 30441
+      to_port         = 30441
       security_groups = [module.final_sg.ilb_sg_id]
     },
-    {
-      from_port       = 9100
-      to_port         = 9100
-      security_groups = [module.final_sg.bastion_sg_id]
-    }
+    # {
+    #   from_port       = 9100
+    #   to_port         = 9100
+    #   security_groups = [module.final_sg.bastion_sg_id]
+    # }
   ]
 
   db_ing_rules = [
@@ -107,8 +107,8 @@ module "final_sg" {
 
   ilb_ing_rules = [
     {
-      from_port       = 5000
-      to_port         = 5000
+      from_port       = 80
+      to_port         = 80
       security_groups = [module.final_sg.web_sg_id]
     }
   ]
@@ -190,7 +190,7 @@ module "final_eks" {
   web_node_group_name    = "Web-Node"
   was_node_group_name    = "WAS-Node"
 
-  # k8s_version = "19.0.4"
+  k8s_version = "1.29"
 
   cluster_subnet_ids     = module.final_vpc.web_was_subnet_ids
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
@@ -241,12 +241,12 @@ module "final_lb" {
 
   ext_listener_port = "80"
   ext_listener_protocol = "HTTP"
-  ext_tg_port = "80"
+  ext_tg_port = "32706"
   ext_tg_protocol = "HTTP"
 
   int_listener_port = "80"
   int_listener_protocol = "HTTP"
-  int_tg_port = "80"
+  int_tg_port = "30441"
   int_tg_protocol = "HTTP"
 
   ext_listener_tg_type = "instance"
@@ -267,19 +267,21 @@ module "final_lb" {
   int_hc_interval = 30
 }
 
-module "final_rds" {
-  source = "./modules/rds"
+# module "final_rds" {
+#   source = "./modules/rds"
 
-  rds_name = "final-rds"
-  db_sg_ids = [ module.final_sg.db_sg_id ]
+#   rds_name = "final-rds"
+#   db_sg_ids = [ module.final_sg.db_sg_id ]
   
-  rds_subnet_group_name = "rds-subnet-group"
-  rds_subnet_ids = module.final_vpc.db_subnet_id
-}
+#   rds_subnet_group_name = "rds-subnet-group"
+#   rds_subnet_ids = module.final_vpc.db_subnet_id
+# }
 
 module "final_asg" {
   source = "./modules/asg"
 
+  web_asg_name = module.final_eks.web_asg_name
+  was_asg_name = module.final_eks.was_asg_name
   web_asg_tag = module.final_eks.web_asg_tag
   was_asg_tag = module.final_eks.was_asg_tag
   ext_lb_tg_arn = module.final_lb.ext_tg_arns
@@ -289,4 +291,11 @@ module "final_asg" {
     module.final_eks,
     module.final_lb
   ]
+}
+
+module "test" {
+  source = "./modules/test"
+  int_lb_dns = module.final_lb.int_dns_name
+  
+  depends_on = [ module.final_lb ]
 }
