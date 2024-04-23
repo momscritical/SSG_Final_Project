@@ -145,7 +145,7 @@ variable "web_taint_effect" {
 variable "was_taint_key" {
   description = "Web Taint Key Variable"
   type        = string
-  default     = "web"
+  default     = "was"
 }
 
 variable "was_taint_value" {

@@ -69,8 +69,8 @@ resource "aws_security_group" "web" {
   description = "Security Group for terraform web"
   vpc_id      = aws_vpc.main-vpc.id
   ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = 30441
+    to_port         = 30441
     protocol        = "tcp"
     security_groups = [aws_security_group.alb-sg.id]
   }
@@ -90,8 +90,8 @@ resource "aws_security_group" "was" {
   description = "Security Group for terraform was"
   vpc_id      = aws_vpc.main-vpc.id
   ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = 32706
+    to_port         = 32706
     protocol        = "tcp"
     security_groups = [aws_security_group.internal-alb-sg.id]
   }
