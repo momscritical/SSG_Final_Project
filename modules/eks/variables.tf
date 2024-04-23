@@ -145,17 +145,17 @@ variable "web_taint_effect" {
 variable "was_taint_key" {
   description = "Web Taint Key Variable"
   type        = string
-  default     = "web"
+  default     = "was"
 }
 
 variable "was_taint_value" {
-  description = "Web Taint Value Variable"
+  description = "WAS Taint Value Variable"
   type        = string
   default     = "true"
 }
 
 variable "was_taint_effect" {
-  description = "Web Taint Effect Variable"
+  description = "WAS Taint Effect Variable"
   type        = string
   default     = "NO_SCHEDULE"
 }
