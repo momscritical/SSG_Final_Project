@@ -16,11 +16,11 @@ spec:
           service:
             name: nginx-service
             port:
-              number: 80
+              number: 9001
       - path: /was
         pathType: Prefix
         backend:
           service:
             name: was
             port:
-              number: 80
+              number: 9002
