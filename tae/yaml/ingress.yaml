@@ -24,10 +24,3 @@ spec:
             name: was
             port:
               number: 80
-      # - path: /admin
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: svc3-admin
-      #       port:
-      #         number: 8080

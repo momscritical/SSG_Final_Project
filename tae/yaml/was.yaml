@@ -31,7 +31,7 @@ spec:
   selector:
     app: was  # Deployment의 selector와 일치
   ports:
-  - name: was-port
+  - name: port
     port: 9002
     targetPort: 80
   type: NodePort  # 외부 접근을 위해 NodePort에서 Service 노출
