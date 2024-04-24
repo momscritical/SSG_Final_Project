@@ -296,9 +296,9 @@ module "final_asg" {
   ]
 }
 
-module "edit_conf" {
-  source = "./modules/edit_conf"
-  int_lb_dns = module.final_lb.int_dns_name
+# module "edit_conf" {
+#   source = "./modules/edit_conf"
+#   int_lb_dns = module.final_lb.int_dns_name
   
-  depends_on = [ module.final_lb ]
-}
+#   depends_on = [ module.final_lb ]
+# }
