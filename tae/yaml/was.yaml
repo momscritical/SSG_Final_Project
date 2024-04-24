@@ -31,8 +31,7 @@ spec:
   selector:
     app: was  # Deployment의 selector와 일치
   ports:
-  - protocol: TCP
+  - name: was-port
     port: 80
-    targetPort: 80
-    nodePort: 30441
+    targetPort: 8080
   type: NodePort  # 외부 접근을 위해 NodePort에서 Service 노출

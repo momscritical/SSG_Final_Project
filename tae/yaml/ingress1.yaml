@@ -14,21 +14,20 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: svc1-web
+            name: nginx-service
             port:
               number: 80
-      - path: /guest
+      - path: /was
         pathType: Prefix
         backend:
           service:
-            name: svc2-guest
+            name: was
             port:
               number: 8080
-      - path: /admin
-        pathType: Prefix
-        backend:
-          service:
-            name: svc3-admin
-            port:
-              number: 8080
-
+      # - path: /admin
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: svc3-admin
+      #       port:
+      #         number: 8080
