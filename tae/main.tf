@@ -56,8 +56,8 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 32706
-      to_port         = 32706
+      from_port       = 80
+      to_port         = 80
       security_groups = [module.final_sg.elb_sg_id]
     },
     # {
@@ -74,8 +74,8 @@ module "final_sg" {
       security_groups = [module.final_sg.bastion_sg_id]
     },
     {
-      from_port       = 30441
-      to_port         = 30441
+      from_port       = 80
+      to_port         = 80
       security_groups = [module.final_sg.ilb_sg_id]
     },
     # {
