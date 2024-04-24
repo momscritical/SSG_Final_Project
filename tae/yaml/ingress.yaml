@@ -16,7 +16,7 @@ spec:
           service:
             name: nginx-service
             port:
-              number: 9001
+              number: 80
   - http:
       paths:
       - path: /was
@@ -25,4 +25,4 @@ spec:
           service:
             name: was
             port:
-              number: 9002
+              number: 80
