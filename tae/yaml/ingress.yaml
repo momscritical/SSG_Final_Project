@@ -23,7 +23,7 @@ spec:
           service:
             name: was
             port:
-              number: 8080
+              number: 80
       # - path: /admin
       #   pathType: Prefix
       #   backend:

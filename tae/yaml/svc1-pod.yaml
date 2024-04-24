@@ -28,4 +28,3 @@ spec:
   selector:
     app: websrv
   type: ClusterIP
-
