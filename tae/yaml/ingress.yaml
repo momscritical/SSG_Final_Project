@@ -7,8 +7,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  # - host: jumjoo.com
-  - http:
+  - host: jumjoo.com
+    http:
       paths:
       - path: /
         pathType: Prefix
@@ -17,6 +17,8 @@ spec:
             name: nginx-service
             port:
               number: 9001
+  - http:
+      paths:
       - path: /was
         pathType: Prefix
         backend:
