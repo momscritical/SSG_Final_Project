@@ -34,5 +34,5 @@ spec:
     - name: port-port
       port: 80
       targetPort: 80
-      NodePort: 32706
+      nodePort: 32706
   type: NodePort
