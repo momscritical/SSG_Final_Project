@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: web-dep
 spec:
   replicas: 2
   selector:
@@ -18,7 +18,7 @@ spec:
         value: "true"
         effect: "NoSchedule"
       containers:
-      - name: nginx
+      - name: web
         image: momscritical/ssg-web:v1.0
         ports:
         - containerPort: 80
@@ -26,13 +26,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: web-svc
 spec:
-  selector:
-    app: nginx
   ports:
-    - name: port-port
-      port: 80
+    - name: web-port
+      port: 9001
       targetPort: 80
-      nodePort: 32706
-  type: NodePort
+      # nodePort: 32706
+  selector:
+    app: web
+  type: ClusterIP

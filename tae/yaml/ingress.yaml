@@ -7,22 +7,19 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: jumjoo.com
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: web-svc
             port:
               number: 80
-  - http:
-      paths:
       - path: /was
         pathType: Prefix
         backend:
           service:
-            name: was
+            name: was-svc
             port:
               number: 80
