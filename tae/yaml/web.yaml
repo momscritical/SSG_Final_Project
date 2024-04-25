@@ -2,37 +2,39 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-dep
+  labels:
+    app: web
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: web
   template:
     metadata:
       labels:
-        app: nginx
+        app: web
     spec:
-      tolerations:
-      - key: "web"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
       containers:
       - name: web
         image: momscritical/ssg-web:v1.0
         ports:
         - containerPort: 80
+      tolerations:
+      - key: "web"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: web-svc
 spec:
-  ports:
-    - name: web-port
-      port: 9001
-      targetPort: 80
-      # nodePort: 32706
   selector:
     app: web
-  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 32706
+  type: NodePort

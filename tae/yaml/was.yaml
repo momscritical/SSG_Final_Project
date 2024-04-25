@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: was-dep
+  labels:
+    app: was
 spec:
   replicas: 2
   selector:
@@ -28,10 +30,11 @@ kind: Service
 metadata:
   name: was-svc
 spec:
-  ports:
-    - name: was-port
-      port: 9002
-      targetPort: 80
   selector:
     app: was
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30441
   type: NodePort
