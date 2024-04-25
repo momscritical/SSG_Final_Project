@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-1
+  name: ingress-ext
   annotations:
     #nginx.ingress.kubernetes.io/upstream-hash-by: "true"
 spec:
@@ -14,12 +14,5 @@ spec:
         backend:
           service:
             name: web-svc
-            port:
-              number: 80
-      - path: /was
-        pathType: Prefix
-        backend:
-          service:
-            name: was-svc
             port:
               number: 80
