@@ -88,6 +88,7 @@ COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
 COPY 15-local-resolvers.envsh /docker-entrypoint.d
 COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
 COPY 30-tune-worker-processes.sh /docker-entrypoint.d
+RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY nginx.conf /etc/nginx/nginx.conf
