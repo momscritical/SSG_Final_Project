@@ -19,7 +19,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: nginx
-        image: nginx
+        image: momscritical/ssg-web:v1.0
         ports:
         - containerPort: 80
 ---
