@@ -1,6 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  namespace: dev
   name: ingress
   annotations:
     #nginx.ingress.kubernetes.io/upstream-hash-by: "true"
