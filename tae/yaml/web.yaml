@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: web
-        image: momscritical/ssg-web:v1.0
+        # image: momscritical/ssg-web:v1.0
+        image: nginx
         ports:
         - containerPort: 80
       tolerations:
