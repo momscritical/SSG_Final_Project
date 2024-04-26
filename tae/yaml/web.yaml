@@ -1,31 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: dev
-  name: web-dep
-  labels:
-    app: web
+  name: myweb
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: web
+      app: nginx
+  replicas: 2
   template:
     metadata:
       labels:
-        app: web
+        app: nginx
     spec:
       containers:
-      - name: web
-        # image: momscritical/ssg-web:v1.0
+      - name: nginx
         image: nginx
         ports:
         - containerPort: 80
-      tolerations:
-      - key: "web"
-        operator: "Equal"
-        value: "true"
-        effect: "NoSchedule"
+        volumeMounts:
+          - name: conf
+            mountPath: /etc/nginx/conf.d     
+      volumes:
+        - name: conf
+          configMap:
+            name: conf   
 ---
 apiVersion: v1
 kind: Service
