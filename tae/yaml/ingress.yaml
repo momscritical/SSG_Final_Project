@@ -16,10 +16,10 @@ spec:
             name: web-svc
             port:
               number: 80
-      - path: /was
-        pathType: Prefix
-        backend:
-          service:
-            name: was-svc
-            port:
-              number: 80
+      # - path: /was
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: was-svc
+      #       port:
+      #         number: 80
