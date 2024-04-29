@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: was
-        image: momscritical/flask-app:v1.0
+        image: quay.io/whwo1124/was:v1.1
         ports:
         - containerPort: 80
       tolerations:
