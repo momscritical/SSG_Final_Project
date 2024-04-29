@@ -1,6 +1,6 @@
 provider "kubernetes" {
   host                   = var.cluster_endpoint
-  cluster_ca_certificate = var.kubeconfig-certificate-authority-data
+  cluster_ca_certificate = base64decode(var.kubeconfig-certificate-authority-data)
   token                  = var.cluster_token
 }
 
