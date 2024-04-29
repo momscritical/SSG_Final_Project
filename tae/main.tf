@@ -270,15 +270,27 @@ module "final_lb" {
   int_hc_interval = 30
 }
 
-# module "final_rds" {
-#   source = "./modules/rds"
+module "final_rds" {
+  source = "./modules/rds"
 
-#   rds_name = "final-rds"
-#   db_sg_ids = [ module.final_sg.db_sg_id ]
+  rds_name = "final-rds"
+  storage = 50
+  max_storage = 100
+  engine_type = "mysql"
+  engine_version = "8.0.35"
+  instance_class = "db.t2.micro"
+  db_name = "coupang"
+  db_user_name = "root"
+  db_user_pass = "admin12345"
+  multi_az = true
+  publicly_accessible = false
+  skip_final_snapshot = true
+
+  db_sg_ids = [ module.final_sg.db_sg_id ]
   
-#   rds_subnet_group_name = "rds-subnet-group"
-#   rds_subnet_ids = module.final_vpc.db_subnet_id
-# }
+  rds_subnet_group_name = "rds-subnet-group"
+  rds_subnet_ids = module.final_vpc.db_subnet_id
+}
 
 module "final_asg" {
   source = "./modules/asg"
