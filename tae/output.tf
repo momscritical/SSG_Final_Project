@@ -8,6 +8,11 @@ output "kubeconfig-certificate-authority-data" {
   value = module.final_eks.kubeconfig-certificate-authority-data
 }
 
+# 클러스터 토큰 값 출력
+output "cluster_token" {
+  value = module.final_eks.cluster_token
+}
+
 # # output "web_asg_name" {
 # #   value = module.final_eks.web_asg_name
 # # }

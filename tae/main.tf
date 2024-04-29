@@ -213,6 +213,16 @@ module "final_rds" {
   rds_subnet_ids = module.final_vpc.db_subnet_id
 }
 
+module "final_ingress_controller" {
+  source = "./modules/ingress"
+  yaml_location = "./ingress-controller.yaml"
+  cluster_endpoint = module.final_eks.cluster_endpoint
+  kubeconfig-certificate-authority-data = module.final_eks.kubeconfig-certificate-authority-data
+  cluster_token = module.final_eks.cluster_endpoint
+  
+  depends_on = [ module.final_eks ]
+}
+
 # module "final_lb" {
 #   source = "./modules/lb"
 
