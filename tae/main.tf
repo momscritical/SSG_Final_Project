@@ -191,54 +191,6 @@ module "final_eks" {
   was_asg_tag = "WAS-Node"
 }
 
-module "final_lb" {
-  source = "./modules/lb"
-
-  vpc_id = module.final_vpc.vpc_id
-  public_subnet_id = module.final_vpc.public_subnet_id
-  web_subnet_id = module.final_vpc.web_subnet_id
-
-  ext_lb_name = "Ext-LB"
-  ext_tg_name = "Ext-TG"
-  # int_lb_name = "Int-LB"
-  # int_tg_name = "Int-TG"
-
-  ext_lb_type = "application"
-  # int_lb_type = "application"
-  ext_default_action_type = "forward"
-  # int_default_action_type = "forward"
-
-  ext_sg_id = [ module.final_sg.elb_sg_id ]
-  # int_sg_id = [ module.final_sg.ilb_sg_id ]
-
-  ext_listener_port = "80"
-  ext_listener_protocol = "HTTP"
-  ext_tg_port = "32706"
-  ext_tg_protocol = "HTTP"
-
-  # int_listener_port = "80"
-  # int_listener_protocol = "HTTP"
-  # int_tg_port = "30441"
-  # int_tg_protocol = "HTTP"
-
-  ext_listener_tg_type = "instance"
-  # int_listener_tg_type = "instance"
-
-  ext_hc_matcher = "200,301,302"
-  ext_hc_path = "/"
-  ext_hc_healthy_threshold = 2
-  ext_hc_unhealthy_threshold = 2
-  ext_hc_timeout = 5
-  ext_hc_interval = 30
-
-  # int_hc_matcher = "200,301,302"
-  # int_hc_path = "/"
-  # int_hc_healthy_threshold = 2
-  # int_hc_unhealthy_threshold = 2
-  # int_hc_timeout = 5
-  # int_hc_interval = 30
-}
-
 module "final_rds" {
   source = "./modules/rds"
 
@@ -260,6 +212,54 @@ module "final_rds" {
   rds_subnet_group_name = "rds-subnet-group"
   rds_subnet_ids = module.final_vpc.db_subnet_id
 }
+
+# module "final_lb" {
+#   source = "./modules/lb"
+
+#   vpc_id = module.final_vpc.vpc_id
+#   public_subnet_id = module.final_vpc.public_subnet_id
+#   web_subnet_id = module.final_vpc.web_subnet_id
+
+#   ext_lb_name = "Ext-LB"
+#   ext_tg_name = "Ext-TG"
+#   # int_lb_name = "Int-LB"
+#   # int_tg_name = "Int-TG"
+
+#   ext_lb_type = "application"
+#   # int_lb_type = "application"
+#   ext_default_action_type = "forward"
+#   # int_default_action_type = "forward"
+
+#   ext_sg_id = [ module.final_sg.elb_sg_id ]
+#   # int_sg_id = [ module.final_sg.ilb_sg_id ]
+
+#   ext_listener_port = "80"
+#   ext_listener_protocol = "HTTP"
+#   ext_tg_port = "32706"
+#   ext_tg_protocol = "HTTP"
+
+#   # int_listener_port = "80"
+#   # int_listener_protocol = "HTTP"
+#   # int_tg_port = "30441"
+#   # int_tg_protocol = "HTTP"
+
+#   ext_listener_tg_type = "instance"
+#   # int_listener_tg_type = "instance"
+
+#   ext_hc_matcher = "200,301,302"
+#   ext_hc_path = "/"
+#   ext_hc_healthy_threshold = 2
+#   ext_hc_unhealthy_threshold = 2
+#   ext_hc_timeout = 5
+#   ext_hc_interval = 30
+
+#   # int_hc_matcher = "200,301,302"
+#   # int_hc_path = "/"
+#   # int_hc_healthy_threshold = 2
+#   # int_hc_unhealthy_threshold = 2
+#   # int_hc_timeout = 5
+#   # int_hc_interval = 30
+# }
 
 # module "final_asg" {
 #   source = "./modules/asg"
