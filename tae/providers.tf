@@ -28,8 +28,8 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
-# provider "kubernetes" {
-#   host                   = module.final_eks.cluster_endpoint
-#   cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
-#   token                  = module.final_eks.cluster_token
-# }
+provider "kubernetes" {
+  host                   = module.final_eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
+  token                  = module.final_eks.cluster_token
+}
