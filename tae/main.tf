@@ -218,10 +218,9 @@ module "final_rds" {
 module "final_ingress_controller" {
   source = "./modules/ingress"
   yaml_location = "./yaml/ingress-controller.yaml"
-  # cluster_endpoint = module.final_eks.cluster_endpoint
-  # kubeconfig-certificate-authority-data = module.final_eks.kubeconfig-certificate-authority-data
-  # cluster_token = module.final_eks.cluster_endpoint
-  
+  cluster_endpoint = module.final_eks.cluster_endpoint
+  kubeconfig-certificate-authority-data = module.final_eks.kubeconfig-certificate-authority-data
+
   depends_on = [ module.final_eks ]
 }
 
