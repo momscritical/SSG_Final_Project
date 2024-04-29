@@ -1,6 +1,10 @@
 # deploy.yaml 파일의 내용을 Terraform으로 정의
+data "local_file" "ingress_controller" {
+  filename = var.yaml_location
+}
+
 resource "kubernetes_manifest" "ingress_nginx_controller" {
-  manifest = yamldecode("${var.yaml_location}")
+  manifest = yamldecode(data.local_file.ingress_controller.content)
 }
 
 # provider "kubernetes" {
