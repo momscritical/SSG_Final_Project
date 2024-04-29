@@ -18,12 +18,17 @@ output "was_subnet_id" {
   value       = aws_subnet.was[*].id
 }
 
+output "set_subnet_id" {
+  description = "ID of the Setting Node Subnet"
+  value       = aws_subnet.set[*].id
+}
+
 output "db_subnet_id" {
   description = "ID of the DataBase Subnet"
   value       = aws_subnet.db[*].id
 }
 
-output "web_was_subnet_ids" {
+output "eks_subnet_ids" {
   description = "Combined list of Web and WAS Subnet IDs"
-  value       = concat(aws_subnet.web[*].id, aws_subnet.was[*].id)
+  value       = concat(aws_subnet.web[*].id, aws_subnet.was[*].id, aws_subnet.set[*].id)
 }

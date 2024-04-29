@@ -10,6 +10,10 @@ output "was_sg_id" {
     value = aws_security_group.was.id
 }
 
+output "set_sg_id" {
+    value = aws_security_group.set.id
+}
+
 output "db_sg_id" {
     value = aws_security_group.db.id
 }
@@ -20,14 +24,6 @@ output "elb_sg_id" {
 
 output "ilb_sg_id" {
     value = aws_security_group.int_lb.id
-}
-
-output "web_efs_sg_id" {
-    value = aws_security_group.web_efs.id
-}
-
-output "was_efs_sg_id" {
-    value = aws_security_group.was_efs.id
 }
 
 output "cluster_sg_id" {

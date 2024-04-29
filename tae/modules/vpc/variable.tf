@@ -1,11 +1,12 @@
-variable "vpc_name" {
-  description = "VPC Name Values"
+################################### VPC ###################################
+variable "vpc_cidr" {
+  description = "VPC CIDR Values"
   type = string
   default = ""
 }
 
-variable "vpc_cidr" {
-  description = "VPC CIDR Values"
+variable "vpc_name" {
+  description = "VPC Name Values"
   type = string
   default = ""
 }
@@ -21,51 +22,10 @@ variable "enable_dns_support" {
   type        = bool
   default     = true
 }
-
-variable "public_subnet_name" {
-  description = "Public Subnets Name Values"
-  type = string
-  default = ""
-}
-
-variable "web_subnet_name" {
-  description = "Web Subnets Name Values"
-  type = string
-  default = ""
-}
-
-variable "was_subnet_name" {
-  description = "WAS Subnets Name Values"
-  type = string
-  default = ""
-}
-
-variable "db_subnet_name" {
-  description = "Database Subnets Name Values"
-  type = string
-  default = ""
-}
-
+################################## Subnets ##################################
+############################## Bastion Subnet ##############################
 variable "public_subnet_cidr" {
   description = "Public Subnet CIDR Values"
-  type        = list(string)
-  default     = []
-}
-
-variable "web_subnet_cidr" {
-  description = "Web Subnet CIDR Values"
-  type        = list(string)
-  default     = []
-}
-
-variable "was_subnet_cidr" {
-  description = "WAS Subnet CIDR Values"
-  type        = list(string)
-  default     = []
-}
-
-variable "db_subnet_cidr" {
-  description = "Database Subnet CIDR Values"
   type        = list(string)
   default     = []
 }
@@ -76,6 +36,65 @@ variable "availability_zones" {
   default     = []
 }
 
+variable "public_subnet_name" {
+  description = "Public Subnets Name Values"
+  type = string
+  default = ""
+}
+
+############################## Web Subnet ##############################
+variable "web_subnet_cidr" {
+  description = "Web Subnet CIDR Values"
+  type        = list(string)
+  default     = []
+}
+
+variable "web_subnet_name" {
+  description = "Web Subnets Name Values"
+  type = string
+  default = ""
+}
+
+############################## WAS Subnet ##############################
+variable "was_subnet_cidr" {
+  description = "WAS Subnet CIDR Values"
+  type        = list(string)
+  default     = []
+}
+
+variable "was_subnet_name" {
+  description = "WAS Subnets Name Values"
+  type = string
+  default = ""
+}
+
+############################## Set Subnet ##############################
+variable "set_subnet_cidr" {
+  description = "Setting Node CIDR Values"
+  type        = list(string)
+  default     = []
+}
+
+variable "set_subnet_name" {
+  description = "Setting Node Subnets Name Values"
+  type = string
+  default = ""
+}
+
+############################## DataBase Subnet ##############################
+variable "db_subnet_cidr" {
+  description = "Database Subnet CIDR Values"
+  type        = list(string)
+  default     = []
+}
+
+variable "db_subnet_name" {
+  description = "Database Subnets Name Values"
+  type = string
+  default = ""
+}
+
+################################# Gate Way #################################
 variable "igw_name" {
   description = "Internet GateWay Name Value"
   type        = string
@@ -88,6 +107,7 @@ variable "ngw_name" {
   default = ""
 }
 
+################################ Route Table ################################
 variable "public_rt_name" {
   description = "Public RoutingTable Name vVlues"
   type = string

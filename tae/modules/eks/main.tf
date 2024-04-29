@@ -142,13 +142,13 @@ resource "aws_eks_node_group" "was" {
   instance_types  = var.was_instance_types
 
   scaling_config {
-    desired_size = var.web_node_group_desired_size
-    max_size     = var.web_node_group_max_size
-    min_size     = var.web_node_group_min_size
+    desired_size = var.was_node_group_desired_size
+    max_size     = var.was_node_group_max_size
+    min_size     = var.was_node_group_min_size
   }
 
   update_config {
-    max_unavailable = 1
+    max_unavailable = var.was_max_unavailable
   }
 
   taint {
@@ -169,6 +169,39 @@ resource "aws_eks_node_group" "was" {
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
+# Setting Node Group
+resource "aws_eks_node_group" "set" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = var.set_node_group_name
+  node_role_arn   = aws_iam_role.node_group.arn
+  subnet_ids      = var.set_node_group_subnet_ids
+  instance_types  = var.set_instance_types
+
+  scaling_config {
+    desired_size = var.set_node_group_desired_size
+    max_size     = var.set_node_group_max_size
+    min_size     = var.set_node_group_min_size
+  }
+
+  update_config {
+    max_unavailable = var.set_max_unavailable
+  }
+
+  tags = {
+    Name = var.set_node_group_name
+    Environment   = var.set_environment
+    ASG-Tag = var.set_asg_tag
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+
 
 # # EKS 클러스터의 기능을 확장하기 위한 애드온설정
 # # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온

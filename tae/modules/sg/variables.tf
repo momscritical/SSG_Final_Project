@@ -58,8 +58,8 @@ variable "cluster_sg_name" {
   default     = ""
 }
 
-variable "control_plane_sg_name" {
-  description = "The Name of the Security Group for EKS Cluster"
+variable "set_sg_name" {
+  description = "The Name of the Security Group for EKS Setting Node"
   type        = string
   default     = ""
 }
@@ -152,8 +152,9 @@ variable "cluster_ing_rules" {
   default     = []
 }
 
-variable "control_plane_ing_rules" {
-  description = "List of ingress rules for WAS EKS Control Plane"
+
+variable "set_ing_rules" {
+  description = "List of ingress rules for EKS Setting Node"
   type        = list(object({
     from_port       = number
     to_port         = number

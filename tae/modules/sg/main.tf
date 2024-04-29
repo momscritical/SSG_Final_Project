@@ -133,87 +133,6 @@ resource "aws_security_group" "ext_lb" {
   }
 }
 
-resource "aws_security_group" "int_lb" {
-  name        = var.ilb_sg_name
-  description = "Security Group for Internal Load Balancer" 
-  vpc_id      = var.vpc_id
-
-  dynamic "ingress" {
-    for_each = var.ilb_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
-
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = var.ilb_sg_name
-  }
-}
-
-resource "aws_security_group" "web_efs" {
-  name        = var.web_efs_sg_name
-  description = "Security Group for Web EFS" 
-  vpc_id      = var.vpc_id
-
-  dynamic "ingress" {
-    for_each = var.web_efs_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
-
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = var.web_efs_sg_name
-  }
-}
-
-resource "aws_security_group" "was_efs" {
-  name        = var.was_efs_sg_name
-  description = "Security Group for was EFS" 
-  vpc_id      = var.vpc_id
-
-  dynamic "ingress" {
-    for_each = var.was_efs_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
-
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = var.was_efs_sg_name
-  }
-}
-
 resource "aws_security_group" "cluster" {
   name        = var.cluster_sg_name
   description = "Security Group for was EKS CLuster" 
@@ -241,13 +160,13 @@ resource "aws_security_group" "cluster" {
   }
 }
 
-resource "aws_security_group" "control_plane" {
-  name        = var.control_plane_sg_name
-  description = "Security Group for was EKS Control Plane" 
+resource "aws_security_group" "set" {
+  name        = var.set_sg_name
+  description = "Security Group for was EKS Setting Node" 
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.control_plane_ing_rules
+    for_each = var.set_ing_rules
     content {
       from_port       = ingress.value.from_port
       to_port         = ingress.value.to_port
@@ -264,6 +183,87 @@ resource "aws_security_group" "control_plane" {
   }
 
   tags = {
-    Name = var.cluster_sg_name
+    Name = var.set_sg_name
   }
 }
+
+# resource "aws_security_group" "int_lb" {
+#   name        = var.ilb_sg_name
+#   description = "Security Group for Internal Load Balancer" 
+#   vpc_id      = var.vpc_id
+
+#   dynamic "ingress" {
+#     for_each = var.ilb_ing_rules
+#     content {
+#       from_port       = ingress.value.from_port
+#       to_port         = ingress.value.to_port
+#       protocol        = "tcp"
+#       security_groups = ingress.value.security_groups
+#     }
+#   }
+
+#   egress {
+#     from_port     = 0
+#     to_port       = 0
+#     protocol      = "-1"
+#     cidr_blocks   = ["0.0.0.0/0"]
+#   }
+
+#   tags = {
+#     Name = var.ilb_sg_name
+#   }
+# }
+
+# resource "aws_security_group" "web_efs" {
+#   name        = var.web_efs_sg_name
+#   description = "Security Group for Web EFS" 
+#   vpc_id      = var.vpc_id
+
+#   dynamic "ingress" {
+#     for_each = var.web_efs_ing_rules
+#     content {
+#       from_port       = ingress.value.from_port
+#       to_port         = ingress.value.to_port
+#       protocol        = "tcp"
+#       security_groups = ingress.value.security_groups
+#     }
+#   }
+
+#   egress {
+#     from_port     = 0
+#     to_port       = 0
+#     protocol      = "-1"
+#     cidr_blocks   = ["0.0.0.0/0"]
+#   }
+
+#   tags = {
+#     Name = var.web_efs_sg_name
+#   }
+# }
+
+# resource "aws_security_group" "was_efs" {
+#   name        = var.was_efs_sg_name
+#   description = "Security Group for was EFS" 
+#   vpc_id      = var.vpc_id
+
+#   dynamic "ingress" {
+#     for_each = var.was_efs_ing_rules
+#     content {
+#       from_port       = ingress.value.from_port
+#       to_port         = ingress.value.to_port
+#       protocol        = "tcp"
+#       security_groups = ingress.value.security_groups
+#     }
+#   }
+
+#   egress {
+#     from_port     = 0
+#     to_port       = 0
+#     protocol      = "-1"
+#     cidr_blocks   = ["0.0.0.0/0"]
+#   }
+
+#   tags = {
+#     Name = var.was_efs_sg_name
+#   }
+# }

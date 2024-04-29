@@ -1,3 +1,4 @@
+################################### VPC ###################################
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
 
@@ -8,7 +9,7 @@ resource "aws_vpc" "vpc" {
     Name = var.vpc_name
   }
 }
-
+############################## Subnet ##############################
 resource "aws_subnet" "public" {
   count              = length(var.public_subnet_cidr)
   vpc_id             = aws_vpc.vpc.id
@@ -43,6 +44,17 @@ resource "aws_subnet" "was" {
   }
 }
 
+resource "aws_subnet" "set" {
+  count              = length(var.set_subnet_cidr)
+  vpc_id             = aws_vpc.vpc.id
+  cidr_block         = element(var.set_subnet_cidr, count.index)
+  availability_zone  = element(var.availability_zones, count.index)
+
+  tags = {
+    Name = "${var.set_subnet_name}-0${count.index + 1}"
+  }
+}
+
 resource "aws_subnet" "db" {
   count              = length(var.db_subnet_cidr)
   vpc_id             = aws_vpc.vpc.id
@@ -54,6 +66,7 @@ resource "aws_subnet" "db" {
   }
 }
 
+############################## Gate Way ##############################
 resource "aws_eip" "nat_eip" {
   lifecycle {
     create_before_destroy = true
@@ -82,6 +95,7 @@ resource "aws_nat_gateway" "ngw" {
   ]
 }
 
+############################## Route Table ##############################
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.vpc.id
   
@@ -108,6 +122,7 @@ resource "aws_route_table" "private_rt" {
   }
 }
 
+######################### Route Table Association #########################
 resource "aws_route_table_association" "public_subnet_asso" {
   count = length(var.public_subnet_cidr)
   subnet_id      = element(aws_subnet.public[*].id, count.index) 
@@ -123,6 +138,12 @@ resource "aws_route_table_association" "web_subnet_asso" {
 resource "aws_route_table_association" "was_subnet_asso" {
   count = length(var.was_subnet_cidr) 
   subnet_id      = element(aws_subnet.was[*].id, count.index) 
+  route_table_id = aws_route_table.private_rt.id
+}
+
+resource "aws_route_table_association" "was_subnet_asso" {
+  count = length(var.set_subnet_cidr) 
+  subnet_id      = element(aws_subnet.set[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id
 }
 

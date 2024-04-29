@@ -5,7 +5,8 @@ module "final_vpc" {
   public_subnet_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
   web_subnet_cidr     = ["10.0.11.0/24", "10.0.12.0/24"]
   was_subnet_cidr     = ["10.0.101.0/24", "10.0.102.0/24"]
-  db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
+  set_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
+  db_subnet_cidr      = ["10.0.301.0/24", "10.0.302.0/24"]
 
   availability_zones  = ["ap-northeast-2a", "ap-northeast-2c"]
 
@@ -13,6 +14,7 @@ module "final_vpc" {
   public_subnet_name  = "Bastion-Subnet"
   web_subnet_name     = "Web-Subnet"
   was_subnet_name     = "WAS-Subnet"
+  set_subnet_name     = "Set-Subnet"
   db_subnet_name      = "DB-Subnet"
   igw_name            = "Internet-Gateway"
   ngw_name            = "NAT-Gateway"
@@ -28,25 +30,16 @@ module "final_sg" {
   bastion_sg_name = "Public-SG"
   web_sg_name = "Web-SG"
   was_sg_name = "WAS-SG"
+  set_sg_name = "Set-SG"
   db_sg_name = "DataBase-SG"
   elb_sg_name = "Ext-LB-SG"
   ilb_sg_name = "Int-LB-SG"
-  web_efs_sg_name = "Web-EFS-SG"
-  was_efs_sg_name = "WAS-EFS-SG"
 
   bastion_ing_rules = [
     {
       from_port = 22
       to_port   = 22
-    },
-    # {
-    #   from_port = 3000
-    #   to_port   = 3000
-    # },
-    # {
-    #   from_port = 9090
-    #   to_port   = 9090
-    # }
+    }
   ]
 
   web_ing_rules = [
@@ -59,12 +52,7 @@ module "final_sg" {
       from_port       = 80
       to_port         = 80
       security_groups = [module.final_sg.elb_sg_id]
-    },
-    # {
-    #   from_port       = 9100
-    #   to_port         = 9100
-    #   security_groups = [module.final_sg.bastion_sg_id]
-    # }
+    }
   ]
 
   was_ing_rules = [
@@ -77,12 +65,15 @@ module "final_sg" {
       from_port       = 80
       to_port         = 80
       security_groups = [module.final_sg.ilb_sg_id]
-    },
-    # {
-    #   from_port       = 9100
-    #   to_port         = 9100
-    #   security_groups = [module.final_sg.bastion_sg_id]
-    # }
+    }
+  ]
+
+  set_ing_rules = [
+    {
+      from_port       = 22
+      to_port         = 22
+      security_groups = [module.final_sg.bastion_sg_id]
+    }
   ]
 
   db_ing_rules = [
@@ -102,30 +93,6 @@ module "final_sg" {
     {
       from_port = 80
       to_port   = 80
-    }
-  ]
-
-  ilb_ing_rules = [
-    {
-      from_port       = 80
-      to_port         = 80
-      security_groups = [module.final_sg.web_sg_id]
-    }
-  ]
-
-  web_efs_ing_rules = [
-    {
-      from_port       = 2049
-      to_port         = 2049
-      security_groups = [module.final_sg.web_sg_id]
-    }
-  ]
-
-  was_efs_ing_rules = [
-    {
-      from_port       = 2049
-      to_port         = 2049
-      security_groups = [module.final_sg.was_sg_id]
     }
   ]
 
@@ -164,7 +131,7 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
-module "final_bastion_control_plane" {
+module "final_bastion" {
   source = "./modules/ec2"
   
   ami                    = data.aws_ami.amazon_linux_2023.id
@@ -174,11 +141,6 @@ module "final_bastion_control_plane" {
   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
   bastion_user_data      = templatefile("./user_data_file/user_data_bastion.sh", {})
   bastion_name           = "Bastion"
-
-  control_plane_sg_id    = [module.final_sg.control_plane_sg_id]
-  control_plane_subnet_id = module.final_vpc.was_subnet_id[0]
-  control_plane_user_data = templatefile("./user_data_file/user_data_control.sh", {})
-  control_plane_name     = "EKS-Controll-Plane"
 }
 
 module "final_eks" {
@@ -189,15 +151,18 @@ module "final_eks" {
   node_group_role_name   = "SSG-2-EKS-NodeGroup-Role"
   web_node_group_name    = "Web-Node"
   was_node_group_name    = "WAS-Node"
+  set_node_group_name    = "Set-Node"
 
   k8s_version = "1.29"
 
-  cluster_subnet_ids     = module.final_vpc.web_was_subnet_ids
+  cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
+  set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
   web_instance_types = [ "t2.small" ]
   was_instance_types = [ "t2.small" ]
+  set_instance_types = [ "t2.small" ]
 
   web_node_group_desired_size = 2
   web_node_group_max_size = 3
@@ -205,9 +170,13 @@ module "final_eks" {
   was_node_group_desired_size = 2
   was_node_group_max_size = 3
   was_node_group_min_size = 1
+  set_node_group_desired_size = 2
+  set_node_group_max_size = 3
+  set_node_group_min_size = 1
 
   web_max_unavailable   = 1
   was_max_unavailable   = 1
+  set_max_unavailable   = 1
 
   web_taint_key = "web"
   web_taint_value = "true"
@@ -307,10 +276,3 @@ module "final_asg" {
     module.final_lb
   ]
 }
-
-# module "edit_conf" {
-#   source = "./modules/edit_conf"
-#   int_lb_dns = module.final_lb.int_dns_name
-  
-#   depends_on = [ module.final_lb ]
-# }
