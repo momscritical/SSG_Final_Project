@@ -1,7 +1,7 @@
 variable "yaml_location" {
   description = "Location of the Ingress Nginx Controller"
   type        = string
-  default     = ""
+  default     = "./yaml/ingress-controller.yaml"
   sensitive = true
 }
 
