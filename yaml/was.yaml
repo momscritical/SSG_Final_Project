@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: was
-        image: quay.io/whwo1124/was:v1.1
+        image: 206177862976.dkr.ecr.ap-northeast-1.amazonaws.com/aws-ecr-ssgpang:0d00ee2b743c05c247c5ed375b3c82e574c0e946
         ports:
         - containerPort: 80
       tolerations:
