@@ -36,13 +36,13 @@
 
 # Attach Target Group to ASG using Resource ####################################################
 # 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
-resource "aws_autoscaling_attachment" "asg_attach" {
-  autoscaling_group_name = var.web_asg_name
-  lb_target_group_arn    = var.ext_lb_tg_arn
-}
+# resource "aws_autoscaling_attachment" "asg_attach" {
+#   autoscaling_group_name = var.web_asg_name
+#   lb_target_group_arn    = var.ext_lb_tg_arn
+# }
 
-# 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
-resource "aws_autoscaling_attachment" "asg_was_attach" {
-  autoscaling_group_name = var.was_asg_name
-  lb_target_group_arn    = var.int_lb_tg_arn
-}
+# # 가져온 Autoscaling 그룹의 정보를 사용하여 ELB와 연결
+# resource "aws_autoscaling_attachment" "asg_was_attach" {
+#   autoscaling_group_name = var.was_asg_name
+#   lb_target_group_arn    = var.int_lb_tg_arn
+# }
