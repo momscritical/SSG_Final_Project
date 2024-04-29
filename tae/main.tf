@@ -5,8 +5,8 @@ module "final_vpc" {
   public_subnet_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
   web_subnet_cidr     = ["10.0.11.0/24", "10.0.12.0/24"]
   was_subnet_cidr     = ["10.0.101.0/24", "10.0.102.0/24"]
-  set_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
-  db_subnet_cidr      = ["10.0.301.0/24", "10.0.302.0/24"]
+  set_subnet_cidr      = ["10.0.103.0/24", "10.0.104.0/24"]
+  db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
 
   availability_zones  = ["ap-northeast-2a", "ap-northeast-2c"]
 
