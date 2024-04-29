@@ -278,7 +278,7 @@ module "final_rds" {
   max_storage = 100
   engine_type = "mysql"
   engine_version = "8.0.35"
-  instance_class = "db.t2.micro"
+  instance_class = "db.m5d.large"
   db_name = "coupang"
   db_user_name = "root"
   db_user_pass = "admin12345"
