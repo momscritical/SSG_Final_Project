@@ -18,10 +18,3 @@ variable "kubeconfig-certificate-authority-data" {
   default     = ""
   sensitive = true
 }
-
-variable "cluster_token" {
-  description = "Authentication Token"
-  type        = string
-  default     = ""
-  sensitive = true
-}
