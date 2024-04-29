@@ -184,9 +184,9 @@ module "final_bastion_control_plane" {
 module "final_eks" {
   source                 = "./modules/eks"
 
-  cluster_role_name      = "EKS-Cluster-Role"
+  cluster_role_name      = "SSG-2-EKS-Cluster-Role"
   cluster_name           = "EKS-Cluster"
-  node_group_role_name   = "SSG-1-EKS-NodeGroup-Role"
+  node_group_role_name   = "SSG-2-EKS-NodeGroup-Role"
   web_node_group_name    = "Web-Node"
   was_node_group_name    = "WAS-Node"
 
