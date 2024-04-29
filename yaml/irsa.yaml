@@ -1,0 +1,8 @@
+apiVersion: eks.amazonaws.com/v1
+kind: IRSA
+metadata:
+  name: flask-s3-irsa
+spec:
+  iamRoleARN: arn:aws:iam::206177862976:role/eks-flask-s3-role
+  namespace: your-namespace
+  serviceAccountName: your-service-account-name
