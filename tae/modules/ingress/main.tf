@@ -19,3 +19,27 @@ resource "kubernetes_manifest" "ingress_nginx_controller" {
 # resource "kubernetes_manifest" "ingress_controller" {
 #   manifest = yamldecode(data.local_file.ingress_controller.content)
 # }
+
+# resource "kubernetes_manifest" "nginx_deployment" {
+#   manifest = <<EOF
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: nginx-deployment
+# spec:
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: nginx
+#   template:
+#     metadata:
+#       labels:
+#         app: nginx
+#     spec:
+#       containers:
+#         - name: nginx
+#           image: nginx:latest
+#           ports:
+#             - containerPort: 80
+# EOF
+# }
