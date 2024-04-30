@@ -24,6 +24,10 @@ resource "aws_db_subnet_group" "default" {
   name         = var.rds_subnet_group_name
   subnet_ids   = var.rds_subnet_ids
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = {
     Name = var.rds_subnet_group_name
   }
