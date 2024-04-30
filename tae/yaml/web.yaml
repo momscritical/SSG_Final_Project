@@ -22,6 +22,11 @@ spec:
         volumeMounts:
           - name: conf
             mountPath: /etc/nginx/conf.d
+      tolerations:
+      - key: "web"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
       volumes:
         - name: conf
           configMap:
