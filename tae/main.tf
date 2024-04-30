@@ -215,14 +215,15 @@ module "final_rds" {
 
 
 
-module "final_ingress_controller" {
-  source = "./modules/ingress"
-  yaml_location = "./yaml/ingress-controller.yaml"
-  cluster_endpoint = module.final_eks.cluster_endpoint
-  kubeconfig-certificate-authority-data = module.final_eks.kubeconfig-certificate-authority-data
+# module "final_ingress_controller" {
+#   source = "./modules/ingress"
 
-  depends_on = [ module.final_eks ]
-}
+#   yaml_location = "./yaml/ingress-controller.yaml"
+#   # cluster_endpoint = module.final_eks.cluster_endpoint
+#   # kubeconfig-certificate-authority-data = module.final_eks.kubeconfig-certificate-authority-data
+
+#   depends_on = [ module.final_eks ]
+# }
 
 # module "final_lb" {
 #   source = "./modules/lb"
