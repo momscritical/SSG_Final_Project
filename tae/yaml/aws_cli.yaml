@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: aws-cli2
-  namespace: default
+  namespace: dev
 spec:
   serviceAccountName: s3-sa
   containers:
