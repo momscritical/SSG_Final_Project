@@ -8,7 +8,7 @@ module "final_vpc" {
   set_subnet_cidr      = ["10.0.103.0/24", "10.0.104.0/24"]
   db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
 
-  availability_zones  = ["ap-northeast-2a", "ap-northeast-2c"]
+  availability_zones  = ["ap-northeast-1a", "ap-northeast-1c"]
 
   vpc_name            = "Final-VPC"
   public_subnet_name  = "Bastion-Subnet"
