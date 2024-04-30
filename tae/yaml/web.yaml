@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   namespace: dev
   name: web
+  labels:
+    app: web
 spec:
   selector:
     matchLabels:
