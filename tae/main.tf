@@ -153,6 +153,8 @@ module "final_eks" {
   was_node_group_name    = "WAS-Node"
   set_node_group_name    = "Set-Node"
 
+  region = "ap-northeast-2"
+
   k8s_version = "1.29"
 
   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids

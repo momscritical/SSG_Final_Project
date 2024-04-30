@@ -231,3 +231,9 @@ variable "set_asg_tag" {
   type        = string
   default     = "Set-Node"
 }
+
+variable "region" {
+  description = "Region Values"
+  type        = string
+  default     = ""
+}

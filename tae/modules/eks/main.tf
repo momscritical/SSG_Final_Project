@@ -201,7 +201,14 @@ resource "aws_eks_node_group" "set" {
   ]
 }
 
+resource "null_resource" "eks_kubeconfig" {
+  provider = "aws"
 
+  # 명령어 실행
+  execute {
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
+  }
+}
 
 # # EKS 클러스터의 기능을 확장하기 위한 애드온설정
 # # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온
