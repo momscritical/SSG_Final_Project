@@ -11,8 +11,3 @@ spec:
     command:
       - sleep
       - "3600"
-  tolerations:
-  - key: "was"
-    operator: "Equal"
-    value: "true"
-    effect: "NoSchedule"
