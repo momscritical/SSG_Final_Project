@@ -43,13 +43,13 @@ provider "aws" {
 #   }
 # }
 
-provider "kubernetes" {
-  config_path    = "~/.kube/config"  # 또는 다른 kubeconfig 파일 경로
-  config_context = module.final_eks.eks_cluster_config_context  # kubeconfig에서 설정한 context 이름
+# provider "kubernetes" {
+#   config_path    = "~/.kube/config"  # 또는 다른 kubeconfig 파일 경로
+#   config_context = module.final_eks.eks_cluster_config_context  # kubeconfig에서 설정한 context 이름
 
-  exec {
-    api_version = "client.authentication.k8s.io/v1alpha1"
-    command     = "aws-iam-authenticator"
-    args        = ["token", "-i", "EKS-Cluster"]
-  }
-}
+#   exec {
+#     api_version = "client.authentication.k8s.io/v1alpha1"
+#     command     = "aws-iam-authenticator"
+#     args        = ["token", "-i", "EKS-Cluster"]
+#   }
+# }

@@ -8,10 +8,6 @@ output "kubeconfig-certificate-authority-data" {
   value = aws_eks_cluster.cluster.certificate_authority[0].data
 }
 
-output "eks_cluster_config_context" {
-  value = aws_eks_cluster.cluster.config_context
-}
-
 output "web_asg_tag" {
   value = aws_eks_node_group.web.tags["ASG-Tag"]
 }

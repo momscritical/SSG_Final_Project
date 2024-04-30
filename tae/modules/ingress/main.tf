@@ -8,9 +8,9 @@
 #   filename = var.yaml_location
 # }
 
-resource "kubernetes_manifest" "ingress_nginx_controller" {
-  manifest = yamldecode(file("${var.yaml_location}"))
-}
+# resource "kubernetes_manifest" "ingress_nginx_controller" {
+#   manifest = yamldecode(file("${var.yaml_location}"))
+# }
 
 # data "local_file" "ingress_controller" {
 #   filename = "${path.module}/deploy.yaml"
