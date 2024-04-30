@@ -203,11 +203,10 @@ resource "aws_eks_node_group" "set" {
 
 # ############################## Add Kubernetes Config to AWS ##############################
 # resource "null_resource" "eks_kubeconfig" {
-#   provider = aws
-
+#   provisioner "local-exec"{
+#   working_dir = var.yaml_dir
 #   # 명령어 실행
-#   execute {
-#     command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
+#   command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
 #   }
 # }
 

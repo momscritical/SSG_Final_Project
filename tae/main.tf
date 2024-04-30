@@ -153,6 +153,7 @@ module "final_eks" {
   was_node_group_name    = "WAS-Node"
   set_node_group_name    = "Set-Node"
 
+  # yaml_dir = "./yaml"
   # region = "ap-northeast-2"
 
   k8s_version = "1.29"

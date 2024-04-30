@@ -232,6 +232,13 @@ variable "set_asg_tag" {
   default     = "Set-Node"
 }
 
+variable "yaml_dir" {
+  description = "Location of the Ingress Nginx Controller"
+  type        = string
+  default     = "./yaml"
+  sensitive = true
+}
+
 variable "region" {
   description = "Region Values"
   type        = string

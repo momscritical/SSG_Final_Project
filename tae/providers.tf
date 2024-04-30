@@ -28,7 +28,22 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
+# provider "kubernetes" {
+#   host                   = module.final_eks.cluster_endpoint
+#   cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
+# }
+
+# provider "kubernetes" {
+#   host                   = module.final_eks.cluster_endpoint
+#   cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
+#   exec {
+#     api_version = "client.authentication.k8s.io/v1beta1"
+#     args        = ["eks", "get-token", "--cluster-name", "EKS-Cluster"]
+#     command     = "aws"
+#   }
+# }
+
 provider "kubernetes" {
-  host                   = module.final_eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
+  config_path    = "~/.kube/config"
+  config_context = "EKS-Cluster"
 }
