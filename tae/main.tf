@@ -154,7 +154,7 @@ module "final_eks" {
   set_node_group_name    = "Set-Node"
 
   yaml_dir = "./yaml"
-  region = "ap-northeast-2"
+  region = "ap-northeast-1"
 
   k8s_version = "1.29"
 
