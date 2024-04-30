@@ -1,4 +1,4 @@
-# EKS Cluster ########################################################
+# ############################## EKS Cluster ##############################
 # EKS 클러스터가 IAM 권한을 사용할 수 있게 해주는 정책 문서 생성
 # => 클러스터가 필요할 때만 권한을 주고 다시 회수
 data "aws_iam_policy_document" "assume_role" {
@@ -59,7 +59,7 @@ resource "aws_eks_cluster" "cluster" {
   ]
 }
 
-# EKS Node Group ########################################################
+# ############################## EKS Node Group ##############################
 # Node Group이 사용할 역할(Role) 생성
 resource "aws_iam_role" "node_group" {
   name = var.node_group_role_name
@@ -201,9 +201,9 @@ resource "aws_eks_node_group" "set" {
   ]
 }
 
-# Add Kubernetes Config to AWS
+# ############################## Add Kubernetes Config to AWS ##############################
 resource "null_resource" "eks_kubeconfig" {
-  provider = "aws"
+  provider = aws
 
   # 명령어 실행
   execute {
