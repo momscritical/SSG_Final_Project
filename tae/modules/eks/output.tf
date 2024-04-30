@@ -9,7 +9,7 @@ output "kubeconfig-certificate-authority-data" {
 }
 
 output "eks_cluster_config_context" {
-  value = aws_eks_cluster.my_cluster.config_context
+  value = aws_eks_cluster.cluster.config_context
 }
 
 output "web_asg_tag" {
