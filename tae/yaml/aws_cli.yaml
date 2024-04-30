@@ -5,6 +5,7 @@ metadata:
   namespace: dev
 spec:
   serviceAccountName: s3-sa
+  replicas: 4
   containers:
   - name: aws-cli
     image: public.ecr.aws/aws-cli/aws-cli
