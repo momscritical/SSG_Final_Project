@@ -15,6 +15,7 @@ spec:
       labels:
         app: was
     spec:
+      serviceAccountName: s3-sa
       containers:
       - name: was
         image: momscritical/flask-app:v1.0
