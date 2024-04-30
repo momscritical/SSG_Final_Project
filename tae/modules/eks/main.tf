@@ -201,14 +201,20 @@ resource "aws_eks_node_group" "set" {
   ]
 }
 
-# ############################## Add Kubernetes Config to AWS ##############################
-# resource "null_resource" "eks_kubeconfig" {
-#   provisioner "local-exec"{
-#   working_dir = var.yaml_dir
-#   # 명령어 실행
-#   command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
-#   }
-# }
+############################## Add Kubernetes Config to AWS ##############################
+resource "null_resource" "eks_kubeconfig" {
+  provisioner "local-exec"{
+  working_dir = var.yaml_dir
+  # 명령어 실행
+  command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
+  }
+  depends_on = [
+    aws_eks_cluster.cluster,
+    aws_eks_node_group.set,
+    aws_eks_node_group.web,
+    aws_eks_node_group.was
+    ]
+}
 
 # # EKS 클러스터의 기능을 확장하기 위한 애드온설정
 # # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온
