@@ -18,7 +18,7 @@ spec:
       serviceAccountName: s3-sa
       containers:
       - name: was
-        image: momscritical/flask-app:v1.0
+        image: 206177862976.dkr.ecr.ap-northeast-1.amazonaws.com/aws-ecr-ssgpang:e9db7a7ae9bbac9485e8e1e53aa6e1b887efd824
         ports:
         - containerPort: 80
       tolerations:
