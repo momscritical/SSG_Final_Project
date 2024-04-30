@@ -10,6 +10,7 @@ resource "kubernetes_manifest" "namespace_ingress_nginx" {
       "name" = "ingress-nginx"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "serviceaccount_ingress_nginx_ingress_nginx" {
@@ -30,6 +31,7 @@ resource "kubernetes_manifest" "serviceaccount_ingress_nginx_ingress_nginx" {
       "namespace" = "ingress-nginx"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "configmap_ingress_nginx_ingress_nginx_controller" {
@@ -52,6 +54,7 @@ resource "kubernetes_manifest" "configmap_ingress_nginx_ingress_nginx_controller
       "namespace" = "ingress-nginx"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "clusterrole_ingress_nginx" {
@@ -161,6 +164,7 @@ resource "kubernetes_manifest" "clusterrole_ingress_nginx" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "clusterrolebinding_ingress_nginx" {
@@ -190,6 +194,7 @@ resource "kubernetes_manifest" "clusterrolebinding_ingress_nginx" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "role_ingress_nginx_ingress_nginx" {
@@ -326,6 +331,7 @@ resource "kubernetes_manifest" "role_ingress_nginx_ingress_nginx" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "rolebinding_ingress_nginx_ingress_nginx" {
@@ -357,6 +363,7 @@ resource "kubernetes_manifest" "rolebinding_ingress_nginx_ingress_nginx" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "service_ingress_nginx_ingress_nginx_controller_admission" {
@@ -392,6 +399,7 @@ resource "kubernetes_manifest" "service_ingress_nginx_ingress_nginx_controller_a
       "type" = "ClusterIP"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "service_ingress_nginx_ingress_nginx_controller" {
@@ -441,6 +449,7 @@ resource "kubernetes_manifest" "service_ingress_nginx_ingress_nginx_controller" 
       "type" = "LoadBalancer"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "deployment_ingress_nginx_ingress_nginx_controller" {
@@ -610,6 +619,7 @@ resource "kubernetes_manifest" "deployment_ingress_nginx_ingress_nginx_controlle
       }
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "ingressclass_ingress_nginx_nginx" {
@@ -632,6 +642,7 @@ resource "kubernetes_manifest" "ingressclass_ingress_nginx_nginx" {
       "controller" = "k8s.io/ingress-nginx"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "validatingwebhookconfiguration_ingress_nginx_admission" {
@@ -685,6 +696,7 @@ resource "kubernetes_manifest" "validatingwebhookconfiguration_ingress_nginx_adm
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "serviceaccount_ingress_nginx_ingress_nginx_admission" {
@@ -708,6 +720,7 @@ resource "kubernetes_manifest" "serviceaccount_ingress_nginx_ingress_nginx_admis
       "namespace" = "ingress-nginx"
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "clusterrole_ingress_nginx_admission" {
@@ -744,6 +757,7 @@ resource "kubernetes_manifest" "clusterrole_ingress_nginx_admission" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "clusterrolebinding_ingress_nginx_admission" {
@@ -778,6 +792,7 @@ resource "kubernetes_manifest" "clusterrolebinding_ingress_nginx_admission" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "role_ingress_nginx_ingress_nginx_admission" {
@@ -815,6 +830,7 @@ resource "kubernetes_manifest" "role_ingress_nginx_ingress_nginx_admission" {
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "rolebinding_ingress_nginx_ingress_nginx_admission" {
@@ -850,6 +866,7 @@ resource "kubernetes_manifest" "rolebinding_ingress_nginx_ingress_nginx_admissio
       },
     ]
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "job_ingress_nginx_ingress_nginx_admission_create" {
@@ -925,6 +942,7 @@ resource "kubernetes_manifest" "job_ingress_nginx_ingress_nginx_admission_create
       }
     }
   }
+  depends_on = [ module.final_eks ]
 }
 
 resource "kubernetes_manifest" "job_ingress_nginx_ingress_nginx_admission_patch" {
@@ -1002,4 +1020,5 @@ resource "kubernetes_manifest" "job_ingress_nginx_ingress_nginx_admission_patch"
       }
     }
   }
+  depends_on = [ module.final_eks ]
 }
