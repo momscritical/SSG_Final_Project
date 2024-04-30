@@ -1,3 +1,12 @@
+############################## Add Kubernetes Config to AWS ##############################
+resource "null_resource" "eks_kubeconfig" {
+  provisioner "local-exec"{
+  # 명령어 실행
+  command = "kubectl apply -f ${var.yaml_location}"
+  }
+}
+
+
 # provider "kubernetes" {
 #   host                   = var.cluster_endpoint
 #   cluster_ca_certificate = base64decode(var.kubeconfig-certificate-authority-data)
