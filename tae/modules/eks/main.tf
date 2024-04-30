@@ -201,6 +201,7 @@ resource "aws_eks_node_group" "set" {
   ]
 }
 
+# Add Kubernetes Config to AWS
 resource "null_resource" "eks_kubeconfig" {
   provider = "aws"
 
