@@ -4,6 +4,9 @@ resource "null_resource" "eks_kubeconfig" {
   # 명령어 실행
   command = "kubectl apply -f ${var.yaml_location}"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 

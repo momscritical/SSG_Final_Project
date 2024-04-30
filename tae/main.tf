@@ -216,8 +216,6 @@ module "final_rds" {
   rds_subnet_ids = module.final_vpc.db_subnet_id
 }
 
-
-
 module "final_ingress_controller" {
   source = "./modules/ingress"
 

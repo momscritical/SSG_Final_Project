@@ -212,7 +212,7 @@ resource "null_resource" "eks_kubeconfig" {
     aws_eks_node_group.set,
     aws_eks_node_group.web,
     aws_eks_node_group.was
-    ]
+  ]
 }
 
 # # EKS 클러스터의 기능을 확장하기 위한 애드온설정
