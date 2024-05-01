@@ -1,25 +1,28 @@
 module "final_vpc" {
   source = "./modules/vpc"
 
-  vpc_cidr            = "10.0.0.0/16"
-  public_subnet_cidr  = ["10.0.1.0/24", "10.0.2.0/24"]
-  web_subnet_cidr     = ["10.0.11.0/24", "10.0.12.0/24"]
-  was_subnet_cidr     = ["10.0.101.0/24", "10.0.102.0/24"]
-  set_subnet_cidr      = ["10.0.103.0/24", "10.0.104.0/24"]
-  db_subnet_cidr      = ["10.0.201.0/24", "10.0.202.0/24"]
+  vpc_cidr            = var.vpc_cidr
+  public_subnet_cidr  = var.public_subnet_cidr
+  web_subnet_cidr     = var.web_subnet_cidr
+  was_subnet_cidr     = var.was_subnet_cidr
+  set_subnet_cidr     = var.set_subnet_cidr
+  db_subnet_cidr      = var.db_subnet_cidr
 
-  availability_zones  = ["ap-northeast-1a", "ap-northeast-1c"]
+  availability_zones  = var.availability_zones
 
-  vpc_name            = "Final-VPC"
-  public_subnet_name  = "Bastion-Subnet"
-  web_subnet_name     = "Web-Subnet"
-  was_subnet_name     = "WAS-Subnet"
-  set_subnet_name     = "Set-Subnet"
-  db_subnet_name      = "DB-Subnet"
-  igw_name            = "Internet-Gateway"
-  ngw_name            = "NAT-Gateway"
-  public_rt_name      = "Public-Routing-Table"
-  private_rt_name     = "Private-Routing-Table"
+  vpc_name            = var.vpc_name
+  public_subnet_name  = var.public_subnet_name
+  web_subnet_name     = var.web_subnet_name
+  was_subnet_name     = var.was_subnet_name
+  set_subnet_name     = var.set_subnet_name
+  db_subnet_name      = var.db_subnet_name
+  igw_name            = var.igw_name
+  ngw_name            = var.ngw_name
+  public_rt_name      = var.public_rt_name
+  private_rt_name     = var.private_rt_name
+
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_dns_support   = var.enable_dns_support
 }
 
 module "final_sg" {
@@ -27,13 +30,12 @@ module "final_sg" {
 
   vpc_id = module.final_vpc.vpc_id
 
-  bastion_sg_name = "Public-SG"
-  web_sg_name = "Web-SG"
-  was_sg_name = "WAS-SG"
-  set_sg_name = "Set-SG"
-  db_sg_name = "DataBase-SG"
-  elb_sg_name = "Ext-LB-SG"
-  ilb_sg_name = "Int-LB-SG"
+  bastion_sg_name = var.bastion_sg_name
+  web_sg_name     = var.web_sg_name
+  was_sg_name     = var.was_sg_name
+  set_sg_name     = var.set_sg_name
+  db_sg_name      = var.db_sg_name
+  elb_sg_name     = var.elb_sg_name
 
   bastion_ing_rules = [
     {
@@ -80,11 +82,6 @@ module "final_sg" {
     {
       from_port       = 3306
       to_port         = 3306
-      security_groups = [module.final_sg.web_sg_id]
-    },
-    {
-      from_port       = 3306
-      to_port         = 3306
       security_groups = [module.final_sg.was_sg_id]
     }
   ]
@@ -100,10 +97,10 @@ module "final_sg" {
 }
 
 module "final_key" {
-  source = "./modules/key_pair"
-  key_name = "final-key"
+  source              = "./modules/key_pair"
+  key_name            = "final-key"
   public_key_location = "~/.ssh/final-key.pub"
-  key_tags = "Final-Key"
+  key_tags            = "Final-Key"
 }
 
 module "final_bastion" {

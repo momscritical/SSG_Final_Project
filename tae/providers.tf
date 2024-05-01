@@ -25,11 +25,11 @@ terraform {
 }
 
 provider "aws" { 
-  region = "ap-northeast-1"
+  region = var.region
 }
 
-provider "kubernetes" {
-  host = module.final_eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
-  token =  data.aws_eks_cluster_auth.cluster.token
-}
+# provider "kubernetes" {
+#   host = module.final_eks.cluster_endpoint
+#   cluster_ca_certificate = base64decode(module.final_eks.kubeconfig-certificate-authority-data)
+#   token =  data.aws_eks_cluster_auth.cluster.token
+# }
