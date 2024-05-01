@@ -1,14 +1,13 @@
 ############################## Add Kubernetes Config to AWS ##############################
 resource "null_resource" "eks_kubeconfig" {
-  provisioner "local-exec"{
-  # 명령어 실행
-  command = "kubectl apply -f ${var.yaml_location}"
+  provisioner "local-exec" {
+    command = "kubectl apply -f ${var.yaml_location}"
   }
+
   lifecycle {
     create_before_destroy = true
   }
 }
-
 
 # provider "kubernetes" {
 #   host                   = var.cluster_endpoint

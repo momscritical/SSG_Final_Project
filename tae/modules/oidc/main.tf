@@ -9,6 +9,7 @@ resource "null_resource" "environment_variables" {
   }
 }
 
+######################### Declare Linux Environment Variables for OIDC #########################
 resource "aws_iam_openid_connect_provider" "default" {
   url = "${var.cluster_oidc_url}"
   client_id_list = [

@@ -106,31 +106,6 @@ module "final_key" {
   key_tags = "Final-Key"
 }
 
-data "aws_ami" "amazon_linux_2023" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-2023*"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
 module "final_bastion" {
   source = "./modules/ec2"
   
@@ -144,7 +119,7 @@ module "final_bastion" {
 }
 
 module "final_eks" {
-  source                 = "./modules/eks"
+  source = "./modules/eks"
 
   cluster_role_name      = "SSG-2-EKS-Cluster-Role"
   cluster_name           = "EKS-Cluster"
@@ -153,83 +128,87 @@ module "final_eks" {
   was_node_group_name    = "WAS-Node"
   set_node_group_name    = "Set-Node"
 
-  yaml_dir = "./yaml"
-  region = "ap-northeast-1"
-
-  k8s_version = "1.29"
+  yaml_dir               = "./yaml"
+  region                 = "ap-northeast-1"
+  k8s_version            = "1.29"
 
   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
-  web_instance_types = [ "t2.small" ]
-  was_instance_types = [ "t2.small" ]
-  set_instance_types = [ "t2.small" ]
+  web_instance_types     = ["t2.small"]
+  was_instance_types     = ["t2.small"]
+  set_instance_types     = ["t2.small"]
 
   web_node_group_desired_size = 2
-  web_node_group_max_size = 3
-  web_node_group_min_size = 1
+  web_node_group_max_size     = 3
+  web_node_group_min_size     = 1
   was_node_group_desired_size = 2
-  was_node_group_max_size = 3
-  was_node_group_min_size = 1
+  was_node_group_max_size     = 3
+  was_node_group_min_size     = 1
   set_node_group_desired_size = 2
-  set_node_group_max_size = 3
-  set_node_group_min_size = 1
+  set_node_group_max_size     = 3
+  set_node_group_min_size     = 1
 
   web_max_unavailable   = 1
   was_max_unavailable   = 1
   set_max_unavailable   = 1
 
-  web_taint_key = "web"
-  web_taint_value = "true"
+  web_taint_key    = "web"
+  web_taint_value  = "true"
   web_taint_effect = "NO_SCHEDULE"
-  was_taint_key = "was"
-  was_taint_value = "true"
+  was_taint_key    = "was"
+  was_taint_value  = "true"
   was_taint_effect = "NO_SCHEDULE"
 
   web_environment = "production"
-  web_asg_tag = "Web-Node"
+  web_asg_tag     = "Web-Node"
   was_environment = "production"
-  was_asg_tag = "WAS-Node"
+  was_asg_tag     = "WAS-Node"
 }
 
 module "final_rds" {
   source = "./modules/rds"
 
-  rds_name = "final-rds"
-  storage = 50
-  max_storage = 100
-  engine_type = "mysql"
-  engine_version = "8.0.35"
-  instance_class = "db.m5d.large"
-  db_name = "coupang"
-  db_user_name = "root"
-  db_user_pass = "admin12345"
-  multi_az = true
-  publicly_accessible = false
-  skip_final_snapshot = true
+  rds_name               = "final-rds"
+  storage                = 50
+  max_storage            = 100
+  engine_type            = "mysql"
+  engine_version         = "8.0.35"
+  instance_class         = "db.m5d.large"
+  db_name                = "coupang"
+  db_user_name           = "root"
+  db_user_pass           = "admin12345"
+  multi_az               = true
+  publicly_accessible    = false
+  skip_final_snapshot    = true
 
-  db_sg_ids = [ module.final_sg.db_sg_id ]
+  db_sg_ids              = [module.final_sg.db_sg_id]
   
-  rds_subnet_group_name = "rds-subnet-group"
-  rds_subnet_ids = module.final_vpc.db_subnet_id
+  rds_subnet_group_name  = "rds-subnet-group"
+  rds_subnet_ids         = module.final_vpc.db_subnet_id
 }
 
 module "final_ingress_controller" {
-  source = "./modules/ingress"
-
+  source        = "./modules/ingress"
   yaml_location = "./yaml/ingress-controller.yaml"
-  depends_on = [ module.final_eks ]
+  depends_on    = [module.final_eks]
 }
 
 locals {
-  oidc = module.final_eks.oidc
-  split_oidc = split("/", local.oidc)
-  url = element(local.split_oidc, 2)
+  oidc            = module.final_eks.oidc
+  split_oidc      = split("/", local.oidc)
+  url             = element(local.split_oidc, 2)
   thumbprint_list = element(local.split_oidc, 4)
 }
 
+module "final_oidc" {
+  source = "./modules/oidc"
+  cluster_name = "EKS-Cluster"
+  cluster_oidc_url = local.url
+  thumbprint_list = local.thumbprint_list
+}
 
 
 # module "final_lb" {

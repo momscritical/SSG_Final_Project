@@ -203,10 +203,11 @@ resource "aws_eks_node_group" "set" {
 
 ############################## Update Kubernetes Config ##############################
 resource "null_resource" "eks_kubeconfig" {
-  provisioner "local-exec"{
-  # 명령어 실행
-  command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
+  provisioner "local-exec" {
+    # 명령어 실행
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${var.cluster_name}"
   }
+
   depends_on = [
     aws_eks_cluster.cluster,
     aws_eks_node_group.set,

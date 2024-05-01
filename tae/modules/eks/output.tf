@@ -29,3 +29,7 @@ output "was_asg_name" {
 output "oidc" {
   value = aws_eks_cluster.cluster.identity.oidc
 }
+
+output "cluster_id" {
+  value = aws_eks_cluster.cluster.cluster_id
+}
