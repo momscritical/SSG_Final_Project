@@ -18,7 +18,7 @@ spec:
       serviceAccountName: s3-sa
       containers:
       - name: was
-        image: 206177862976.dkr.ecr.ap-northeast-1.amazonaws.com/aws-ecr-ssgpang:23702244978e6662cf5d1c2a8e372954a1d1ed67
+        image: 206177862976.dkr.ecr.ap-northeast-1.amazonaws.com/aws-ecr-ssgpang:a1b36af2c17923a0fc0529f94367cf701e1d6732
         ports:
         - containerPort: 80
       tolerations:
