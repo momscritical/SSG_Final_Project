@@ -156,9 +156,9 @@ module "final_eks" {
   set_node_group_max_size     = var.set_node_config.max_size
   set_node_group_min_size     = var.set_node_config.min_size
 
-  web_max_unavailable   = var.web_node_config.unavailable
-  was_max_unavailable   = var.was_node_config.unavailable
-  set_max_unavailable   = var.set_node_config.unavailable
+  web_max_unavailable   = var.web_node_config.max_unavailable
+  was_max_unavailable   = var.was_node_config.max_unavailable
+  set_max_unavailable   = var.set_node_config.max_unavailable
 
   web_taint_key    = var.web_node_config.taint_key
   web_taint_value  = var.web_node_config.taint_value
