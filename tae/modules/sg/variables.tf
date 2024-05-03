@@ -4,6 +4,7 @@ variable "vpc_id" {
   default     = ""
 }
 
+#################################### Name Values ####################################
 variable "bastion_sg_name" {
   description = "The Name of the Security Group for Bastion Instance"
   type        = string
@@ -22,6 +23,12 @@ variable "was_sg_name" {
   default     = ""
 }
 
+variable "set_sg_name" {
+  description = "The Name of the Security Group for EKS Setting Node"
+  type        = string
+  default     = ""
+}
+
 variable "db_sg_name" {
   description = "The Name of the Security Group for DataBase"
   type        = string
@@ -34,36 +41,31 @@ variable "elb_sg_name" {
   default     = ""
 }
 
-variable "ilb_sg_name" {
-  description = "The Name of the Security Group Internal Load Balancer"
-  type        = string
-  default     = ""
-}
-
-variable "web_efs_sg_name" {
-  description = "The Name of the Security Group for Web EFS"
-  type        = string
-  default     = ""
-}
-
-variable "was_efs_sg_name" {
-  description = "The Name of the Security Group for WAS EFS"
-  type        = string
-  default     = ""
-}
-
 variable "cluster_sg_name" {
   description = "The Name of the Security Group for EKS Cluster"
   type        = string
   default     = ""
 }
 
-variable "set_sg_name" {
-  description = "The Name of the Security Group for EKS Setting Node"
-  type        = string
-  default     = ""
-}
+# variable "ilb_sg_name" {
+#   description = "The Name of the Security Group Internal Load Balancer"
+#   type        = string
+#   default     = ""
+# }
 
+# variable "web_efs_sg_name" {
+#   description = "The Name of the Security Group for Web EFS"
+#   type        = string
+#   default     = ""
+# }
+
+# variable "was_efs_sg_name" {
+#   description = "The Name of the Security Group for WAS EFS"
+#   type        = string
+#   default     = ""
+# }
+
+#################################### Ingress Ports Values ####################################
 variable "bastion_ing_rules" {
   description = "List of ingress rules for Bastion Instance"
   type        = list(object({
@@ -93,6 +95,16 @@ variable "was_ing_rules" {
   default     = []
 }
 
+variable "set_ing_rules" {
+  description = "List of ingress rules for EKS Setting Node"
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
+  }))
+  default     = []
+}
+
 variable "db_ing_rules" {
   description = "List of ingress rules for DataBase"
   type        = list(object({
@@ -112,36 +124,6 @@ variable "elb_ing_rules" {
   default     = []
 }
 
-variable "ilb_ing_rules" {
-  description = "List of ingress rules for Internal Load Balancer"
-  type        = list(object({
-    from_port       = number
-    to_port         = number
-    security_groups = list(string)
-  }))
-  default     = []
-}
-
-variable "web_efs_ing_rules" {
-  description = "List of ingress rules for Web EFS"
-  type        = list(object({
-    from_port       = number
-    to_port         = number
-    security_groups = list(string)
-  }))
-  default     = []
-}
-
-variable "was_efs_ing_rules" {
-  description = "List of ingress rules for WAS EFS"
-  type        = list(object({
-    from_port       = number
-    to_port         = number
-    security_groups = list(string)
-  }))
-  default     = []
-}
-
 variable "cluster_ing_rules" {
   description = "List of ingress rules for WAS EKS Cluster"
   type        = list(object({
@@ -152,13 +134,32 @@ variable "cluster_ing_rules" {
   default     = []
 }
 
+# variable "ilb_ing_rules" {
+#   description = "List of ingress rules for Internal Load Balancer"
+#   type        = list(object({
+#     from_port       = number
+#     to_port         = number
+#     security_groups = list(string)
+#   }))
+#   default     = []
+# }
 
-variable "set_ing_rules" {
-  description = "List of ingress rules for EKS Setting Node"
-  type        = list(object({
-    from_port       = number
-    to_port         = number
-    security_groups = list(string)
-  }))
-  default     = []
-}
+# variable "web_efs_ing_rules" {
+#   description = "List of ingress rules for Web EFS"
+#   type        = list(object({
+#     from_port       = number
+#     to_port         = number
+#     security_groups = list(string)
+#   }))
+#   default     = []
+# }
+
+# variable "was_efs_ing_rules" {
+#   description = "List of ingress rules for WAS EFS"
+#   type        = list(object({
+#     from_port       = number
+#     to_port         = number
+#     security_groups = list(string)
+#   }))
+#   default     = []
+# }

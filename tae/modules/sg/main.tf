@@ -52,6 +52,33 @@ resource "aws_security_group" "web" {
   }
 }
 
+resource "aws_security_group" "set" {
+  name        = var.set_sg_name
+  description = "Security Group for was EKS Setting Node" 
+  vpc_id      = var.vpc_id
+
+  dynamic "ingress" {
+    for_each = var.set_ing_rules
+    content {
+      from_port       = ingress.value.from_port
+      to_port         = ingress.value.to_port
+      protocol        = "tcp"
+      security_groups = ingress.value.security_groups
+    }
+  }
+
+  egress {
+    from_port     = 0
+    to_port       = 0
+    protocol      = "-1"
+    cidr_blocks   = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = var.set_sg_name
+  }
+}
+
 resource "aws_security_group" "was" { 
   name        = var.was_sg_name
   description = "Security Group for WAS Layer Instance"
@@ -133,59 +160,32 @@ resource "aws_security_group" "ext_lb" {
   }
 }
 
-resource "aws_security_group" "cluster" {
-  name        = var.cluster_sg_name
-  description = "Security Group for was EKS CLuster" 
-  vpc_id      = var.vpc_id
+# resource "aws_security_group" "cluster" {
+#   name        = var.cluster_sg_name
+#   description = "Security Group for was EKS CLuster" 
+#   vpc_id      = var.vpc_id
 
-  dynamic "ingress" {
-    for_each = var.cluster_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
+#   dynamic "ingress" {
+#     for_each = var.cluster_ing_rules
+#     content {
+#       from_port       = ingress.value.from_port
+#       to_port         = ingress.value.to_port
+#       protocol        = "tcp"
+#       security_groups = ingress.value.security_groups
+#     }
+#   }
 
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port     = 0
+#     to_port       = 0
+#     protocol      = "-1"
+#     cidr_blocks   = ["0.0.0.0/0"]
+#   }
 
-  tags = {
-    Name = var.cluster_sg_name
-  }
-}
-
-resource "aws_security_group" "set" {
-  name        = var.set_sg_name
-  description = "Security Group for was EKS Setting Node" 
-  vpc_id      = var.vpc_id
-
-  dynamic "ingress" {
-    for_each = var.set_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
-
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = var.set_sg_name
-  }
-}
+#   tags = {
+#     Name = var.cluster_sg_name
+#   }
+# }
 
 # resource "aws_security_group" "int_lb" {
 #   name        = var.ilb_sg_name

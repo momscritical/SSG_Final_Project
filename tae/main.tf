@@ -88,10 +88,17 @@ module "final_sg" {
 
   elb_ing_rules = [
     {
-      from_port = 80
-      to_port   = 80
+      from_port = var.elb_sg_config.ing_port[0]
+      to_port   = var.elb_sg_config.ing_port[0]
     }
   ]
+
+  # cluster_ing_rules = [
+  #   {
+  #     from_port = var.cluster_sg_config.ing_port[0]
+  #     to_port   = var.cluster_sg_config.ing_port[0]
+  #   }
+  # ]
 
   depends_on = [module.final_vpc]
 }
