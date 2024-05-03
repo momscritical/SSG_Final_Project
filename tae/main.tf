@@ -37,6 +37,13 @@ module "final_sg" {
   db_sg_name      = var.db_sg_name
   elb_sg_name     = var.elb_sg_name
 
+  # bastion_ing_rules = var.bastion_ing_rules
+  # web_ing_rules = var.web_ing_rules
+  # was_ing_rules = var.was_ing_rules
+  # set_ing_rules = var.set_ing_rules
+  # db_ing_rules = var.db_ing_rules
+  # elb_ing_rules = var.elb_ing_rules
+
   bastion_ing_rules = [
     {
       from_port = 22
@@ -98,100 +105,104 @@ module "final_sg" {
 
 module "final_key" {
   source              = "./modules/key_pair"
-  key_name            = "final-key"
-  public_key_location = "~/.ssh/final-key.pub"
-  key_tags            = "Final-Key"
+
+  key_name            = var.key_name
+  public_key_location = var.public_key_location
+  key_tags            = var.key_tags
 }
 
 module "final_bastion" {
   source = "./modules/ec2"
   
   ami                    = data.aws_ami.amazon_linux_2023.id
-  instance_type          = "t2.small"
+  instance_type          = var.instance_type
   key_name               = module.final_key.key_name
   bastion_sg_id          = [module.final_sg.bastion_sg_id]
   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
-  bastion_user_data      = templatefile("./user_data_file/user_data_bastion.sh", {})
-  bastion_name           = "Bastion"
+  bastion_user_data      = templatefile(var.bastion_user_data, {})
+  bastion_name           = var.bastion_name
 }
 
 module "final_eks" {
   source = "./modules/eks"
 
-  cluster_role_name      = "SSG-2-EKS-Cluster-Role"
-  cluster_name           = "EKS-Cluster"
-  node_group_role_name   = "SSG-2-EKS-NodeGroup-Role"
-  web_node_group_name    = "Web-Node"
-  was_node_group_name    = "WAS-Node"
-  set_node_group_name    = "Set-Node"
+  cluster_role_name      = var.cluster_role_name
+  cluster_name           = var.cluster_name
 
-  yaml_dir               = "./yaml"
-  region                 = "ap-northeast-1"
-  k8s_version            = "1.29"
+  node_group_role_name   = var.node_group_role_name
+  web_node_group_name    = var.web_node_config.name
+  was_node_group_name    = var.was_node_config.name
+  set_node_group_name    = var.set_node_config.name
+
+  k8s_version            = var.k8s_version
+  region                 = var.region
 
   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
-  web_instance_types     = ["t2.small"]
-  was_instance_types     = ["t2.small"]
-  set_instance_types     = ["t2.small"]
+  web_instance_types     = [ var.web_node_config.instance_type ]
+  was_instance_types     = [ var.was_node_config.instance_type ]
+  set_instance_types     = [ var.set_node_config.instance_type ]
 
-  web_node_group_desired_size = 2
-  web_node_group_max_size     = 3
-  web_node_group_min_size     = 1
-  was_node_group_desired_size = 2
-  was_node_group_max_size     = 3
-  was_node_group_min_size     = 1
-  set_node_group_desired_size = 2
-  set_node_group_max_size     = 3
-  set_node_group_min_size     = 1
+  web_node_group_desired_size = var.web_node_config.desired_size
+  web_node_group_max_size     = var.web_node_config.max_size
+  web_node_group_min_size     = var.web_node_config.min_size
+  was_node_group_desired_size = var.was_node_config.desired_size
+  was_node_group_max_size     = var.was_node_config.max_size
+  was_node_group_min_size     = var.was_node_config.min_size
+  set_node_group_desired_size = var.set_node_config.desired_size
+  set_node_group_max_size     = var.set_node_config.max_size
+  set_node_group_min_size     = var.set_node_config.min_size
 
-  web_max_unavailable   = 1
-  was_max_unavailable   = 1
-  set_max_unavailable   = 1
+  web_max_unavailable   = var.web_node_config.unavailable
+  was_max_unavailable   = var.was_node_config.unavailable
+  set_max_unavailable   = var.set_node_config.unavailable
 
-  web_taint_key    = "web"
-  web_taint_value  = "true"
-  web_taint_effect = "NO_SCHEDULE"
-  was_taint_key    = "was"
-  was_taint_value  = "true"
-  was_taint_effect = "NO_SCHEDULE"
+  web_taint_key    = var.web_node_config.taint_key
+  web_taint_value  = var.web_node_config.web_taint_value
+  web_taint_effect = var.web_node_config.web_taint_effect
+  was_taint_key    = var.web_node_config.was_taint_key
+  was_taint_value  = var.web_node_config.was_taint_value
+  was_taint_effect = var.web_node_config.was_taint_effect
 
-  web_environment = "production"
-  web_asg_tag     = "Web-Node"
-  was_environment = "production"
-  was_asg_tag     = "WAS-Node"
+  web_environment = var.web_node_config.environment
+  web_asg_tag     = var.web_node_config.asg_tag
+  was_environment = var.web_node_config.asg_tag
+  was_asg_tag     = var.was_node_config.asg_tag
 }
 
-module "final_rds" {
-  source = "./modules/rds"
+# module "final_ingress_controller" {
+#   source        = "./modules/ingress"
 
-  rds_name               = "final-rds"
-  storage                = 50
-  max_storage            = 100
-  engine_type            = "mysql"
-  engine_version         = "8.0.35"
-  instance_class         = "db.m5d.large"
-  db_name                = "coupang"
-  db_user_name           = "root"
-  db_user_pass           = "admin12345"
-  multi_az               = true
-  publicly_accessible    = false
-  skip_final_snapshot    = true
+#   yaml_location = var.ingress_controller_yaml
+#   depends_on    = [ module.final_eks ]
+# }
 
-  db_sg_ids              = [module.final_sg.db_sg_id]
+# module "final_rds" {
+#   source = "./modules/rds"
+
+#   rds_name               = var.rds_config.name
+#   storage                = var.rds_config.storage
+#   max_storage            = var.rds_config.max_storage
+#   engine_type            = var.rds_config.engine_type
+#   engine_version         = var.rds_config.engine_version
+#   instance_class         = var.rds_config.instance_class
+#   db_name                = var.rds_config.db_name
+#   db_user_name           = var.rds_config.db_user_name
+#   db_user_pass           = var.rds_config.db_user_pass
+#   multi_az               = var.rds_config.multi_az
+#   publicly_accessible    = var.rds_config.publicly_accessible
+#   skip_final_snapshot    = var.rds_config.skip_final_snapshot
+
+#   db_sg_ids              = [module.final_sg.db_sg_id]
   
-  rds_subnet_group_name  = "rds-subnet-group"
-  rds_subnet_ids         = module.final_vpc.db_subnet_id
-}
+#   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
+#   rds_subnet_ids         = module.final_vpc.db_subnet_id
+# }
 
-module "final_ingress_controller" {
-  source        = "./modules/ingress"
-  yaml_location = "./yaml/ingress-controller.yaml"
-  depends_on    = [module.final_eks]
-}
+
 
 # locals {
 #   oidc            = module.final_eks.oidc
