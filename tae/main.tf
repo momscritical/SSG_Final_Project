@@ -161,11 +161,11 @@ module "final_eks" {
   set_max_unavailable   = var.set_node_config.unavailable
 
   web_taint_key    = var.web_node_config.taint_key
-  web_taint_value  = var.web_node_config.web_taint_value
-  web_taint_effect = var.web_node_config.web_taint_effect
-  was_taint_key    = var.web_node_config.was_taint_key
-  was_taint_value  = var.web_node_config.was_taint_value
-  was_taint_effect = var.web_node_config.was_taint_effect
+  web_taint_value  = var.web_node_config.taint_value
+  web_taint_effect = var.web_node_config.taint_effect
+  was_taint_key    = var.web_node_config.taint_key
+  was_taint_value  = var.web_node_config.taint_value
+  was_taint_effect = var.web_node_config.taint_effect
 
   web_environment = var.web_node_config.environment
   web_asg_tag     = var.web_node_config.asg_tag
