@@ -2,8 +2,7 @@
 variable "region" {
     description = "AWS region Values"
     type        = string
-    default     = "ap-northeast-1"
-}
+    default     = "ap-northeast-3"
 
 variable "vpc_cidr" {
     description = "VPC CIDR Values"
