@@ -183,8 +183,8 @@ module "final_ingress_controller" {
 module "final_irsa" {
   source = "./modules/irsa"
 
-  oidc_url = data.tls_certificate.example.url
-  thumbprint_list = data.tls_certificate.example.certificates[0].sha1_fingerprint
+  cluster_oidc_url = data.tls_certificate.cluster_issuer.url
+  thumbprint_list = data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint
 }
 
 module "final_rds" {

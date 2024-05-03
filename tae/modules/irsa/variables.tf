@@ -4,7 +4,7 @@ variable "cluster_name" {
   default = ""
 }
 
-variable "oidc_url" {
+variable "cluster_oidc_url" {
   description = "Cluster OIDC URL Values"
   type = string
   default = ""
