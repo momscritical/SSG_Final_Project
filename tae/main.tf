@@ -2,7 +2,7 @@ module "final_vpc" {
   source = "./modules/vpc"
 
   availability_zones  = var.availability_zones
-  
+
   vpc_cidr            = var.vpc_config.cidr
   public_subnet_cidr  = var.public_subnet_config.cidr
   web_subnet_cidr     = var.web_subnet_config.cidr
@@ -106,16 +106,16 @@ module "final_sg" {
 module "final_key" {
   source              = "./modules/key_pair"
 
-  key_name            = var.key_name
-  public_key_location = var.public_key_location
-  key_tags            = var.key_tags
+  key_name            = var.key_config.name
+  public_key_location = var.key_config.public_key_location
+  key_tags            = var.key_config.tags
 }
 
 module "final_bastion" {
   source = "./modules/ec2"
   
   ami                    = data.aws_ami.amazon_linux_2023.id
-  instance_type          = var.bastion_config.instance_type
+  instance_type          = var.bastion_config.instance_types
   key_name               = module.final_key.key_name
   bastion_sg_id          = [module.final_sg.bastion_sg_id]
   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
