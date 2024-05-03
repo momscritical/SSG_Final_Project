@@ -9,6 +9,13 @@ resource "null_resource" "eks_kubeconfig" {
   }
 }
 
+resource "null_resource" "clean_up" {
+  provisioner "local-exec" {
+    when    = destroy
+    command = "kubectl delete -f ${var.yaml_location}"
+  }
+}
+
 # provider "kubernetes" {
 #   host                   = var.cluster_endpoint
 #   cluster_ca_certificate = base64decode(var.kubeconfig-certificate-authority-data)

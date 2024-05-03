@@ -23,12 +23,6 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
-# data "aws_eks_cluster" "cluster" {
-#   name = module.final_eks.cluster_id
-#   depends_on = [ module.final_eks ]
-# }
-
-# data "aws_eks_cluster_auth" "cluster" {
-#   name = module.eks.cluster_id
-#   depends_on = [ module.final_eks ]
-# }
+data "tls_certificate" "cluster_issuer" {
+  url = aws_eks_cluster.example.identity[0].oidc[0].issuer
+}

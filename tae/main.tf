@@ -180,6 +180,13 @@ module "final_ingress_controller" {
   depends_on    = [ module.final_eks ]
 }
 
+module "final_irsa" {
+  source = "./modules/irsa"
+
+  oidc_url = data.tls_certificate.example.url
+  thumbprint_list = data.tls_certificate.example.certificates[0].sha1_fingerprint
+}
+
 module "final_rds" {
   source = "./modules/rds"
 
@@ -201,7 +208,6 @@ module "final_rds" {
   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
   rds_subnet_ids         = module.final_vpc.db_subnet_id
 }
-
 
 
 # locals {
