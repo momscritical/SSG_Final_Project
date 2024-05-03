@@ -44,7 +44,7 @@ variable "db_subnet_cidr" {
 variable "availability_zones" {
     description = "Availability Zones Values"
     type        = list(string)
-    default     = ["ap-northeast-1a", "ap-northeast-1c"]
+    default     = ["${var.region}a", "${var.region}c"]
 }
 
 variable "vpc_name" {
