@@ -185,29 +185,31 @@ module "final_irsa" {
 
   cluster_oidc_url = data.tls_certificate.cluster_issuer.url
   thumbprint_list = data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint
-}
-
-module "final_rds" {
-  source = "./modules/rds"
-
-  rds_name               = var.rds_config.name
-  storage                = var.rds_config.storage
-  max_storage            = var.rds_config.max_storage
-  engine_type            = var.rds_config.engine_type
-  engine_version         = var.rds_config.engine_version
-  instance_class         = var.rds_config.instance_class
-  db_name                = var.rds_config.db_name
-  db_user_name           = var.rds_config.db_user_name
-  db_user_pass           = var.rds_config.db_user_pass
-  multi_az               = var.rds_config.multi_az
-  publicly_accessible    = var.rds_config.publicly_accessible
-  skip_final_snapshot    = var.rds_config.skip_final_snapshot
-
-  db_sg_ids              = [module.final_sg.db_sg_id]
   
-  rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
-  rds_subnet_ids         = module.final_vpc.db_subnet_id
+  depends_on = [ data.tls_certificate.cluster_issuer ]
 }
+
+# module "final_rds" {
+#   source = "./modules/rds"
+
+#   rds_name               = var.rds_config.name
+#   storage                = var.rds_config.storage
+#   max_storage            = var.rds_config.max_storage
+#   engine_type            = var.rds_config.engine_type
+#   engine_version         = var.rds_config.engine_version
+#   instance_class         = var.rds_config.instance_class
+#   db_name                = var.rds_config.db_name
+#   db_user_name           = var.rds_config.db_user_name
+#   db_user_pass           = var.rds_config.db_user_pass
+#   multi_az               = var.rds_config.multi_az
+#   publicly_accessible    = var.rds_config.publicly_accessible
+#   skip_final_snapshot    = var.rds_config.skip_final_snapshot
+
+#   db_sg_ids              = [module.final_sg.db_sg_id]
+  
+#   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
+#   rds_subnet_ids         = module.final_vpc.db_subnet_id
+# }
 
 
 # locals {
