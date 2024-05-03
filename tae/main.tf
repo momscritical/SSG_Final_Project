@@ -142,9 +142,9 @@ module "final_eks" {
   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
-  web_instance_types     = [ var.web_node_config.instance_type ]
-  was_instance_types     = [ var.was_node_config.instance_type ]
-  set_instance_types     = [ var.set_node_config.instance_type ]
+  web_instance_types     = [ var.web_node_config.instance_types ]
+  was_instance_types     = [ var.was_node_config.instance_types ]
+  set_instance_types     = [ var.set_node_config.instance_types ]
 
   web_node_group_desired_size = var.web_node_config.desired_size
   web_node_group_max_size     = var.web_node_config.max_size
