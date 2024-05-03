@@ -1,29 +1,17 @@
 #################################### AWS Values ####################################
 variable "region" {
-    description = "AWS region Values"
-    type        = string
-    default     = "ap-northeast-3"
-    sensitive = false
+  description = "AWS region Values"
+  type        = string
+  default     = "ap-northeast-3"
+  sensitive = true
 }
-
-# variable "aws_config" {
-#   description = "AWS Configuration Values"
-#   type        = object({
-#     region             = string
-#     availability_zones = list(string)
-#   })
-#   default     = {
-#     region             = "ap-northeast-3"
-#     availability_zones = ["ap-northeast-3a", "ap-northeast-3c"]
-#   }
-#   sensitive   = true
-# }
 
 #################################### VPC Values ####################################
 variable "availability_zones" {
-    description = "Availability Zones Values"
-    type        = list(string)
-    default     = ["${var.region}a", "${var.region}c"]
+  description = "Availability Zones Values"
+  type        = list(string)
+  default     = ["ap-northeast-3a", "ap-northeast-3c"]
+  sensitive   = true
 }
 
 variable "vpc_config" {
@@ -365,7 +353,6 @@ variable "set_node_config" {
   }
 }
 
-
 #################################### Ingress Controller Values ####################################
 variable "ingress_controller_yaml" {
   description = "Location Values about Ingress Controller Manifest File"
@@ -373,7 +360,6 @@ variable "ingress_controller_yaml" {
   default     = "./yaml/ingress-controller.yaml"
   sensitive   = true
 }
-
 
 #################################### AWS RDS Values ####################################
 variable "rds_config" {
