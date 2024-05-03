@@ -365,7 +365,7 @@ variable "ingress_controller_yaml" {
 variable "rds_config" {
   description = "Configuration Values for AWS RDS"
   type = object({
-    rds_name              = string
+    name                  = string
     storage               = number
     max_storage           = number
     engine_type           = string
@@ -380,7 +380,7 @@ variable "rds_config" {
     rds_subnet_group_name = string
   })
   default = {
-    rds_name              = "final-rds"
+    name                  = "final-rds"
     storage               = 50
     max_storage           = 100
     engine_type           = "mysql"
