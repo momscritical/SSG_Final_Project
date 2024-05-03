@@ -162,7 +162,7 @@ variable "was_sg_config" {
   })
 
   default     = {
-    name = "Web-SG"
+    name = "WAS-SG"
     ing_port = [ 22, 80 ]
   }
   sensitive   = true
@@ -176,7 +176,7 @@ variable "set_sg_config" {
   })
 
   default     = {
-    name = "Web-SG"
+    name = "Set-SG"
     ing_port = [ 22 ]
   }
   sensitive   = true
