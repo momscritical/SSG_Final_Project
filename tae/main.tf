@@ -111,17 +111,17 @@ module "final_key" {
   key_tags            = var.key_config.tags
 }
 
-module "final_bastion" {
-  source = "./modules/ec2"
+# module "final_bastion" {
+#   source = "./modules/ec2"
   
-  ami                    = data.aws_ami.amazon_linux_2023.id
-  instance_type          = var.bastion_config.instance_types
-  key_name               = module.final_key.key_name
-  bastion_sg_id          = [module.final_sg.bastion_sg_id]
-  bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
-  bastion_name           = var.bastion_config.name
-  bastion_user_data      = templatefile(var.bastion_config.user_data, {})
-}
+#   ami                    = data.aws_ami.amazon_linux_2023.id
+#   instance_type          = var.bastion_config.instance_types
+#   key_name               = module.final_key.key_name
+#   bastion_sg_id          = [module.final_sg.bastion_sg_id]
+#   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
+#   bastion_name           = var.bastion_config.name
+#   bastion_user_data      = templatefile(var.bastion_config.user_data, {})
+# }
 
 module "final_eks" {
   source = "./modules/eks"
