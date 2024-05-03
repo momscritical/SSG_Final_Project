@@ -10,10 +10,18 @@ resource "null_resource" "environment_variables" {
 }
 
 ######################### Declare Linux Environment Variables for OIDC #########################
-resource "aws_iam_openid_connect_provider" "default" {
-  url = "${var.cluster_oidc_url}"
-  client_id_list = [
-    "sts.amazonaws.com",
-  ]
-  thumbprint_list = ["${var.thumbprint_list}"]
+locals {
+  oidc            = var.oidc
+  split_oidc      = split("/", local.oidc)
+  url             = element(local.split_oidc, 2)
+  thumbprint_list = element(local.split_oidc, 4)
 }
+
+# ######################### Declare Linux Environment Variables for OIDC #########################
+# resource "aws_iam_openid_connect_provider" "default" {
+#   url = "https://${local.url}"
+#   thumbprint_list = [ local.thumbprint_list ]
+#   client_id_list = [
+#     "sts.amazonaws.com",
+#   ]
+# }

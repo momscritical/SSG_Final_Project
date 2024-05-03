@@ -193,19 +193,19 @@ module "final_ingress_controller" {
   depends_on    = [module.final_eks]
 }
 
-locals {
-  oidc            = module.final_eks.oidc
-  split_oidc      = split("/", local.oidc)
-  url             = element(local.split_oidc, 2)
-  thumbprint_list = element(local.split_oidc, 4)
-}
+# locals {
+#   oidc            = module.final_eks.oidc
+#   split_oidc      = split("/", local.oidc)
+#   url             = element(local.split_oidc, 2)
+#   thumbprint_list = element(local.split_oidc, 4)
+# }
 
-module "final_oidc" {
-  source = "./modules/oidc"
-  cluster_name = "EKS-Cluster"
-  cluster_oidc_url = local.url
-  thumbprint_list = local.thumbprint_list
-}
+# module "final_oidc" {
+#   source = "./modules/oidc"
+#   cluster_name = "EKS-Cluster"
+#   cluster_oidc_url = local.url
+#   thumbprint_list = local.thumbprint_list
+# }
 
 
 # module "final_lb" {

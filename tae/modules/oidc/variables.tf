@@ -4,14 +4,14 @@ variable "cluster_name" {
   default = ""
 }
 
-variable "cluster_oidc_url" {
+variable "oidc" {
   description = "Cluster OIDC URL Values"
   type = string
   default = ""
 }
 
-variable "thumbprint_list" {
-  description = "Thumbprint List Values"
-  type = string
-  default = ""
-}
+# variable "thumbprint_list" {
+#   description = "Thumbprint List Values"
+#   type = string
+#   default = ""
+# }
