@@ -1,21 +1,21 @@
 module "final_vpc" {
   source = "./modules/vpc"
 
-  vpc_cidr            = var.vpc_cidr
-  public_subnet_cidr  = var.public_subnet_cidr
-  web_subnet_cidr     = var.web_subnet_cidr
-  was_subnet_cidr     = var.was_subnet_cidr
-  set_subnet_cidr     = var.set_subnet_cidr
-  db_subnet_cidr      = var.db_subnet_cidr
-
   availability_zones  = var.availability_zones
+  
+  vpc_cidr            = var.vpc_config.cidr
+  public_subnet_cidr  = var.public_subnet_config.cidr
+  web_subnet_cidr     = var.web_subnet_config.cidr
+  was_subnet_cidr     = var.was_subnet_config.cidr
+  set_subnet_cidr     = var.set_subnet_config.cidr
+  db_subnet_cidr      = var.db_subnet_config.cidr
 
-  vpc_name            = var.vpc_name
-  public_subnet_name  = var.public_subnet_name
-  web_subnet_name     = var.web_subnet_name
-  was_subnet_name     = var.was_subnet_name
-  set_subnet_name     = var.set_subnet_name
-  db_subnet_name      = var.db_subnet_name
+  vpc_name            = var.vpc_config.name
+  public_subnet_name  = var.public_subnet_config.name
+  web_subnet_name     = var.web_subnet_config.name
+  was_subnet_name     = var.was_subnet_config.name
+  set_subnet_name     = var.set_subnet_config.name
+  db_subnet_name      = var.db_subnet_config.name
   igw_name            = var.igw_name
   ngw_name            = var.ngw_name
   public_rt_name      = var.public_rt_name
@@ -115,12 +115,12 @@ module "final_bastion" {
   source = "./modules/ec2"
   
   ami                    = data.aws_ami.amazon_linux_2023.id
-  instance_type          = var.instance_type
+  instance_type          = var.bastion_config.instance_type
   key_name               = module.final_key.key_name
   bastion_sg_id          = [module.final_sg.bastion_sg_id]
   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
-  bastion_user_data      = templatefile(var.bastion_user_data, {})
-  bastion_name           = var.bastion_name
+  bastion_name           = var.bastion_config.name
+  bastion_user_data      = templatefile(var.bastion_config.user_data, {})
 }
 
 module "final_eks" {
