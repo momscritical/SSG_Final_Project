@@ -3,6 +3,7 @@ variable "region" {
     description = "AWS region Values"
     type        = string
     default     = "ap-northeast-3"
+}
 
 variable "vpc_cidr" {
     description = "VPC CIDR Values"
@@ -508,6 +509,9 @@ variable "node_group_role_name" {
 #   type = number
 #   default = 1
 # }
+
+
+
 
 variable "web_node_config" {
   description = "Configuration Values for the Web Node Group"
