@@ -186,7 +186,7 @@ module "final_irsa" {
   cluster_name = var.cluster_name
 
   cluster_oidc_url = data.tls_certificate.cluster_issuer.url
-  thumbprint_list = data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint
+  thumbprint_list = [data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint]
   
   depends_on = [ data.tls_certificate.cluster_issuer ]
 }

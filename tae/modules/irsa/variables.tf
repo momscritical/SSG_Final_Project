@@ -12,6 +12,6 @@ variable "cluster_oidc_url" {
 
 variable "thumbprint_list" {
   description = "Thumbprint List Values"
-  type = string
-  default = ""
+  type = list(string)
+  default = []
 }

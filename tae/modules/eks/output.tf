@@ -26,9 +26,9 @@ output "was_asg_name" {
   value = aws_eks_node_group.was.resources[0].autoscaling_groups[0].name
 }
 
-output "cluster_oidc" {
-  value = aws_eks_cluster.cluster.identity[0].oidc
-}
+# output "cluster_oidc" {
+#   value = aws_eks_cluster.cluster.identity[0].oidc
+# }
 
 output "cluster_issuer" {
   value = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
