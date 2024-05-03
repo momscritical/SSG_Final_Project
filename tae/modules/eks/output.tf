@@ -31,5 +31,22 @@ output "cluster_oidc" {
 }
 
 output "cluster_issuer" {
-  value = aws_eks_cluster.cluster.identity[0].oidc.issuer
+  value = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
+
+# # 클러스터 토큰 값 출력
+# output "cluster_token" {
+#   value = module.final_eks.cluster_token
+# }
+
+# # output "web_asg_name" {
+# #   value = module.final_eks.web_asg_name
+# # }
+
+# # output "was_asg_name" {
+# #   value = module.final_eks.was_asg_name
+# # }
+
+# output "int_lb_dns" {
+#   value = module.final_lb.int_dns_name
+# }
