@@ -34,6 +34,10 @@ output "cluster_issuer" {
   value = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
+output "cluster_id" {
+  value = aws_eks_cluster.cluster.cluster_id
+}
+
 # # 클러스터 토큰 값 출력
 # output "cluster_token" {
 #   value = module.final_eks.cluster_token
