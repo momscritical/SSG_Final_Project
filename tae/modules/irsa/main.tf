@@ -1,6 +1,6 @@
 ######################### Declare Linux Environment Variables for OIDC #########################
 resource "null_resource" "environment_variables" {
-  provisioner "lolocal-exec" {
+  provisioner "local-exec" {
     command = [
         "cluster_name=${var.cluster_name}",
         "oidc_id=$(aws eks describe-cluster --name $cluster_name --query 'cluster.identity.oidc.issuer' --output text | cut -d '/' -f 5)",
