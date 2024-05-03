@@ -1,13 +1,14 @@
 ######################### Declare Linux Environment Variables for OIDC #########################
 resource "null_resource" "environment_variables" {
   provisioner "local-exec" {
-    command = [
-        "cluster_name=${var.cluster_name}",
-        "oidc_id=$(aws eks describe-cluster --name $cluster_name --query 'cluster.identity.oidc.issuer' --output text | cut -d '/' -f 5)",
-        "echo $oidc_id"
-    ]
+    command = <<-EOT
+      cluster_name="${var.cluster_name}"
+      oidc_id="$(aws eks describe-cluster --name ${var.cluster_name} --query 'cluster.identity.oidc.issuer' --output text | cut -d '/' -f 5)"
+      echo "$oidc_id"
+    EOT
   }
 }
+
 
 ######################### Declare Linux Environment Variables for OIDC #########################
 resource "aws_iam_openid_connect_provider" "OIDC" {
