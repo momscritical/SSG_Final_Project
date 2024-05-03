@@ -6,11 +6,24 @@ variable "region" {
     sensitive = false
 }
 
+# variable "aws_config" {
+#   description = "AWS Configuration Values"
+#   type        = object({
+#     region             = string
+#     availability_zones = list(string)
+#   })
+#   default     = {
+#     region             = "ap-northeast-3"
+#     availability_zones = ["ap-northeast-3a", "ap-northeast-3c"]
+#   }
+#   sensitive   = true
+# }
+
 #################################### VPC Values ####################################
 variable "availability_zones" {
     description = "Availability Zones Values"
     type        = list(string)
-    default     = ["ap-northeast-3a", "ap-northeast-3c"]
+    default     = ["${var.region}a", "${var.region}c"]
 }
 
 variable "vpc_config" {
@@ -129,160 +142,82 @@ variable "enable_dns_support" {
 
 #################################### Security Group Values ####################################
 variable "bastion_sg_config" {
-  description = "Sercurity Group Configuration Values for Bastion Instance"
+  description = "Security Group Configuration Values for Bastion Instance"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
   default     = {
-    name = "Bastion-SG"
-    ing_port = [ 22 ]
+    name     = "Bastion-SG"
+    ing_port = [22]
   }
   sensitive   = true
 }
 
 variable "web_sg_config" {
-  description = "Sercurity Group Configuration Values for Web Nodes"
+  description = "Security Group Configuration Values for Web Nodes"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
   default     = {
-    name = "Web-SG"
-    ing_port = [ 22, 80 ]
+    name     = "Web-SG"
+    ing_port = [22, 80]
   }
   sensitive   = true
 }
 
 variable "was_sg_config" {
-  description = "Sercurity Group Configuration Values for WAS Nodes"
+  description = "Security Group Configuration Values for WAS Nodes"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
-
   default     = {
-    name = "WAS-SG"
-    ing_port = [ 22, 80 ]
+    name     = "WAS-SG"
+    ing_port = [22, 80]
   }
   sensitive   = true
 }
 
 variable "set_sg_config" {
-  description = "Sercurity Group Configuration Values for Setting Nodes"
+  description = "Security Group Configuration Values for Setting Nodes"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
-
   default     = {
-    name = "Set-SG"
-    ing_port = [ 22 ]
+    name     = "Set-SG"
+    ing_port = [22]
   }
   sensitive   = true
 }
 
 variable "db_sg_config" {
-  description = "Sercurity Group Configuration Values for AWS RDS"
+  description = "Security Group Configuration Values for AWS RDS"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
-
   default     = {
-    name = "DataBase-SG"
-    ing_port = [ 3306 ]
+    name     = "DataBase-SG"
+    ing_port = [3306]
   }
   sensitive   = true
 }
 
 variable "elb_sg_config" {
-  description = "Sercurity Group Configuration Values for External Load Balancer"
+  description = "Security Group Configuration Values for External Load Balancer"
   type        = object({
-    name = string
+    name     = string
     ing_port = list(number)
   })
-
   default     = {
-    name = "Ext-LB-SG"
-    ing_port = [ 80 ]
+    name     = "Ext-LB-SG"
+    ing_port = [80]
   }
   sensitive   = true
 }
-
-# variable "bastion_ing_rules" {
-#   description = "List of ingress rules for Bastion Instance"
-#   type        = list(object(
-#     {
-#     from_port       = number
-#     to_port         = number
-#     }
-#   ))
-#   default     = [
-#     from_port       = 222
-#     to_port         = 22
-#   ]
-# }
-
-# variable "bastion_sg_name" {
-#     description = "The Name of the Security Group for Bastion Instance"
-#     type        = string
-#     default     = "Bastion-SG"
-# }
-
-# variable "web_sg_name" {
-#     description = "The Name of the Security Group for Web Nodes"
-#     type        = string
-#     default     = "Web-SG"
-# }
-
-# variable "was_sg_name" {
-#     description = "The Name of the Security Group for WAS Nodes"
-#     type        = string
-#     default     = "WAS-SG"
-# }
-
-# variable "set_sg_name" {
-#     description = "The Name of the Security Group for Setting Nodes"
-#     type        = string
-#     default     = "Set-SG"
-# }
-
-# variable "db_sg_name" {
-#     description = "The Name of the Security Group for DataBase"
-#     type        = string
-#     default     = "DataBase-SG"
-# }
-
-# variable "elb_sg_name" {
-#     description = "The Name of the Security Group External Load Balancer"
-#     type        = string
-#     default     = "Ext-LB-SG"
-# }
-
-# variable "ilb_sg_name" {
-#     description = "The Name of the Security Group Internal Load Balancer"
-#     type        = string
-#     default     = "Int-LB-SG"
-# }
-
-# variable "web_efs_sg_name" {
-#     description = "The Name of the Security Group for Web EFS"
-#     type        = string
-#     default     = "Web-EFS-SG"
-# }
-
-# variable "was_efs_sg_name" {
-#     description = "The Name of the Security Group for WAS EFS"
-#     type        = string
-#     default     = "WAS-EFS-SG"
-# }
-
-# variable "vpc_id" {
-#     description = "The ID of the VPC"
-#     type        = string
-#     default     = ""
-# }
 
 #################################### Key Pair Values ####################################
 variable "key_config" {

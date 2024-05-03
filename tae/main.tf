@@ -43,7 +43,7 @@ module "final_sg" {
       to_port   = var.bastion_sg_config.ing_port[0]
     }
   ]
-
+  
   web_ing_rules = [
     {
       from_port       = var.web_sg_config.ing_port[0]
@@ -123,84 +123,84 @@ module "final_bastion" {
   bastion_user_data      = templatefile(var.bastion_config.user_data, {})
 }
 
-# module "final_eks" {
-#   source = "./modules/eks"
+module "final_eks" {
+  source = "./modules/eks"
 
-#   cluster_role_name      = var.cluster_role_name
-#   cluster_name           = var.cluster_name
+  cluster_role_name      = var.cluster_role_name
+  cluster_name           = var.cluster_name
 
-#   node_group_role_name   = var.node_group_role_name
-#   web_node_group_name    = var.web_node_config.name
-#   was_node_group_name    = var.was_node_config.name
-#   set_node_group_name    = var.set_node_config.name
+  node_group_role_name   = var.node_group_role_name
+  web_node_group_name    = var.web_node_config.name
+  was_node_group_name    = var.was_node_config.name
+  set_node_group_name    = var.set_node_config.name
 
-#   k8s_version            = var.k8s_version
-#   region                 = var.region
+  k8s_version            = var.k8s_version
+  region                 = var.region
 
-#   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
-#   web_node_group_subnet_ids = module.final_vpc.web_subnet_id
-#   was_node_group_subnet_ids = module.final_vpc.was_subnet_id
-#   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
+  cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
+  web_node_group_subnet_ids = module.final_vpc.web_subnet_id
+  was_node_group_subnet_ids = module.final_vpc.was_subnet_id
+  set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
-#   web_instance_types     = [ var.web_node_config.instance_types ]
-#   was_instance_types     = [ var.was_node_config.instance_types ]
-#   set_instance_types     = [ var.set_node_config.instance_types ]
+  web_instance_types     = [ var.web_node_config.instance_types ]
+  was_instance_types     = [ var.was_node_config.instance_types ]
+  set_instance_types     = [ var.set_node_config.instance_types ]
 
-#   web_node_group_desired_size = var.web_node_config.desired_size
-#   web_node_group_max_size     = var.web_node_config.max_size
-#   web_node_group_min_size     = var.web_node_config.min_size
-#   was_node_group_desired_size = var.was_node_config.desired_size
-#   was_node_group_max_size     = var.was_node_config.max_size
-#   was_node_group_min_size     = var.was_node_config.min_size
-#   set_node_group_desired_size = var.set_node_config.desired_size
-#   set_node_group_max_size     = var.set_node_config.max_size
-#   set_node_group_min_size     = var.set_node_config.min_size
+  web_node_group_desired_size = var.web_node_config.desired_size
+  web_node_group_max_size     = var.web_node_config.max_size
+  web_node_group_min_size     = var.web_node_config.min_size
+  was_node_group_desired_size = var.was_node_config.desired_size
+  was_node_group_max_size     = var.was_node_config.max_size
+  was_node_group_min_size     = var.was_node_config.min_size
+  set_node_group_desired_size = var.set_node_config.desired_size
+  set_node_group_max_size     = var.set_node_config.max_size
+  set_node_group_min_size     = var.set_node_config.min_size
 
-#   web_max_unavailable   = var.web_node_config.max_unavailable
-#   was_max_unavailable   = var.was_node_config.max_unavailable
-#   set_max_unavailable   = var.set_node_config.max_unavailable
+  web_max_unavailable   = var.web_node_config.max_unavailable
+  was_max_unavailable   = var.was_node_config.max_unavailable
+  set_max_unavailable   = var.set_node_config.max_unavailable
 
-#   web_taint_key    = var.web_node_config.taint_key
-#   web_taint_value  = var.web_node_config.taint_value
-#   web_taint_effect = var.web_node_config.taint_effect
-#   was_taint_key    = var.web_node_config.taint_key
-#   was_taint_value  = var.web_node_config.taint_value
-#   was_taint_effect = var.web_node_config.taint_effect
+  web_taint_key    = var.web_node_config.taint_key
+  web_taint_value  = var.web_node_config.taint_value
+  web_taint_effect = var.web_node_config.taint_effect
+  was_taint_key    = var.web_node_config.taint_key
+  was_taint_value  = var.web_node_config.taint_value
+  was_taint_effect = var.web_node_config.taint_effect
 
-#   web_environment = var.web_node_config.environment
-#   web_asg_tag     = var.web_node_config.asg_tag
-#   was_environment = var.web_node_config.asg_tag
-#   was_asg_tag     = var.was_node_config.asg_tag
-# }
+  web_environment = var.web_node_config.environment
+  web_asg_tag     = var.web_node_config.asg_tag
+  was_environment = var.web_node_config.asg_tag
+  was_asg_tag     = var.was_node_config.asg_tag
+}
 
-# module "final_ingress_controller" {
-#   source        = "./modules/ingress"
+module "final_ingress_controller" {
+  source        = "./modules/ingress"
 
-#   yaml_location = var.ingress_controller_yaml
-#   depends_on    = [ module.final_eks ]
-# }
+  yaml_location = var.ingress_controller_yaml
+  depends_on    = [ module.final_eks ]
+}
 
-# module "final_rds" {
-#   source = "./modules/rds"
+module "final_rds" {
+  source = "./modules/rds"
 
-#   rds_name               = var.rds_config.name
-#   storage                = var.rds_config.storage
-#   max_storage            = var.rds_config.max_storage
-#   engine_type            = var.rds_config.engine_type
-#   engine_version         = var.rds_config.engine_version
-#   instance_class         = var.rds_config.instance_class
-#   db_name                = var.rds_config.db_name
-#   db_user_name           = var.rds_config.db_user_name
-#   db_user_pass           = var.rds_config.db_user_pass
-#   multi_az               = var.rds_config.multi_az
-#   publicly_accessible    = var.rds_config.publicly_accessible
-#   skip_final_snapshot    = var.rds_config.skip_final_snapshot
+  rds_name               = var.rds_config.name
+  storage                = var.rds_config.storage
+  max_storage            = var.rds_config.max_storage
+  engine_type            = var.rds_config.engine_type
+  engine_version         = var.rds_config.engine_version
+  instance_class         = var.rds_config.instance_class
+  db_name                = var.rds_config.db_name
+  db_user_name           = var.rds_config.db_user_name
+  db_user_pass           = var.rds_config.db_user_pass
+  multi_az               = var.rds_config.multi_az
+  publicly_accessible    = var.rds_config.publicly_accessible
+  skip_final_snapshot    = var.rds_config.skip_final_snapshot
 
-#   db_sg_ids              = [module.final_sg.db_sg_id]
+  db_sg_ids              = [module.final_sg.db_sg_id]
   
-#   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
-#   rds_subnet_ids         = module.final_vpc.db_subnet_id
-# }
+  rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
+  rds_subnet_ids         = module.final_vpc.db_subnet_id
+}
 
 
 
