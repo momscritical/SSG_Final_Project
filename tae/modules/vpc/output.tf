@@ -8,6 +8,11 @@ output "public_subnet_id" {
   value       = aws_subnet.public[*].id
 }
 
+output "cp_subnet_id" {
+  description = "ID of the Control Plane Subnet"
+  value       = aws_subnet.cp[*].id
+}
+
 output "web_subnet_id" {
   description = "ID of the Web Subnet"
   value       = aws_subnet.web[*].id
