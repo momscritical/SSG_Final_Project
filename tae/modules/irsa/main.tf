@@ -16,5 +16,8 @@ resource "aws_iam_openid_connect_provider" "OIDC" {
   thumbprint_list = var.thumbprint_list
   client_id_list  = [
     "sts.amazonaws.com",
-    ]
+  ]
+  lifecycle {
+    create_before_destroy = true
+  }
 }
