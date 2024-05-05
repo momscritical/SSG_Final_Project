@@ -8,10 +8,9 @@ output "kubeconfig-certificate-authority-data" {
   value = module.final_eks.kubeconfig-certificate-authority-data
 }
 
-
-output "cluster_id" {
-  value = module.final_eks.cluster_id
-}
+# output "cluster_id" {
+#   value = module.final_eks.cluster_id
+# }
 
 # output "cluster_oidc_url" {
 #   value = module.final_eks.
