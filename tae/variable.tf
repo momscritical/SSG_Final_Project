@@ -40,6 +40,19 @@ variable "public_subnet_config" {
   sensitive   = true
 }
 
+variable "cp_subnet_config" {
+  description = "Subnets Configuration Values for Web Node"
+  type        = object({
+    name = string
+    cidr = list(string)
+  })
+  default     = {
+    name = "Web-Subnet"
+    cidr = ["10.0.3.0/24", "10.0.4.0/24"]
+  }
+  sensitive   = true
+}
+
 variable "web_subnet_config" {
   description = "Subnets Configuration Values for Web Node"
   type        = object({
@@ -142,6 +155,19 @@ variable "bastion_sg_config" {
   sensitive   = true
 }
 
+variable "cp_sg_config" {
+  description = "Security Group Configuration Values for Control Plane"
+  type        = object({
+    name     = string
+    ing_port = list(number)
+  })
+  default     = {
+    name     = "CP-SG"
+    ing_port = [22]
+  }
+  sensitive   = true
+}
+
 variable "web_sg_config" {
   description = "Security Group Configuration Values for Web Nodes"
   type        = object({
@@ -223,7 +249,7 @@ variable "key_config" {
   sensitive = true
 }
 
-#################################### Bastion Values ####################################
+#################################### EC2 Values ####################################
 variable "bastion_config" {
   description = "Configuration Values for the Bastion Instance"
   type = object({
@@ -235,6 +261,20 @@ variable "bastion_config" {
     instance_types = "t2.small"
     name           = "Bastion"
     user_data      = "./user_data_file/user_data_bastion.sh"
+  }
+}
+
+variable "cp_config" {
+  description = "Configuration Values for the Control Plane Instance"
+  type = object({
+    instance_types = string
+    name           = string
+    user_data      = string
+  })
+  default = {
+    instance_types = "t2.small"
+    name           = "Control-Plane"
+    user_data      = "./user_data_file/user_data_cp.sh"
   }
 }
 

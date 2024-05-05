@@ -11,6 +11,12 @@ variable "bastion_sg_name" {
   default     = ""
 }
 
+variable "cp_sg_name" {
+  description = "The Name of the Security Group for Control Plane"
+  type        = string
+  default     = ""
+}
+
 variable "web_sg_name" {
   description = "The Name of the Security Group for Web Instance"
   type        = string
@@ -71,6 +77,16 @@ variable "bastion_ing_rules" {
   type        = list(object({
     from_port       = number
     to_port         = number
+  }))
+  default     = []
+}
+
+variable "cp_ing_rules" {
+  description = "List of ingress rules for Control Plane"
+  type        = list(object({
+    from_port       = number
+    to_port         = number
+    security_groups = list(string)
   }))
   default     = []
 }

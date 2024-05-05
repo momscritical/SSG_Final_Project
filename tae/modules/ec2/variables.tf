@@ -1,10 +1,11 @@
-variable "ami" {
+#################################### Bastion Values ####################################
+variable "bastion_ami" {
   description = "The AMI for Bastion Instance"
   type        = string
   default     = ""
 }
 
-variable "instance_type" {
+variable "bastion_instance_type" {
   description = "The Instance Type for Bastion Instance"
   type        = string
   default     = ""
@@ -17,8 +18,8 @@ variable "bastion_sg_id" {
   default     = []
 }
 
-variable "key_name" {
-  description = "Key Pair Name Values"
+variable "bastion_key_name" {
+  description = "Key Pair Name Values for Bastion Instance"
   type        = string
   default     = ""
 }
@@ -41,26 +42,46 @@ variable "bastion_name" {
   default     = ""
 }
 
-variable "control_plane_sg_id" {
-  description = "Security Group ID for EKS Control Plane"
+#################################### Control Plane Values ####################################
+variable "cp_ami" {
+  description = "The AMI for Control Plane Instance"
+  type        = string
+  default     = ""
+}
+
+variable "cp_instance_type" {
+  description = "The Instance Type for Control Plane Instance"
+  type        = string
+  default     = ""
+
+}
+
+variable "cp_sg_id" {
+  description = "Security Group ID for Control Plane Instance"
   type        = list(string)
   default     = []
 }
 
-variable "control_plane_subnet_id" {
-  description = "Subnet ID for EKS Control Plane"
+variable "cp_key_name" {
+  description = "Key Pair Name Values for Control Plane Instance"
   type        = string
   default     = ""
 }
 
-variable "control_plane_user_data" {
-  description = "The User Data Script for EKS Control Plane"
+variable "cp_subnet_id" {
+  description = "Subnet ID for Control Plane Instance"
   type        = string
   default     = ""
 }
 
-variable "control_plane_name" {
-  description = "The name tag for EKS Control Plane"
+variable "cp_user_data" {
+  description = "The User Data Script for Control Plane Instance"
+  type        = string
+  default     = ""
+}
+
+variable "cp_name" {
+  description = "The name tag for Control Plane Instance"
   type        = string
   default     = ""
 }

@@ -5,6 +5,7 @@ module "final_vpc" {
 
   vpc_cidr            = var.vpc_config.cidr
   public_subnet_cidr  = var.public_subnet_config.cidr
+  cp_subnet_cidr      = var.cp_subnet_config.cidr
   web_subnet_cidr     = var.web_subnet_config.cidr
   was_subnet_cidr     = var.was_subnet_config.cidr
   set_subnet_cidr     = var.set_subnet_config.cidr
@@ -12,6 +13,7 @@ module "final_vpc" {
 
   vpc_name            = var.vpc_config.name
   public_subnet_name  = var.public_subnet_config.name
+  cp_subnet_name      = var.public_subnet_config.name
   web_subnet_name     = var.web_subnet_config.name
   was_subnet_name     = var.was_subnet_config.name
   set_subnet_name     = var.set_subnet_config.name
@@ -31,6 +33,7 @@ module "final_sg" {
   vpc_id = module.final_vpc.vpc_id
 
   bastion_sg_name = var.bastion_sg_config.name
+  cp_sg_name      = var.cp_sg_config.name
   web_sg_name     = var.web_sg_config.name
   was_sg_name     = var.was_sg_config.name
   set_sg_name     = var.set_sg_config.name
@@ -41,6 +44,14 @@ module "final_sg" {
     {
       from_port = var.bastion_sg_config.ing_port[0]
       to_port   = var.bastion_sg_config.ing_port[0]
+    }
+  ]
+
+  cp_ing_rules = [
+    {
+      from_port       = var.cp_sg_config.ing_port[0]
+      to_port         = var.cp_sg_config.ing_port[0]
+      security_groups = [ module.final_sg.bastion_sg_id ]
     }
   ]
   
@@ -111,17 +122,26 @@ module "final_key" {
   key_tags            = var.key_config.tags
 }
 
-# module "final_bastion" {
-#   source = "./modules/ec2"
+module "final_ec2" {
+  source = "./modules/ec2"
   
-#   ami                    = data.aws_ami.amazon_linux_2023.id
-#   instance_type          = var.bastion_config.instance_types
-#   key_name               = module.final_key.key_name
-#   bastion_sg_id          = [module.final_sg.bastion_sg_id]
-#   bastion_subnet_id      = module.final_vpc.public_subnet_id[0]
-#   bastion_name           = var.bastion_config.name
-#   bastion_user_data      = templatefile(var.bastion_config.user_data, {})
-# }
+  bastion_ami           = data.aws_ami.amazon_linux_2023.id
+  bastion_instance_type = var.bastion_config.instance_types
+  bastion_key_name      = module.final_key.key_name
+  bastion_sg_id         = [module.final_sg.bastion_sg_id]
+  bastion_subnet_id     = module.final_vpc.public_subnet_id[0]
+  bastion_name          = var.bastion_config.name
+  bastion_user_data     = templatefile(var.bastion_config.user_data, {})
+
+  cp_ami           = data.aws_ami.amazon_linux_2023.id
+  cp_instance_type = var.cp_config.instance_types
+  cp_key_name      = module.final_key.key_name
+  cp_sg_id         = [module.final_sg.cp_sg_id]
+  cp_subnet_id     = module.final_vpc.cp_subnet_id[0]
+  cp_name          = var.cp_config.name
+  cp_user_data     = templatefile(var.cp_config.user_data, {}) 
+}
+
 
 module "final_eks" {
   source = "./modules/eks"
@@ -191,28 +211,27 @@ module "final_irsa" {
   depends_on = [ data.tls_certificate.cluster_issuer ]
 }
 
-# module "final_rds" {
-#   source = "./modules/rds"
+module "final_rds" {
+  source = "./modules/rds"
 
-#   rds_name               = var.rds_config.name
-#   storage                = var.rds_config.storage
-#   max_storage            = var.rds_config.max_storage
-#   engine_type            = var.rds_config.engine_type
-#   engine_version         = var.rds_config.engine_version
-#   instance_class         = var.rds_config.instance_class
-#   db_name                = var.rds_config.db_name
-#   db_user_name           = var.rds_config.db_user_name
-#   db_user_pass           = var.rds_config.db_user_pass
-#   multi_az               = var.rds_config.multi_az
-#   publicly_accessible    = var.rds_config.publicly_accessible
-#   skip_final_snapshot    = var.rds_config.skip_final_snapshot
+  rds_name               = var.rds_config.name
+  storage                = var.rds_config.storage
+  max_storage            = var.rds_config.max_storage
+  engine_type            = var.rds_config.engine_type
+  engine_version         = var.rds_config.engine_version
+  instance_class         = var.rds_config.instance_class
+  db_name                = var.rds_config.db_name
+  db_user_name           = var.rds_config.db_user_name
+  db_user_pass           = var.rds_config.db_user_pass
+  multi_az               = var.rds_config.multi_az
+  publicly_accessible    = var.rds_config.publicly_accessible
+  skip_final_snapshot    = var.rds_config.skip_final_snapshot
 
-#   db_sg_ids              = [module.final_sg.db_sg_id]
+  db_sg_ids              = [module.final_sg.db_sg_id]
   
-#   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
-#   rds_subnet_ids         = module.final_vpc.db_subnet_id
-# }
-
+  rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
+  rds_subnet_ids         = module.final_vpc.db_subnet_id
+}
 
 # module "final_lb" {
 #   source = "./modules/lb"

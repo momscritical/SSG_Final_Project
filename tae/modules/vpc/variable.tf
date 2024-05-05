@@ -22,74 +22,87 @@ variable "enable_dns_support" {
   type        = bool
   default     = true
 }
-################################## Subnets ##################################
-############################## Bastion Subnet ##############################
-variable "public_subnet_cidr" {
-  description = "Public Subnet CIDR Values"
-  type        = list(string)
-  default     = []
-}
-
+################################## Availability Zones ##################################
 variable "availability_zones" {
   description = "Availability Zones"
   type        = list(string)
   default     = []
 }
 
+############################## Bastion Subnet ##############################
+variable "public_subnet_cidr" {
+  description = "Subnet CIDR Values for Public"
+  type        = list(string)
+  default     = []
+}
+
 variable "public_subnet_name" {
-  description = "Public Subnets Name Values"
+  description = "Subnet Name Values for Public"
+  type = string
+  default = ""
+}
+
+############################## Control Plane Subnet ##############################
+variable "cp_subnet_cidr" {
+  description = "Subnet CIDR Values for Control Plane Instance"
+  type        = list(string)
+  default     = []
+}
+
+variable "cp_subnet_name" {
+  description = "Subnet Name Values for Control Plane Instance"
   type = string
   default = ""
 }
 
 ############################## Web Subnet ##############################
 variable "web_subnet_cidr" {
-  description = "Web Subnet CIDR Values"
+  description = "Subnet CIDR Values for EKS Web Node Group"
   type        = list(string)
   default     = []
 }
 
 variable "web_subnet_name" {
-  description = "Web Subnets Name Values"
+  description = "Subnet Name Values for EKS Web Node Group"
   type = string
   default = ""
 }
 
 ############################## WAS Subnet ##############################
 variable "was_subnet_cidr" {
-  description = "WAS Subnet CIDR Values"
+  description = "Subnet CIDR Values for EKS WAS Node Group"
   type        = list(string)
   default     = []
 }
 
 variable "was_subnet_name" {
-  description = "WAS Subnets Name Values"
+  description = "Subnet Name Values for EKS WAS Node Group"
   type = string
   default = ""
 }
 
 ############################## Set Subnet ##############################
 variable "set_subnet_cidr" {
-  description = "Setting Node CIDR Values"
+  description = "Subnet CIDR Values for EKS Setting Node Group"
   type        = list(string)
   default     = []
 }
 
 variable "set_subnet_name" {
-  description = "Setting Node Subnets Name Values"
+  description = "Subnet Name Values for EKS Setting Node Group"
   type = string
   default = ""
 }
 
 ############################## DataBase Subnet ##############################
 variable "db_subnet_cidr" {
-  description = "Database Subnet CIDR Values"
+  description = "Subnet CIDR Values for Database"
   type        = list(string)
   default     = []
 }
 
 variable "db_subnet_name" {
-  description = "Database Subnets Name Values"
+  description = "Subnet Name Values for Database"
   type = string
   default = ""
 }
@@ -109,13 +122,13 @@ variable "ngw_name" {
 
 ################################ Route Table ################################
 variable "public_rt_name" {
-  description = "Public RoutingTable Name vVlues"
+  description = "Public Routing Table Name Value"
   type = string
   default = ""
 }
 
 variable "private_rt_name" {
-  description = "Private RoutingTable Name Values"
+  description = "Private Routing Table Name Value"
   type = string
   default = ""
 }
