@@ -23,7 +23,6 @@ resource "aws_iam_openid_connect_provider" "OIDC" {
 
 # 테스트 중...
 ################################### IAM Role ###################################
-# 
 data "aws_iam_policy_document" "oidc" {
   statement {
     effect  = "Allow"
@@ -47,6 +46,8 @@ data "aws_iam_policy_document" "oidc" {
       values   = var.service_account_name
     }
   }
+
+  depends_on = [ aws_iam_openid_connect_provider.OIDC ]
 }
 
 resource "aws_iam_role" "oidc" {
