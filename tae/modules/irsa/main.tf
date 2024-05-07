@@ -10,7 +10,7 @@ resource "null_resource" "environment_variables" {
 }
 
 ######################### Create AWS IAM OpenID Connect Provider #########################
-resource "aws_iam_openid_connect_provider" "OIDC" {
+resource "aws_iam_openid_connect_provider" "oidc" {
   url             = var.cluster_oidc_url
   thumbprint_list = var.thumbprint_list
   client_id_list  = [
