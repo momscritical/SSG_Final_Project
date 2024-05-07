@@ -94,6 +94,10 @@ resource "aws_iam_role_policy_attachment" "node_group_AmazonEC2ContainerRegistry
   role       = aws_iam_role.node_group.name
 }
 
+# resource "aws_launch_template" "app_node" {
+  
+# }
+
 # Node Group 생성
 # Application Node Group
 resource "aws_eks_node_group" "app" {
@@ -132,8 +136,6 @@ resource "aws_eks_node_group" "app" {
     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
   ]
 }
-
-
 
 # Setting Node Group
 resource "aws_eks_node_group" "set" {
@@ -180,6 +182,8 @@ resource "null_resource" "eks_kubeconfig" {
     # aws_eks_node_group.was
   ]
 }
+
+
 
 # # WAS Node Group
 # resource "aws_eks_node_group" "was" {
