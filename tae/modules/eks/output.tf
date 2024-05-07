@@ -8,7 +8,7 @@ output "kubeconfig-certificate-authority-data" {
   value = aws_eks_cluster.cluster.certificate_authority[0].data
 }
 
-output "web_asg_tag" {
+output "app_asg_tag" {
   value = aws_eks_node_group.web.tags["ASG-Tag"]
 }
 
@@ -17,7 +17,7 @@ output "was_asg_tag" {
 }
 
 #resources.autoscaling_groups.name
-output "web_asg_name" {
+output "app_asg_name" {
   value = aws_eks_node_group.web.resources[0].autoscaling_groups[0].name
 }
 
