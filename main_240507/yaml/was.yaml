@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: was-dep
+  labels:
+    app: was
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: was
+  template:
+    metadata:
+      labels:
+        app: was
+    spec:
+      serviceAccountName: s3-sa
+      containers:
+      - name: was
+        image: 206177862976.dkr.ecr.ap-northeast-1.amazonaws.com/aws-ecr-ssgpang:fe3c3a03cdd0d6615a82dba49c664c74fb4a88e4
+        ports:
+        - containerPort: 80
+      tolerations:
+      - key: "was"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: dev
+  name: was-svc
+spec:
+  selector:
+    app: was
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
