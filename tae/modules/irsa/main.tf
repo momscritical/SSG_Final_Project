@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "oidc" {
     }
   }
 
-  depends_on = [ aws_iam_openid_connect_provider.OIDC ]
+  depends_on = [ aws_iam_openid_connect_provider.oidc ]
 }
 
 resource "aws_iam_role" "oidc" {
