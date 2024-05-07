@@ -149,47 +149,47 @@ module "final_eks" {
   cluster_name           = var.cluster_name
 
   node_group_role_name   = var.node_group_role_name
-  web_node_group_name    = var.web_node_config.name
-  was_node_group_name    = var.was_node_config.name
+  app_node_group_name    = var.app_node_config.name
+  # was_node_group_name    = var.was_node_config.name
   set_node_group_name    = var.set_node_config.name
 
   k8s_version            = var.k8s_version
   region                 = var.region
 
   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
-  web_node_group_subnet_ids = module.final_vpc.web_subnet_id
-  was_node_group_subnet_ids = module.final_vpc.was_subnet_id
+  app_node_group_subnet_ids = module.final_vpc.app_subnet_id
+  # was_node_group_subnet_ids = module.final_vpc.was_subnet_id
   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
-  web_instance_types     = [ var.web_node_config.instance_types ]
-  was_instance_types     = [ var.was_node_config.instance_types ]
+  app_instance_types     = [ var.app_node_config.instance_types ]
+  # was_instance_types     = [ var.was_node_config.instance_types ]
   set_instance_types     = [ var.set_node_config.instance_types ]
 
-  web_node_group_desired_size = var.web_node_config.desired_size
-  web_node_group_max_size     = var.web_node_config.max_size
-  web_node_group_min_size     = var.web_node_config.min_size
-  was_node_group_desired_size = var.was_node_config.desired_size
-  was_node_group_max_size     = var.was_node_config.max_size
-  was_node_group_min_size     = var.was_node_config.min_size
+  app_node_group_desired_size = var.app_node_config.desired_size
+  app_node_group_max_size     = var.app_node_config.max_size
+  app_node_group_min_size     = var.app_node_config.min_size
+  # was_node_group_desired_size = var.was_node_config.desired_size
+  # was_node_group_max_size     = var.was_node_config.max_size
+  # was_node_group_min_size     = var.was_node_config.min_size
   set_node_group_desired_size = var.set_node_config.desired_size
   set_node_group_max_size     = var.set_node_config.max_size
   set_node_group_min_size     = var.set_node_config.min_size
 
-  web_max_unavailable   = var.web_node_config.max_unavailable
-  was_max_unavailable   = var.was_node_config.max_unavailable
+  app_max_unavailable   = var.app_node_config.max_unavailable
+  # was_max_unavailable   = var.was_node_config.max_unavailable
   set_max_unavailable   = var.set_node_config.max_unavailable
 
-  web_taint_key    = var.web_node_config.taint_key
-  web_taint_value  = var.web_node_config.taint_value
-  web_taint_effect = var.web_node_config.taint_effect
-  was_taint_key    = var.web_node_config.taint_key
-  was_taint_value  = var.web_node_config.taint_value
-  was_taint_effect = var.web_node_config.taint_effect
+  app_taint_key    = var.app_node_config.taint_key
+  app_taint_value  = var.app_node_config.taint_value
+  app_taint_effect = var.app_node_config.taint_effect
+  # was_taint_key    = var.app_node_config.taint_key
+  # was_taint_value  = var.app_node_config.taint_value
+  # was_taint_effect = var.app_node_config.taint_effect
 
-  web_environment = var.web_node_config.environment
-  web_asg_tag     = var.web_node_config.asg_tag
-  was_environment = var.web_node_config.asg_tag
-  was_asg_tag     = var.was_node_config.asg_tag
+  app_environment = var.app_node_config.environment
+  app_asg_tag     = var.app_node_config.asg_tag
+  # was_environment = var.app_node_config.asg_tag
+  # was_asg_tag     = var.was_node_config.asg_tag
 }
 
 module "final_ingress_controller" {

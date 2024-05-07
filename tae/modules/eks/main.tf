@@ -95,35 +95,35 @@ resource "aws_iam_role_policy_attachment" "node_group_AmazonEC2ContainerRegistry
 }
 
 # Node Group 생성
-# Web Node Group
-resource "aws_eks_node_group" "web" {
+# Application Node Group
+resource "aws_eks_node_group" "app" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = var.web_node_group_name
+  node_group_name = var.app_node_group_name
   node_role_arn   = aws_iam_role.node_group.arn
-  subnet_ids      = var.web_node_group_subnet_ids
-  instance_types  = var.web_instance_types
+  subnet_ids      = var.app_node_group_subnet_ids
+  instance_types  = var.app_instance_types
 
   scaling_config {
-    desired_size = var.web_node_group_desired_size
-    max_size     = var.web_node_group_max_size
-    min_size     = var.web_node_group_min_size
+    desired_size = var.app_node_group_desired_size
+    max_size     = var.app_node_group_max_size
+    min_size     = var.app_node_group_min_size
   }
 
   update_config {
-    max_unavailable = var.web_max_unavailable
+    max_unavailable = var.app_max_unavailable
     # 업데이트 중 사용할 수 없는 노드의 최대 수를 제한 => 클러스터의 가용성을 유지하면서 노드 그룹 업데이트
   }
 
   taint {
-    key = var.web_taint_key
-    value  = var.web_taint_value
-    effect = var.web_taint_effect
+    key     = var.app_taint_key
+    value   = var.app_taint_value
+    effect  = var.app_taint_effect
   }
 
   tags = {
-    Name = var.web_node_group_name
-    Environment   = var.web_environment
-    ASG-Tag = var.web_asg_tag
+    Name          = var.app_node_group_name
+    Environment   = var.app_environment
+    ASG-Tag       = var.app_asg_tag
   }
   
   depends_on = [
@@ -133,42 +133,7 @@ resource "aws_eks_node_group" "web" {
   ]
 }
 
-# WAS Node Group
-resource "aws_eks_node_group" "was" {
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = var.was_node_group_name
-  node_role_arn   = aws_iam_role.node_group.arn
-  subnet_ids      = var.was_node_group_subnet_ids
-  instance_types  = var.was_instance_types
 
-  scaling_config {
-    desired_size = var.was_node_group_desired_size
-    max_size     = var.was_node_group_max_size
-    min_size     = var.was_node_group_min_size
-  }
-
-  update_config {
-    max_unavailable = var.was_max_unavailable
-  }
-
-  taint {
-    key = var.was_taint_key
-    value  = var.was_taint_value
-    effect = var.was_taint_effect
-  }
-
-  tags = {
-    Name = var.was_node_group_name
-    Environment   = var.was_environment
-    ASG-Tag = var.was_asg_tag
-  }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
-  ]
-}
 
 # Setting Node Group
 resource "aws_eks_node_group" "set" {
@@ -215,6 +180,43 @@ resource "null_resource" "eks_kubeconfig" {
     aws_eks_node_group.was
   ]
 }
+
+# # WAS Node Group
+# resource "aws_eks_node_group" "was" {
+#   cluster_name    = aws_eks_cluster.cluster.name
+#   node_group_name = var.was_node_group_name
+#   node_role_arn   = aws_iam_role.node_group.arn
+#   subnet_ids      = var.was_node_group_subnet_ids
+#   instance_types  = var.was_instance_types
+
+#   scaling_config {
+#     desired_size = var.was_node_group_desired_size
+#     max_size     = var.was_node_group_max_size
+#     min_size     = var.was_node_group_min_size
+#   }
+
+#   update_config {
+#     max_unavailable = var.was_max_unavailable
+#   }
+
+#   taint {
+#     key = var.was_taint_key
+#     value  = var.was_taint_value
+#     effect = var.was_taint_effect
+#   }
+
+#   tags = {
+#     Name = var.was_node_group_name
+#     Environment   = var.was_environment
+#     ASG-Tag = var.was_asg_tag
+#   }
+
+#   depends_on = [
+#     aws_iam_role_policy_attachment.node_group_AmazonEKSWorkerNodePolicy,
+#     aws_iam_role_policy_attachment.node_group_AmazonEKS_CNI_Policy,
+#     aws_iam_role_policy_attachment.node_group_AmazonEC2ContainerRegistryReadOnly,
+#   ]
+# }
 
 # # EKS 클러스터의 기능을 확장하기 위한 애드온설정
 # # 코어 DNS(coredns), kube-proxy, VPC CNI 등 필수 애드온과 사용자 정의 애드온

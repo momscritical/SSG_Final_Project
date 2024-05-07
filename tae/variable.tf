@@ -54,30 +54,30 @@ variable "cp_subnet_config" {
 }
 
 variable "web_subnet_config" {
-  description = "Subnets Configuration Values for Web Node"
+  description = "Subnets Configuration Values for Application Node"
   type        = object({
     name = string
     cidr = list(string)
   })
   default     = {
-    name = "Web-Subnet"
+    name = "App-Subnet"
     cidr = ["10.0.11.0/24", "10.0.12.0/24"]
   }
   sensitive   = true
 }
 
-variable "was_subnet_config" {
-  description = "Subnets Configuration Values for WAS Node Subnet"
-  type        = object({
-    name = string
-    cidr = list(string)
-  })
-  default     = {
-    name = "WAS-Subnet"
-    cidr = ["10.0.101.0/24", "10.0.102.0/24"]
-  }
-  sensitive   = true
-}
+# variable "was_subnet_config" {
+#   description = "Subnets Configuration Values for WAS Node Subnet"
+#   type        = object({
+#     name = string
+#     cidr = list(string)
+#   })
+#   default     = {
+#     name = "WAS-Subnet"
+#     cidr = ["10.0.101.0/24", "10.0.102.0/24"]
+#   }
+#   sensitive   = true
+# }
 
 variable "set_subnet_config" {
   description = "Subnets Configuration Values for Setting Node"
@@ -87,7 +87,7 @@ variable "set_subnet_config" {
   })
   default     = {
     name = "Set-Subnet"
-    cidr = ["10.0.103.0/24", "10.0.104.0/24"]
+    cidr = ["10.0.101.0/24", "10.0.102.0/24"]
   }
   sensitive   = true
 }
@@ -168,31 +168,31 @@ variable "cp_sg_config" {
   sensitive   = true
 }
 
-variable "web_sg_config" {
-  description = "Security Group Configuration Values for Web Nodes"
+variable "app_sg_config" {
+  description = "Security Group Configuration Values for Application Nodes"
   type        = object({
     name     = string
     ing_port = list(number)
   })
   default     = {
-    name     = "Web-SG"
+    name     = "Application-SG"
     ing_port = [22, 80]
   }
   sensitive   = true
 }
 
-variable "was_sg_config" {
-  description = "Security Group Configuration Values for WAS Nodes"
-  type        = object({
-    name     = string
-    ing_port = list(number)
-  })
-  default     = {
-    name     = "WAS-SG"
-    ing_port = [22, 80]
-  }
-  sensitive   = true
-}
+# variable "was_sg_config" {
+#   description = "Security Group Configuration Values for WAS Nodes"
+#   type        = object({
+#     name     = string
+#     ing_port = list(number)
+#   })
+#   default     = {
+#     name     = "WAS-SG"
+#     ing_port = [22, 80]
+#   }
+#   sensitive   = true
+# }
 
 variable "set_sg_config" {
   description = "Security Group Configuration Values for Setting Nodes"
@@ -303,8 +303,8 @@ variable "node_group_role_name" {
     default     = "SSG-Final-2-NodeGroup-Role"
 }
 
-variable "web_node_config" {
-  description = "Configuration Values for the Web Node Group"
+variable "app_node_config" {
+  description = "Configuration Values for the Application Node Group"
   type = object({
     name            = string
     instance_types  = string
@@ -319,49 +319,49 @@ variable "web_node_config" {
     asg_tag         = string
   })
   default = {
-    name            = "Web-Node-Group"
+    name            = "App-Node-Group"
     instance_types  = "t2.small"
     desired_size    = 2
     max_size        = 3
     min_size        = 1
     max_unavailable = 1
-    taint_key       = "web"
+    taint_key       = "app"
     taint_value     = "true"
     taint_effect    = "NO_SCHEDULE"
     environment     = "production"
-    asg_tag         = "Web-Node"
+    asg_tag         = "App-Node"
   }
 }
 
-variable "was_node_config" {
-  description = "Configuration Values for the WAS Node Group"
-  type = object({
-    name            = string
-    instance_types  = string
-    desired_size    = number
-    max_size        = number
-    min_size        = number
-    max_unavailable = number
-    taint_key       = string
-    taint_value     = string
-    taint_effect    = string
-    environment     = string
-    asg_tag         = string
-  })
-  default = {
-    name            = "WAS-Node-Group"
-    instance_types  = "t2.small"
-    desired_size    = 2
-    max_size        = 3
-    min_size        = 1
-    max_unavailable = 1
-    taint_key       = "was"
-    taint_value     = "true"
-    taint_effect    = "NO_SCHEDULE"
-    environment     = "production"
-    asg_tag         = "WAS-Node"
-  }
-}
+# variable "was_node_config" {
+#   description = "Configuration Values for the WAS Node Group"
+#   type = object({
+#     name            = string
+#     instance_types  = string
+#     desired_size    = number
+#     max_size        = number
+#     min_size        = number
+#     max_unavailable = number
+#     taint_key       = string
+#     taint_value     = string
+#     taint_effect    = string
+#     environment     = string
+#     asg_tag         = string
+#   })
+#   default = {
+#     name            = "WAS-Node-Group"
+#     instance_types  = "t2.small"
+#     desired_size    = 2
+#     max_size        = 3
+#     min_size        = 1
+#     max_unavailable = 1
+#     taint_key       = "was"
+#     taint_value     = "true"
+#     taint_effect    = "NO_SCHEDULE"
+#     environment     = "production"
+#     asg_tag         = "WAS-Node"
+#   }
+# }
 
 variable "set_node_config" {
   description = "Configuration Values for the Setting Node Group"
