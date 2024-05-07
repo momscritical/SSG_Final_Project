@@ -17,17 +17,17 @@ variable "cp_sg_name" {
   default     = ""
 }
 
-variable "web_sg_name" {
+variable "app_sg_name" {
   description = "The Name of the Security Group for Web Instance"
   type        = string
   default     = ""
 }
 
-variable "was_sg_name" {
-  description = "The Name of the Security Group for WAS Instance"
-  type        = string
-  default     = ""
-}
+# variable "was_sg_name" {
+#   description = "The Name of the Security Group for WAS Instance"
+#   type        = string
+#   default     = ""
+# }
 
 variable "set_sg_name" {
   description = "The Name of the Security Group for EKS Setting Node"
@@ -91,8 +91,8 @@ variable "cp_ing_rules" {
   default     = []
 }
 
-variable "web_ing_rules" {
-  description = "List of ingress rules for Web Instance"
+variable "app_ing_rules" {
+  description = "List of ingress rules for Application Nodes"
   type        = list(object({
     from_port       = number
     to_port         = number
@@ -101,15 +101,15 @@ variable "web_ing_rules" {
   default     = []
 }
 
-variable "was_ing_rules" {
-  description = "List of ingress rules for WAS Instance"
-  type        = list(object({
-    from_port       = number
-    to_port         = number
-    security_groups = list(string)
-  }))
-  default     = []
-}
+# variable "was_ing_rules" {
+#   description = "List of ingress rules for WAS Instance"
+#   type        = list(object({
+#     from_port       = number
+#     to_port         = number
+#     security_groups = list(string)
+#   }))
+#   default     = []
+# }
 
 variable "set_ing_rules" {
   description = "List of ingress rules for EKS Setting Node"

@@ -52,13 +52,13 @@ resource "aws_security_group" "cp" {
   }
 }
 
-resource "aws_security_group" "web" { 
-  name        = var.web_sg_name
-  description = "Security Group for Web Layer Instance"
+resource "aws_security_group" "app" { 
+  name        = var.app_sg_name
+  description = "Security Group for Application Nodes"
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
-    for_each = var.web_ing_rules
+    for_each = var.app_ing_rules
     content {
       from_port       = ingress.value.from_port
       to_port         = ingress.value.to_port
@@ -75,7 +75,7 @@ resource "aws_security_group" "web" {
   }
 
   tags = {
-    Name = var.web_sg_name
+    Name = var.app_sg_name
   }
 }
 
@@ -106,32 +106,32 @@ resource "aws_security_group" "set" {
   }
 }
 
-resource "aws_security_group" "was" { 
-  name        = var.was_sg_name
-  description = "Security Group for WAS Layer Instance"
-  vpc_id      = var.vpc_id
+# resource "aws_security_group" "was" { 
+#   name        = var.was_sg_name
+#   description = "Security Group for WAS Layer Instance"
+#   vpc_id      = var.vpc_id
 
-  dynamic "ingress" {
-    for_each = var.was_ing_rules
-    content {
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
-      protocol        = "tcp"
-      security_groups = ingress.value.security_groups
-    }
-  }
+#   dynamic "ingress" {
+#     for_each = var.was_ing_rules
+#     content {
+#       from_port       = ingress.value.from_port
+#       to_port         = ingress.value.to_port
+#       protocol        = "tcp"
+#       security_groups = ingress.value.security_groups
+#     }
+#   }
 
-  egress {
-    from_port     = 0
-    to_port       = 0
-    protocol      = "-1"
-    cidr_blocks   = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port     = 0
+#     to_port       = 0
+#     protocol      = "-1"
+#     cidr_blocks   = ["0.0.0.0/0"]
+#   }
 
-  tags = {
-    Name = var.was_sg_name
-  }
-}
+#   tags = {
+#     Name = var.was_sg_name
+#   }
+# }
 
 resource "aws_security_group" "db" {
   name        = var.db_sg_name
