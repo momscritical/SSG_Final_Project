@@ -8,10 +8,11 @@ output "kubeconfig-certificate-authority-data" {
   value = module.final_eks.kubeconfig-certificate-authority-data
 }
 
+# WAS Service Account Yaml 정보 수정을 위한 OIDC Role ARN
+output "oidc_role_arn" {
+  value = module.final_irsa.role_arn
+}
+
 # output "cluster_id" {
 #   value = module.final_eks.cluster_id
-# }
-
-# output "cluster_oidc_url" {
-#   value = module.final_eks.
 # }

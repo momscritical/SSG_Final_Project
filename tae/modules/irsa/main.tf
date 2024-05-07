@@ -25,7 +25,6 @@ resource "aws_iam_openid_connect_provider" "oidc" {
   }
 }
 
-# 테스트 중...
 ################################### IAM Role ###################################
 data "aws_iam_policy_document" "oidc" {
   statement {
