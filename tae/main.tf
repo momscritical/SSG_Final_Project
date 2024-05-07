@@ -203,8 +203,10 @@ module "final_irsa" {
   source = "./modules/irsa"
 
   cluster_name = var.cluster_name
-  cluster_oidc_url = data.tls_certificate.cluster_issuer.url
-  thumbprint_list = [data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint]
+
+  cluster_oidc_url= module.final_eks.cluster_issuer
+  # cluster_oidc_url = data.tls_certificate.cluster_issuer.url
+  # thumbprint_list = [data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint]
   
   service_account_name = var.service_account_name
   oidc_role_name = var.oidc_role_name

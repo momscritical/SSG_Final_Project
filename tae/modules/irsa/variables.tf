@@ -25,5 +25,5 @@ variable "service_account_name" {
 variable "oidc_role_name" {
   description = "Cluster OIDC URL Values"
   type = string
-  default = "ssg-final-3-oidc-s3-role"
+  default = "SSG-Final-3-OIDC-S3-Role"
 }
