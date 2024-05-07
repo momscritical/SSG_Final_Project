@@ -176,8 +176,8 @@ resource "null_resource" "eks_kubeconfig" {
   depends_on = [
     aws_eks_cluster.cluster,
     aws_eks_node_group.set,
-    aws_eks_node_group.web,
-    aws_eks_node_group.was
+    aws_eks_node_group.app,
+    # aws_eks_node_group.was
   ]
 }
 
