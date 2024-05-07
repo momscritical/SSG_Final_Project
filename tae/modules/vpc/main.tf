@@ -33,27 +33,27 @@ resource "aws_subnet" "cp" {
   }
 }
 
-resource "aws_subnet" "web" {
-  count              = length(var.web_subnet_cidr)
+resource "aws_subnet" "app" {
+  count              = length(var.app_subnet_cidr)
   vpc_id             = aws_vpc.vpc.id
-  cidr_block         = element(var.web_subnet_cidr, count.index)
+  cidr_block         = element(var.app_subnet_cidr, count.index)
   availability_zone  = element(var.availability_zones, count.index)
 
   tags = {
-    Name = "${var.web_subnet_name}-0${count.index + 1}"
+    Name = "${var.app_subnet_name}-0${count.index + 1}"
   }
 }
 
-resource "aws_subnet" "was" {
-  count              = length(var.was_subnet_cidr)
-  vpc_id             = aws_vpc.vpc.id
-  cidr_block         = element(var.was_subnet_cidr, count.index)
-  availability_zone  = element(var.availability_zones, count.index)
+# resource "aws_subnet" "was" {
+#   count              = length(var.was_subnet_cidr)
+#   vpc_id             = aws_vpc.vpc.id
+#   cidr_block         = element(var.was_subnet_cidr, count.index)
+#   availability_zone  = element(var.availability_zones, count.index)
 
-  tags = {
-    Name = "${var.was_subnet_name}-0${count.index + 1}"
-  }
-}
+#   tags = {
+#     Name = "${var.was_subnet_name}-0${count.index + 1}"
+#   }
+# }
 
 resource "aws_subnet" "set" {
   count              = length(var.set_subnet_cidr)
@@ -146,9 +146,9 @@ resource "aws_route_table_association" "cp_subnet_asso" {
   route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_route_table_association" "web_subnet_asso" {
-  count          = length(var.web_subnet_cidr)
-  subnet_id      = element(aws_subnet.web[*].id, count.index) 
+resource "aws_route_table_association" "app_subnet_asso" {
+  count          = length(var.app_subnet_cidr)
+  subnet_id      = element(aws_subnet.app[*].id, count.index) 
   route_table_id = aws_route_table.private_rt.id
 }
 

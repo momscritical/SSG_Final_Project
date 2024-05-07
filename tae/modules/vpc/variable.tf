@@ -55,31 +55,31 @@ variable "cp_subnet_name" {
   default = ""
 }
 
-############################## Web Subnet ##############################
-variable "web_subnet_cidr" {
-  description = "Subnet CIDR Values for EKS Web Node Group"
+############################## Application Subnet ##############################
+variable "app_subnet_cidr" {
+  description = "Subnet CIDR Values for EKS Application Node Group"
   type        = list(string)
   default     = []
 }
 
-variable "web_subnet_name" {
-  description = "Subnet Name Values for EKS Web Node Group"
+variable "app_subnet_name" {
+  description = "Subnet Name Values for EKS Application Node Group"
   type = string
   default = ""
 }
 
-############################## WAS Subnet ##############################
-variable "was_subnet_cidr" {
-  description = "Subnet CIDR Values for EKS WAS Node Group"
-  type        = list(string)
-  default     = []
-}
+# ############################## WAS Subnet ##############################
+# variable "was_subnet_cidr" {
+#   description = "Subnet CIDR Values for EKS WAS Node Group"
+#   type        = list(string)
+#   default     = []
+# }
 
-variable "was_subnet_name" {
-  description = "Subnet Name Values for EKS WAS Node Group"
-  type = string
-  default = ""
-}
+# variable "was_subnet_name" {
+#   description = "Subnet Name Values for EKS WAS Node Group"
+#   type = string
+#   default = ""
+# }
 
 ############################## Set Subnet ##############################
 variable "set_subnet_cidr" {

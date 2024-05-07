@@ -13,15 +13,15 @@ output "cp_subnet_id" {
   value       = aws_subnet.cp[*].id
 }
 
-output "web_subnet_id" {
+output "app_subnet_id" {
   description = "ID of the Web Subnet"
-  value       = aws_subnet.web[*].id
+  value       = aws_subnet.app[*].id
 }
 
-output "was_subnet_id" {
-  description = "ID of the WAS Subnet"
-  value       = aws_subnet.was[*].id
-}
+# output "was_subnet_id" {
+#   description = "ID of the WAS Subnet"
+#   value       = aws_subnet.was[*].id
+# }
 
 output "set_subnet_id" {
   description = "ID of the Setting Node Subnet"

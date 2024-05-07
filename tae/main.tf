@@ -6,16 +6,16 @@ module "final_vpc" {
   vpc_cidr            = var.vpc_config.cidr
   public_subnet_cidr  = var.public_subnet_config.cidr
   cp_subnet_cidr      = var.cp_subnet_config.cidr
-  web_subnet_cidr     = var.web_subnet_config.cidr
-  was_subnet_cidr     = var.was_subnet_config.cidr
+  app_subnet_cidr     = var.app_subnet_config.cidr
+  # was_subnet_cidr     = var.was_subnet_config.cidr
   set_subnet_cidr     = var.set_subnet_config.cidr
   db_subnet_cidr      = var.db_subnet_config.cidr
 
   vpc_name            = var.vpc_config.name
   public_subnet_name  = var.public_subnet_config.name
   cp_subnet_name      = var.public_subnet_config.name
-  web_subnet_name     = var.web_subnet_config.name
-  was_subnet_name     = var.was_subnet_config.name
+  app_subnet_name     = var.app_subnet_config.name
+  # was_subnet_name     = var.was_subnet_config.name
   set_subnet_name     = var.set_subnet_config.name
   db_subnet_name      = var.db_subnet_config.name
   igw_name            = var.igw_name

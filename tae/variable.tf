@@ -53,7 +53,7 @@ variable "cp_subnet_config" {
   sensitive   = true
 }
 
-variable "web_subnet_config" {
+variable "app_subnet_config" {
   description = "Subnets Configuration Values for Application Node"
   type        = object({
     name = string
