@@ -206,7 +206,13 @@ module "final_irsa" {
   cluster_oidc_url = data.tls_certificate.cluster_issuer.url
   thumbprint_list = [data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint]
   
-  depends_on = [ data.tls_certificate.cluster_issuer ]
+  service_account_name = var.service_account_name
+  oidc_role_name = var.oidc_role_name
+
+  depends_on = [ 
+    final_eks,
+    data.tls_certificate.cluster_issuer
+  ]
 }
 
 # module "final_rds" {

@@ -401,6 +401,19 @@ variable "ingress_controller_yaml" {
   sensitive   = true
 }
 
+#################################### IRSA Values ####################################
+variable "service_account_name" {
+  description = "Name Values for EKS Service Account"
+  type = list(string)
+  default = ["system:serviceaccount:dev:s3-sa"]
+}
+
+variable "oidc_role_name" {
+  description = "Cluster OIDC URL Values"
+  type = string
+  default = "ssg-final-3-oidc-s3-role"
+}
+
 #################################### AWS RDS Values ####################################
 variable "rds_config" {
   description = "Configuration Values for AWS RDS"
