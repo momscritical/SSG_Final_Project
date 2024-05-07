@@ -20,12 +20,14 @@ resource "aws_iam_openid_connect_provider" "oidc" {
   client_id_list  = [
     "sts.amazonaws.com",
   ]
+
   lifecycle {
     create_before_destroy = true
   }
 }
 
 ################################### IAM Role ###################################
+# Create IAM Role for 
 data "aws_iam_policy_document" "oidc" {
   statement {
     effect  = "Allow"
@@ -53,42 +55,22 @@ data "aws_iam_policy_document" "oidc" {
   depends_on = [ aws_iam_openid_connect_provider.oidc ]
 }
 
+######################### Create IAM Role for  #########################
 resource "aws_iam_role" "oidc" {
   description = "AWS IAM role to access AWS S3 for EKS Pods"
   name               = var.oidc_role_name
   assume_role_policy = data.aws_iam_policy_document.oidc.json
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [ data.aws_iam_policy_document.oidc ]
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attachment" {
   role       = aws_iam_role.oidc.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+
+  depends_on = [ aws_iam_role.oidc ]
 }
-
-# resource "aws_iam_openid_connect_provider" "oidc" {
-#   url             = var.cluster_oidc_url
-#   thumbprint_list = var.thumbprint_list
-#   client_id_list  = [
-#     "sts.amazonaws.com",
-#   ]
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
-
-# data "aws_iam_policy_document" "oidc" {
-#   statement {
-#     actions = ["s3:*","s3-object-lambda:*"]
-#     # 부여되는 권한의 목록을 지정 => AmazonS3FullAccess 권한 부여
-
-#     effect = "Allow"
-#     # EKS 클러스터에게 권한을 부여
-
-#     principals {
-#       # 권한을 부여받는 대상
-#       type        = ""
-#       # "Service"로 설정되어 EKS 서비스만 이 권한을 사용할 수 있도록 설정 
-#       identifiers = ["eks.amazonaws.com"]
-#       # 권한을 부여받는 서비스의 ARN 목록을 지정
-#     }
-#   }
-# }

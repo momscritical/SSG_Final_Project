@@ -28,4 +28,4 @@ data "aws_ami" "amazon_linux_2023" {
 # data "tls_certificate" "cluster_issuer" {
 #   url = module.final_eks.cluster_issuer
 #   depends_on = [ module.final_eks ]
-}
+# }
