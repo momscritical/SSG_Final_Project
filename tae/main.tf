@@ -93,7 +93,7 @@ module "final_sg" {
     {
       from_port       = var.db_sg_config.ing_port[0]
       to_port         = var.db_sg_config.ing_port[0]
-      security_groups = [ module.final_sg.was_sg_id ]
+      security_groups = [ module.final_sg.app_sg_id ]
     }
   ]
 
