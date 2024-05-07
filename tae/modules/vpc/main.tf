@@ -106,7 +106,7 @@ resource "aws_nat_gateway" "ngw" {
   ]
 }
 
-############################## Route Table ##############################
+############################## Routing Table ##############################
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.vpc.id
   
@@ -133,7 +133,7 @@ resource "aws_route_table" "private_rt" {
   }
 }
 
-######################### Route Table Association #########################
+######################### Routing Table Association #########################
 resource "aws_route_table_association" "public_subnet_asso" {
   count          = length(var.public_subnet_cidr)
   subnet_id      = element(aws_subnet.public[*].id, count.index) 

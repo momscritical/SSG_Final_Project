@@ -238,6 +238,7 @@ module "final_irsa" {
 #   rds_subnet_ids         = module.final_vpc.db_subnet_id
 # }
 
+# Kubernetes Ingress Nginx Controller를 사용하기 때문에 사용 x
 # module "final_lb" {
 #   source = "./modules/lb"
 
@@ -286,6 +287,7 @@ module "final_irsa" {
 #   # int_hc_interval = 30
 # }
 
+# ???
 # module "final_asg" {
 #   source = "./modules/asg"
 

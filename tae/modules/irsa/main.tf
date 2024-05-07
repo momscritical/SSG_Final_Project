@@ -26,8 +26,7 @@ resource "aws_iam_openid_connect_provider" "oidc" {
   }
 }
 
-################################### IAM Role ###################################
-# Create IAM Role for 
+################################### IAM Policy Document ###################################
 data "aws_iam_policy_document" "oidc" {
   statement {
     effect  = "Allow"
@@ -55,7 +54,7 @@ data "aws_iam_policy_document" "oidc" {
   depends_on = [ aws_iam_openid_connect_provider.oidc ]
 }
 
-######################### Create IAM Role for  #########################
+######################### Create IAM Role to access AWS S3 for EKS Pods #########################
 resource "aws_iam_role" "oidc" {
   description = "AWS IAM role to access AWS S3 for EKS Pods"
   name               = var.oidc_role_name
