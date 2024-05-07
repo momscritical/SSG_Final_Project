@@ -33,7 +33,7 @@ output "db_subnet_id" {
   value       = aws_subnet.db[*].id
 }
 
-output "eks_subnet_ids" {
-  description = "Combined list of Web and WAS Subnet IDs"
-  value       = concat(aws_subnet.web[*].id, aws_subnet.was[*].id, aws_subnet.set[*].id)
-}
+# output "eks_subnet_ids" {
+#   description = "Combined list of Web and WAS Subnet IDs"
+#   value       = concat(aws_subnet.app[*].id, aws_subnet.was[*].id, aws_subnet.set[*].id)
+# }
