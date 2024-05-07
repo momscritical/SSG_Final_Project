@@ -83,8 +83,8 @@ module "final_sg" {
 
   set_ing_rules = [
     {
-      from_port       = var.was_sg_config.ing_port[0]
-      to_port         = var.was_sg_config.ing_port[0]
+      from_port       = var.set_sg_config.ing_port[0]
+      to_port         = var.set_sg_config.ing_port[0]
       security_groups = [ module.final_sg.bastion_sg_id ]
     }
   ]
