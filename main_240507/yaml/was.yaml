@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: 80
       tolerations:
-      - key: "was"
+      - key: "app"
         operator: "Equal"
         value: "true"
         effect: "NoSchedule"
