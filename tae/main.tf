@@ -210,7 +210,7 @@ module "final_irsa" {
   oidc_role_name = var.oidc_role_name
 
   depends_on = [ 
-    final_eks,
+    module.final_eks,
     data.tls_certificate.cluster_issuer
   ]
 }
