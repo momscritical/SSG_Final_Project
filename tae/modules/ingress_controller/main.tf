@@ -30,6 +30,8 @@ resource "kubernetes_service_account" "controller-serviceaccount" {
     namespace = "ingress-nginx"
   }
   automount_service_account_token = true
+  
+  depends_on = [ kubernetes_namespace.ingress-nginx ]
 }
 
 # Source: ingress-nginx/templates/controller-configmap.yaml
@@ -49,6 +51,8 @@ resource "kubernetes_config_map" "controller-configmap" {
   data = {
     "allow-snippet-annotations" = true
   }
+
+  depends_on = [ kubernetes_namespace.ingress-nginx ]
 }
 
 # Source: ingress-nginx/templates/clusterrole.yaml
@@ -105,6 +109,12 @@ resource "kubernetes_cluster_role" "clusterrole" {
     resources  = ["ingressclasses"]
     verbs      = ["get", "list", "watch"]
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_service_account.controller-serviceaccount,
+    kubernetes_config_map.controller-configmap
+  ]
 }
 
 # Source: ingress-nginx/templates/clusterrolebinding.yaml
@@ -131,6 +141,11 @@ resource "kubernetes_role_binding" "clusterrolebinding" {
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_cluster_role.clusterrole
+    ]
 }
 
 # Source: ingress-nginx/templates/controller-role.yaml
@@ -202,6 +217,11 @@ resource "kubernetes_role" "controller-role" {
     resources  = ["events"]
     verbs      = ["create", "patch"]
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_cluster_role_binding.webhooks_clusterrolebinding
+  ]
 }
 
 # Source: ingress-nginx/templates/controller-rolebinding.yaml
@@ -230,6 +250,11 @@ resource "kubernetes_role_binding" "controller-rolebinding" {
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_role.controller-role
+   ]
 }
 
 # Source: ingress-nginx/templates/controller-service-webhook.yaml
@@ -264,6 +289,12 @@ resource "kubernetes_service" "controller-service-webhook" {
       "app.kubernetes.io/name"      = "ingress-nginx"
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_cluster_role_binding.webhooks_clusterrolebinding,
+    kubernetes_role_binding.controller-rolebinding
+  ]
 }
 
 # Source: ingress-nginx/templates/controller-service.yaml
@@ -310,6 +341,11 @@ resource "kubernetes_service" "controller-service" {
       "app.kubernetes.io/name"      = "ingress-nginx"
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_service.controller-service-webhook
+  ]
 }
 
 # Source: ingress-nginx/templates/controller-deployment.yaml
@@ -479,6 +515,11 @@ resource "kubernetes_deployment" "controller-deployment" {
       }
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_service.controller-service
+  ]
 }
 
 # Source: ingress-nginx/templates/controller-ingressclass.yaml
@@ -501,6 +542,11 @@ resource "kubernetes_ingress_class" "controller-ingressclass" {
   spec {
     controller = "k8s.io/ingress-nginx"
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_deployment.controller-deployment
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/validating-webhook.yaml
@@ -542,6 +588,11 @@ resource "kubernetes_validating_webhook_configuration" "validating-webhook" {
       }
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_ingress_class.controller-ingressclass
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/serviceaccount.yaml
@@ -562,6 +613,11 @@ resource "kubernetes_service_account" "serviceaccount" {
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_validating_webhook_configuration.validating-webhook
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/clusterrole.yaml
@@ -587,6 +643,11 @@ resource "kubernetes_cluster_role" "webhooks_clusterrole" {
     resources  = ["validatingwebhookconfigurations"]
     verbs      = ["get", "update"]
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_service_account.serviceaccount
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/clusterrolebinding.yaml
@@ -618,6 +679,11 @@ resource "kubernetes_cluster_role_binding" "webhooks_clusterrolebinding" {
     name      = "ingress-nginx-admission"
     namespace = "ingress-nginx"
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_cluster_role.webhooks_clusterrole
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/role.yaml
@@ -644,6 +710,11 @@ resource "kubernetes_role" "webhooks_role" {
     resources  = ["secrets"]
     verbs      = ["get", "create"]
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_cluster_role_binding.webhooks_clusterrolebinding
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/rolebinding.yaml
@@ -676,6 +747,11 @@ resource "kubernetes_role_binding" "webhooks_rolebinding" {
     name      = "ingress-nginx-admission"
     namespace = "ingress-nginx"
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_role.webhooks_role
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/job-createSecret.yaml
@@ -743,6 +819,11 @@ resource "kubernetes_job" "job-createSecret" {
       }
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_role_binding.webhooks_rolebinding
+  ]
 }
 
 # Source: ingress-nginx/templates/admission-webhooks/job-patch/job-patchWebhook.yaml
@@ -812,4 +893,9 @@ resource "kubernetes_job" "job-patchWebhook" {
       }
     }
   }
+
+    depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_job.job-createSecret
+  ]
 }
