@@ -456,7 +456,7 @@ resource "kubernetes_deployment" "controller-deployment" {
           }
 
           resources {
-            requests {
+            requests = {
               cpu    = "100m"
               memory = "90Mi"
             }
