@@ -9,8 +9,8 @@ resource "kubernetes_namespace" "ingress-nginx" {
   metadata {
     name = "ingress-nginx"
     labels = {
-      app.kubernetes.io/name      = "ingress-nginx"
-      app.kubernetes.io/instance  = "ingress-nginx"
+      "app.kubernetes.io/name"      = "ingress-nginx"
+      "app.kubernetes.io/instance"  = "ingress-nginx"
     }
   }
 }
@@ -19,12 +19,12 @@ resource "kubernetes_namespace" "ingress-nginx" {
 resource "kubernetes_service_account" "controller-serviceaccount" {
   metadata {
     labels = {
-      helm.sh/chart               = "ingress-nginx-4.0.15"
-      app.kubernetes.io/name      = "ingress-nginx"
-      app.kubernetes.io/instance  = "ingress-nginx"
-      app.kubernetes.io/version   = "1.1.1"
-      app.kubernetes.io/managed-by= "Helm"
-      app.kubernetes.io/component = "controller"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
