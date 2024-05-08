@@ -610,13 +610,13 @@ resource "kubernetes_cluster_role_binding" "webhooks_clusterrolebinding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.webhooks_clusterrole.name
+    name      = "ingress-nginx-admission"
   }
 
   subject {
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.serviceaccount.name
-    namespace = kubernetes_service_account.serviceaccount.namespace
+    name      = "ingress-nginx-admission"
+    namespace = "ingress-nginx"
   }
 }
 
@@ -785,7 +785,7 @@ resource "kubernetes_job" "job-patchWebhook" {
           args = [
             "patch",
             "--webhook-name=ingress-nginx-admission",
-            "--namespace=${POD_NAMESPACE}",
+            "--namespace=$${POD_NAMESPACE}",
             "--patch-mutating=false",
             "--secret-name=ingress-nginx-admission",
             "--patch-failure-policy=Fail"
