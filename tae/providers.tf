@@ -28,22 +28,17 @@ provider "aws" {
   region = var.region
 }
 
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
-# data "aws_eks_cluster" "test" {
-#   name =var.cluster_name
-# }
-# data "aws_eks_cluster_auth" "test" {
-#   name = var.cluster_name
-# }
 # provider "kubernetes" {
-#   host                   = data.aws_eks_cluster.test.endpoint
-#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.test.certificate_authority[0].data)
-#   exec {
-#     api_version = "client.authentication.k8s.io/v1beta1"
-#     args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-#     command     = "aws"
-#   }
+#   config_path = "~/.kube/config"
 # }
+
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.final_eks.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.final_eks.certificate_authority[0].data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+    command     = "aws"
+  }
+}
