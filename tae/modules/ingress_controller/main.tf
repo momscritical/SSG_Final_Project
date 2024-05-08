@@ -52,7 +52,10 @@ resource "kubernetes_config_map" "controller-configmap" {
     "allow-snippet-annotations" = true
   }
 
-  depends_on = [ kubernetes_namespace.ingress-nginx ]
+  depends_on = [
+    kubernetes_namespace.ingress-nginx,
+    kubernetes_service_account.controller-serviceaccount
+  ]
 }
 
 # Source: ingress-nginx/templates/clusterrole.yaml
@@ -220,7 +223,7 @@ resource "kubernetes_role" "controller-role" {
 
   depends_on = [
     kubernetes_namespace.ingress-nginx,
-    kubernetes_cluster_role_binding.webhooks_clusterrolebinding
+    kubernetes_role_binding.clusterrolebinding
   ]
 }
 
@@ -292,7 +295,6 @@ resource "kubernetes_service" "controller-service-webhook" {
 
   depends_on = [
     kubernetes_namespace.ingress-nginx,
-    kubernetes_cluster_role_binding.webhooks_clusterrolebinding,
     kubernetes_role_binding.controller-rolebinding
   ]
 }
