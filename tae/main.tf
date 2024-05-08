@@ -195,7 +195,7 @@ module "final_eks" {
 module "final_ingress_controller" {
   source        = "./modules/ingress_controller"
 
-  # yaml_location = var.ingress_controller_yaml
+  yaml_location = var.ingress_controller_yaml
   depends_on    = [ module.final_eks ]
 }
 
