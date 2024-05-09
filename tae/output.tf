@@ -12,7 +12,3 @@ output "kubeconfig-certificate-authority-data" {
 output "oidc_role_arn" {
   value = module.final_irsa.role_arn
 }
-
-# output "cluster_id" {
-#   value = module.final_eks.cluster_id
-# }
