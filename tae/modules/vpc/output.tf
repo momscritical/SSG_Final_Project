@@ -18,11 +18,6 @@ output "app_subnet_id" {
   value       = aws_subnet.app[*].id
 }
 
-# output "was_subnet_id" {
-#   description = "ID of the WAS Subnet"
-#   value       = aws_subnet.was[*].id
-# }
-
 output "set_subnet_id" {
   description = "ID of the Setting Node Subnet"
   value       = aws_subnet.set[*].id

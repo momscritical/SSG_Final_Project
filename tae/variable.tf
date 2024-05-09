@@ -408,7 +408,7 @@ variable "copy_config" {
   default = {
     private_key_location = "~/.ssh/final-key"
     private_key_dest     = "/home/ec2-user/.ssh/final-key"
-    dummy_file_location  = "./user_data_file/dummy_data.sql"
+    dummy_file_location  = "/home/ec2-user/.ssh/dummy_data.sql"
     dummy_file_dest      = "/home/ec2-user/.ssh/dummy_data.sql"
   }
 

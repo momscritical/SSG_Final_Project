@@ -7,7 +7,6 @@ module "final_vpc" {
   public_subnet_cidr  = var.public_subnet_config.cidr
   cp_subnet_cidr      = var.cp_subnet_config.cidr
   app_subnet_cidr     = var.app_subnet_config.cidr
-  # was_subnet_cidr     = var.was_subnet_config.cidr
   set_subnet_cidr     = var.set_subnet_config.cidr
   db_subnet_cidr      = var.db_subnet_config.cidr
 
@@ -15,7 +14,6 @@ module "final_vpc" {
   public_subnet_name  = var.public_subnet_config.name
   cp_subnet_name      = var.public_subnet_config.name
   app_subnet_name     = var.app_subnet_config.name
-  # was_subnet_name     = var.was_subnet_config.name
   set_subnet_name     = var.set_subnet_config.name
   db_subnet_name      = var.db_subnet_config.name
   igw_name            = var.igw_name
@@ -35,7 +33,6 @@ module "final_sg" {
   bastion_sg_name = var.bastion_sg_config.name
   cp_sg_name      = var.cp_sg_config.name
   app_sg_name     = var.app_sg_config.name
-  # was_sg_name     = var.was_sg_config.name
   set_sg_name     = var.set_sg_config.name
   db_sg_name      = var.db_sg_config.name
   elb_sg_name     = var.elb_sg_config.name
@@ -68,19 +65,6 @@ module "final_sg" {
     }
   ]
 
-  # was_ing_rules = [
-  #   {
-  #     from_port       = var.was_sg_config.ing_port[0]
-  #     to_port         = var.was_sg_config.ing_port[0]
-  #     security_groups = [ module.final_sg.bastion_sg_id ]
-  #   },
-  #   {
-  #     from_port       = var.was_sg_config.ing_port[1]
-  #     to_port         = var.was_sg_config.ing_port[1]
-  #     security_groups = [ module.final_sg.web_sg_id ]
-  #   }
-  # ]
-
   set_ing_rules = [
     {
       from_port       = var.set_sg_config.ing_port[0]
@@ -94,6 +78,11 @@ module "final_sg" {
       from_port       = var.db_sg_config.ing_port[0]
       to_port         = var.db_sg_config.ing_port[0]
       security_groups = [ module.final_sg.app_sg_id ]
+    },
+    {
+      from_port       = var.db_sg_config.ing_port[0]
+      to_port         = var.db_sg_config.ing_port[0]
+      security_groups = [ module.final_sg.cp_sg_id ]
     }
   ]
 
@@ -103,13 +92,6 @@ module "final_sg" {
       to_port   = var.elb_sg_config.ing_port[0]
     }
   ]
-
-  # cluster_ing_rules = [
-  #   {
-  #     from_port = var.cluster_sg_config.ing_port[0]
-  #     to_port   = var.cluster_sg_config.ing_port[0]
-  #   }
-  # ]
 
   depends_on = [module.final_vpc]
 }
@@ -150,7 +132,6 @@ module "final_eks" {
 
   node_group_role_name   = var.node_group_role_name
   app_node_group_name    = var.app_node_config.name
-  # was_node_group_name    = var.was_node_config.name
   set_node_group_name    = var.set_node_config.name
 
   k8s_version            = var.k8s_version
@@ -158,38 +139,27 @@ module "final_eks" {
 
   cluster_subnet_ids     = module.final_vpc.eks_subnet_ids
   app_node_group_subnet_ids = module.final_vpc.app_subnet_id
-  # was_node_group_subnet_ids = module.final_vpc.was_subnet_id
   set_node_group_subnet_ids = module.final_vpc.set_subnet_id
 
   app_instance_types     = [ var.app_node_config.instance_types ]
-  # was_instance_types     = [ var.was_node_config.instance_types ]
   set_instance_types     = [ var.set_node_config.instance_types ]
 
   app_node_group_desired_size = var.app_node_config.desired_size
   app_node_group_max_size     = var.app_node_config.max_size
   app_node_group_min_size     = var.app_node_config.min_size
-  # was_node_group_desired_size = var.was_node_config.desired_size
-  # was_node_group_max_size     = var.was_node_config.max_size
-  # was_node_group_min_size     = var.was_node_config.min_size
   set_node_group_desired_size = var.set_node_config.desired_size
   set_node_group_max_size     = var.set_node_config.max_size
   set_node_group_min_size     = var.set_node_config.min_size
 
   app_max_unavailable   = var.app_node_config.max_unavailable
-  # was_max_unavailable   = var.was_node_config.max_unavailable
   set_max_unavailable   = var.set_node_config.max_unavailable
 
   app_taint_key    = var.app_node_config.taint_key
   app_taint_value  = var.app_node_config.taint_value
   app_taint_effect = var.app_node_config.taint_effect
-  # was_taint_key    = var.app_node_config.taint_key
-  # was_taint_value  = var.app_node_config.taint_value
-  # was_taint_effect = var.app_node_config.taint_effect
 
   app_environment = var.app_node_config.environment
   app_asg_tag     = var.app_node_config.asg_tag
-  # was_environment = var.app_node_config.asg_tag
-  # was_asg_tag     = var.was_node_config.asg_tag
 }
 
 module "final_ingress_controller" {
@@ -205,9 +175,7 @@ module "final_irsa" {
   cluster_name = var.cluster_name
 
   cluster_oidc_url= module.final_eks.cluster_issuer
-  # cluster_oidc_url = data.tls_certificate.cluster_issuer.url
-  # thumbprint_list = [data.tls_certificate.cluster_issuer.certificates[0].sha1_fingerprint]
-  
+
   service_account_name = var.service_account_name
   oidc_role_name = var.oidc_role_name
 

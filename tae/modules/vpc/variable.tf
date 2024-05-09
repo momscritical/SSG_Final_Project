@@ -68,19 +68,6 @@ variable "app_subnet_name" {
   default = ""
 }
 
-# ############################## WAS Subnet ##############################
-# variable "was_subnet_cidr" {
-#   description = "Subnet CIDR Values for EKS WAS Node Group"
-#   type        = list(string)
-#   default     = []
-# }
-
-# variable "was_subnet_name" {
-#   description = "Subnet Name Values for EKS WAS Node Group"
-#   type = string
-#   default = ""
-# }
-
 ############################## Set Subnet ##############################
 variable "set_subnet_cidr" {
   description = "Subnet CIDR Values for EKS Setting Node Group"

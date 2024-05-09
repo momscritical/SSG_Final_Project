@@ -23,12 +23,6 @@ variable "app_sg_name" {
   default     = ""
 }
 
-# variable "was_sg_name" {
-#   description = "The Name of the Security Group for WAS Instance"
-#   type        = string
-#   default     = ""
-# }
-
 variable "set_sg_name" {
   description = "The Name of the Security Group for EKS Setting Node"
   type        = string
@@ -52,24 +46,6 @@ variable "cluster_sg_name" {
   type        = string
   default     = ""
 }
-
-# variable "ilb_sg_name" {
-#   description = "The Name of the Security Group Internal Load Balancer"
-#   type        = string
-#   default     = ""
-# }
-
-# variable "web_efs_sg_name" {
-#   description = "The Name of the Security Group for Web EFS"
-#   type        = string
-#   default     = ""
-# }
-
-# variable "was_efs_sg_name" {
-#   description = "The Name of the Security Group for WAS EFS"
-#   type        = string
-#   default     = ""
-# }
 
 #################################### Ingress Ports Values ####################################
 variable "bastion_ing_rules" {
@@ -100,16 +76,6 @@ variable "app_ing_rules" {
   }))
   default     = []
 }
-
-# variable "was_ing_rules" {
-#   description = "List of ingress rules for WAS Instance"
-#   type        = list(object({
-#     from_port       = number
-#     to_port         = number
-#     security_groups = list(string)
-#   }))
-#   default     = []
-# }
 
 variable "set_ing_rules" {
   description = "List of ingress rules for EKS Setting Node"
@@ -149,33 +115,3 @@ variable "cluster_ing_rules" {
   }))
   default     = []
 }
-
-# variable "ilb_ing_rules" {
-#   description = "List of ingress rules for Internal Load Balancer"
-#   type        = list(object({
-#     from_port       = number
-#     to_port         = number
-#     security_groups = list(string)
-#   }))
-#   default     = []
-# }
-
-# variable "web_efs_ing_rules" {
-#   description = "List of ingress rules for Web EFS"
-#   type        = list(object({
-#     from_port       = number
-#     to_port         = number
-#     security_groups = list(string)
-#   }))
-#   default     = []
-# }
-
-# variable "was_efs_ing_rules" {
-#   description = "List of ingress rules for WAS EFS"
-#   type        = list(object({
-#     from_port       = number
-#     to_port         = number
-#     security_groups = list(string)
-#   }))
-#   default     = []
-# }
