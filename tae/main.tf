@@ -251,6 +251,8 @@ module "final_copy" {
   db_user_pass         = var.rds_config.db_user_pass
   rds_address          = module.final_rds.endpoints
   db_name              = var.rds_config.db_name
+
+  depends_on = [ module.final_ec2s ]
 }
 
 # Kubernetes Ingress Nginx Controller를 사용하기 때문에 사용 x
