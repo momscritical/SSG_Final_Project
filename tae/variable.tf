@@ -389,7 +389,7 @@ variable "rds_config" {
     multi_az              = true
     publicly_accessible   = false
     skip_final_snapshot   = true
-    rds_subnet_group_name = "rds-subnet-group"
+    rds_subnet_group_name = "rds-subnet-group-2"
   }
   sensitive = true
 }
@@ -407,9 +407,9 @@ variable "copy_config" {
 
   default = {
     private_key_location = "~/.ssh/final-key"
-    private_key_dest     = "~/.ssh/final-key"
+    private_key_dest     = "/home/ec2-user/.ssh/final-key"
     dummy_file_location  = "./user_data_file/dummy_data.sql"
-    dummy_file_dest      = "~/.ssh/dummy_data.sql"
+    dummy_file_dest      = "/home/ec2-user/.ssh/dummy_data.sql"
   }
 
   sensitive = true
