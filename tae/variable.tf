@@ -282,7 +282,7 @@ variable "cp_config" {
 variable "cluster_role_name" {
     description = "Role Name Value for Cluster"
     type        = string
-    default     = "SSG-Final-2-Cluster-Role"
+    default     = "SSG-Final-2-Cluster-Role-2"
 }
 
 variable "cluster_name" {
@@ -300,7 +300,7 @@ variable "k8s_version" {
 variable "node_group_role_name" {
     description = "Role Name Value for Node Group"
     type        = string
-    default     = "SSG-Final-2-NodeGroup-Role"
+    default     = "SSG-Final-2-NodeGroup-Role-2"
 }
 
 variable "app_node_config" {
