@@ -5,8 +5,6 @@ resource "null_resource" "install_ingress_ctroller" {
   }
 }
 
-
-
 # resource "kubernetes_namespace" "ingress-nginx" {
 #   metadata {
 #     name = "ingress-nginx"
