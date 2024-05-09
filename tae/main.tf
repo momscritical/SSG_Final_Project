@@ -122,25 +122,25 @@ module "final_key" {
   key_tags            = var.key_config.tags
 }
 
-# module "final_ec2" {
-#   source = "./modules/ec2"
+module "final_ec2" {
+  source = "./modules/ec2"
   
-#   bastion_ami           = data.aws_ami.amazon_linux_2023.id
-#   bastion_instance_type = var.bastion_config.instance_types
-#   bastion_key_name      = module.final_key.key_name
-#   bastion_sg_id         = [module.final_sg.bastion_sg_id]
-#   bastion_subnet_id     = module.final_vpc.public_subnet_id[0]
-#   bastion_name          = var.bastion_config.name
-#   bastion_user_data     = templatefile(var.bastion_config.user_data, {})
+  bastion_ami           = data.aws_ami.amazon_linux_2023.id
+  bastion_instance_type = var.bastion_config.instance_types
+  bastion_key_name      = module.final_key.key_name
+  bastion_sg_id         = [module.final_sg.bastion_sg_id]
+  bastion_subnet_id     = module.final_vpc.public_subnet_id[0]
+  bastion_name          = var.bastion_config.name
+  bastion_user_data     = templatefile(var.bastion_config.user_data, {})
 
-#   cp_ami           = data.aws_ami.amazon_linux_2023.id
-#   cp_instance_type = var.cp_config.instance_types
-#   cp_key_name      = module.final_key.key_name
-#   cp_sg_id         = [module.final_sg.cp_sg_id]
-#   cp_subnet_id     = module.final_vpc.cp_subnet_id[0]
-#   cp_name          = var.cp_config.name
-#   cp_user_data     = templatefile(var.cp_config.user_data, {}) 
-# }
+  cp_ami           = data.aws_ami.amazon_linux_2023.id
+  cp_instance_type = var.cp_config.instance_types
+  cp_key_name      = module.final_key.key_name
+  cp_sg_id         = [module.final_sg.cp_sg_id]
+  cp_subnet_id     = module.final_vpc.cp_subnet_id[0]
+  cp_name          = var.cp_config.name
+  cp_user_data     = templatefile(var.cp_config.user_data, {}) 
+}
 
 module "final_eks" {
   source = "./modules/eks"
@@ -195,7 +195,7 @@ module "final_eks" {
 module "final_ingress_controller" {
   source        = "./modules/ingress_controller"
 
-  # yaml_location = var.ingress_controller_yaml
+  yaml_location = var.ingress_controller_yaml
   depends_on    = [ module.final_eks ]
 }
 
@@ -216,27 +216,42 @@ module "final_irsa" {
   ]
 }
 
-# module "final_rds" {
-#   source = "./modules/rds"
+module "final_rds" {
+  source = "./modules/rds"
 
-#   rds_name               = var.rds_config.name
-#   storage                = var.rds_config.storage
-#   max_storage            = var.rds_config.max_storage
-#   engine_type            = var.rds_config.engine_type
-#   engine_version         = var.rds_config.engine_version
-#   instance_class         = var.rds_config.instance_class
-#   db_name                = var.rds_config.db_name
-#   db_user_name           = var.rds_config.db_user_name
-#   db_user_pass           = var.rds_config.db_user_pass
-#   multi_az               = var.rds_config.multi_az
-#   publicly_accessible    = var.rds_config.publicly_accessible
-#   skip_final_snapshot    = var.rds_config.skip_final_snapshot
+  rds_name               = var.rds_config.name
+  storage                = var.rds_config.storage
+  max_storage            = var.rds_config.max_storage
+  engine_type            = var.rds_config.engine_type
+  engine_version         = var.rds_config.engine_version
+  instance_class         = var.rds_config.instance_class
+  db_name                = var.rds_config.db_name
+  db_user_name           = var.rds_config.db_user_name
+  db_user_pass           = var.rds_config.db_user_pass
+  multi_az               = var.rds_config.multi_az
+  publicly_accessible    = var.rds_config.publicly_accessible
+  skip_final_snapshot    = var.rds_config.skip_final_snapshot
 
-#   db_sg_ids              = [module.final_sg.db_sg_id]
+  db_sg_ids              = [module.final_sg.db_sg_id]
   
-#   rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
-#   rds_subnet_ids         = module.final_vpc.db_subnet_id
-# }
+  rds_subnet_group_name  = var.rds_config.rds_subnet_group_name
+  rds_subnet_ids         = module.final_vpc.db_subnet_id
+}
+
+module "final_copy" {
+  source = "./modules/input_dummy_data"
+
+  private_key_location = var.copy_config.private_key_location
+  private_key_dest     = var.copy_config.private_key_dest
+  dummy_file_location  = var.copy_config.dummy_file_location
+  dummy_file_dest      = var.copy_config.dummy_file_dest
+  bastion_ip           = module.final_ec2.bastion_ip
+  cp_ip                = module.final_ec2.cp_ip
+  db_user_name         = var.rds_config.db_user_name
+  db_user_pass         = var.rds_config.db_user_pass
+  rds_address          = module.final_rds.endpoints
+  db_name              = var.rds_config.db_name
+}
 
 # Kubernetes Ingress Nginx Controller를 사용하기 때문에 사용 x
 # module "final_lb" {

@@ -66,19 +66,6 @@ variable "app_subnet_config" {
   sensitive   = true
 }
 
-# variable "was_subnet_config" {
-#   description = "Subnets Configuration Values for WAS Node Subnet"
-#   type        = object({
-#     name = string
-#     cidr = list(string)
-#   })
-#   default     = {
-#     name = "WAS-Subnet"
-#     cidr = ["10.0.101.0/24", "10.0.102.0/24"]
-#   }
-#   sensitive   = true
-# }
-
 variable "set_subnet_config" {
   description = "Subnets Configuration Values for Setting Node"
   type        = object({
@@ -181,19 +168,6 @@ variable "app_sg_config" {
   sensitive   = true
 }
 
-# variable "was_sg_config" {
-#   description = "Security Group Configuration Values for WAS Nodes"
-#   type        = object({
-#     name     = string
-#     ing_port = list(number)
-#   })
-#   default     = {
-#     name     = "WAS-SG"
-#     ing_port = [22, 80]
-#   }
-#   sensitive   = true
-# }
-
 variable "set_sg_config" {
   description = "Security Group Configuration Values for Setting Nodes"
   type        = object({
@@ -242,9 +216,9 @@ variable "key_config" {
     tags                = string
   })
   default = {
-    name                = "final-key"
-    public_key_location = "~/.ssh/final-key.pub"
-    tags                = "Final-Key"
+    name                 = "final-key"
+    public_key_location  = "~/.ssh/final-key.pub"
+    tags                 = "Final-Key"
   }
   sensitive = true
 }
@@ -333,36 +307,6 @@ variable "app_node_config" {
   }
 }
 
-# variable "was_node_config" {
-#   description = "Configuration Values for the WAS Node Group"
-#   type = object({
-#     name            = string
-#     instance_types  = string
-#     desired_size    = number
-#     max_size        = number
-#     min_size        = number
-#     max_unavailable = number
-#     taint_key       = string
-#     taint_value     = string
-#     taint_effect    = string
-#     environment     = string
-#     asg_tag         = string
-#   })
-#   default = {
-#     name            = "WAS-Node-Group"
-#     instance_types  = "t2.medium"
-#     desired_size    = 2
-#     max_size        = 3
-#     min_size        = 1
-#     max_unavailable = 1
-#     taint_key       = "was"
-#     taint_value     = "true"
-#     taint_effect    = "NO_SCHEDULE"
-#     environment     = "production"
-#     asg_tag         = "WAS-Node"
-#   }
-# }
-
 variable "set_node_config" {
   description = "Configuration Values for the Setting Node Group"
   type = object({
@@ -439,7 +383,7 @@ variable "rds_config" {
     engine_type           = "mysql"
     engine_version        = "8.0.35"
     instance_class        = "db.m5d.large"
-    db_name               = "coupang"
+    db_name               = "ssgpang"
     db_user_name          = "root"
     db_user_pass          = "admin12345"
     multi_az              = true
@@ -447,5 +391,26 @@ variable "rds_config" {
     skip_final_snapshot   = true
     rds_subnet_group_name = "rds-subnet-group"
   }
+  sensitive = true
+}
+
+#################################### Coppy Dummy Data Values ####################################
+variable "copy_config" {
+  description = "Configuration Values for Copying Dummy Data"
+
+  type = object({
+    private_key_location = string
+    private_key_dest     = string
+    dummy_file_location  = string
+    dummy_file_dest      = string
+  })
+
+  default = {
+    private_key_location = "~/.ssh/final-key"
+    private_key_dest     = "~/.ssh/final-key"
+    dummy_file_location  = "./user_data_file/dummy_data.sql"
+    dummy_file_dest      = "~/.ssh/dummy_data.sql"
+  }
+
   sensitive = true
 }
