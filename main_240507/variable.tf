@@ -2,7 +2,7 @@
 variable "region" {
   description = "AWS region Values"
   type        = string
-  default     = "ap-northeast-3"
+  default     = "ap-northeast-1"
   sensitive = true
 }
 
@@ -10,7 +10,7 @@ variable "region" {
 variable "availability_zones" {
   description = "Availability Zones Values"
   type        = list(string)
-  default     = ["ap-northeast-3a", "ap-northeast-3c"]
+  default     = ["ap-northeast-1a", "ap-northeast-1c"]
   sensitive   = true
 }
 
