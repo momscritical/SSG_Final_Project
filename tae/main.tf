@@ -252,7 +252,10 @@ module "final_copy" {
   rds_address          = module.final_rds.endpoints
   db_name              = var.rds_config.db_name
 
-  depends_on = [ module.final_ec2s ]
+  depends_on = [
+    module.final_ec2,
+    module.final_rds
+  ]
 }
 
 # Kubernetes Ingress Nginx Controller를 사용하기 때문에 사용 x

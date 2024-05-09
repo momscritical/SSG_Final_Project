@@ -1,5 +1,5 @@
-################################### copy_key ###################################
-resource "null_resource" "copy_key" {
+################################### Copy File ###################################
+resource "null_resource" "copy_file" {
   connection {
     type = "ssh"
     user = "ec2-user"
@@ -40,5 +40,5 @@ resource "null_resource" "input_dummy_data" {
     ]
   }
 
-  depends_on = [null_resource.copy_key]
+  depends_on = [null_resource.copy_file]
 }
