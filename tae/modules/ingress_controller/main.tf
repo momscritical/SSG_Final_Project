@@ -22,12 +22,12 @@ resource "kubernetes_namespace" "ingress-nginx" {
 resource "kubernetes_service_account" "controller-serviceaccount" {
   metadata {
     labels = {
-      "app.kubernetes.io/component"  = "controller"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
       "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
       "app.kubernetes.io/version"    = "1.1.1"
-      "helm.sh/chart"                 = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
@@ -45,12 +45,12 @@ resource "kubernetes_service_account" "controller-serviceaccount" {
 resource "kubernetes_config_map" "controller-configmap" {
   metadata {
     labels = {
-      "app.kubernetes.io/component"  = "controller"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx-controller"
     namespace = "ingress-nginx"
@@ -73,11 +73,11 @@ resource "kubernetes_config_map" "controller-configmap" {
 resource "kubernetes_cluster_role" "clusterrole" {
   metadata {
     labels = {
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
     }
     name = "ingress-nginx"
   }
@@ -139,11 +139,11 @@ resource "kubernetes_cluster_role" "clusterrole" {
 resource "kubernetes_role_binding" "clusterrolebinding" {
   metadata {
     labels = {
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
     }
     name = "ingress-nginx"
   }
@@ -174,12 +174,12 @@ resource "kubernetes_role_binding" "clusterrolebinding" {
 resource "kubernetes_role" "controller-role" {
   metadata {
     labels = {
-      "app.kubernetes.io/component"  = "controller"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
@@ -254,12 +254,12 @@ resource "kubernetes_role" "controller-role" {
 resource "kubernetes_role_binding" "controller-rolebinding" {
   metadata {
     labels = {
-      "app.kubernetes.io/component"  = "controller"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx"
     namespace = "ingress-nginx"
@@ -291,12 +291,12 @@ resource "kubernetes_role_binding" "controller-rolebinding" {
 resource "kubernetes_service" "controller-service-webhook" {
   metadata {
     labels = {
-      "app.kubernetes.io/component"  = "controller"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx-controller-admission"
     namespace = "ingress-nginx"
@@ -335,12 +335,12 @@ resource "kubernetes_service" "controller-service" {
   metadata {
     annotations = {}
     labels = {
-      "app.kubernetes.io/component" = "controller"
-      "app.kubernetes.io/instance"  = "ingress-nginx"
-      "app.kubernetes.io/managed-by"= "Helm"
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/version"   = "1.1.1"
-      "helm.sh/chart"               = "ingress-nginx-4.0.15"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx-controller"
     namespace = "ingress-nginx"
@@ -389,12 +389,12 @@ resource "kubernetes_service" "controller-service" {
 resource "kubernetes_deployment" "controller-deployment" {
   metadata {
     labels = {
-      "app.kubernetes.io/component" = "controller"
-      "app.kubernetes.io/instance"  = "ingress-nginx"
-      "app.kubernetes.io/managed-by"= "Helm"
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/version"   = "1.1.1"
-      "helm.sh/chart"               = "ingress-nginx-4.0.15"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name      = "ingress-nginx-controller"
     namespace = "ingress-nginx"
@@ -569,12 +569,12 @@ resource "kubernetes_deployment" "controller-deployment" {
 resource "kubernetes_ingress_class" "controller-ingressclass" {
   metadata {
     labels = {
-      "app.kubernetes.io/component" = "controller"
-      "app.kubernetes.io/instance"  = "ingress-nginx"
-      "app.kubernetes.io/managed-by"= "Helm"
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/version"   = "1.1.1"
-      "helm.sh/chart"               = "ingress-nginx-4.0.15"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "controller"
     }
     name = "nginx"
     # namespace = "ingress-nginx"
@@ -600,12 +600,12 @@ resource "kubernetes_ingress_class" "controller-ingressclass" {
 resource "kubernetes_validating_webhook_configuration" "validating-webhook" {
   metadata {
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"  = "ingress-nginx"
-      "app.kubernetes.io/managed-by"= "Helm"
-      "app.kubernetes.io/name"      = "ingress-nginx"
-      "app.kubernetes.io/version"   = "1.1.1"
-      "helm.sh/chart"               = "ingress-nginx-4.0.15"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
     name = "ingress-nginx-admission"
   }
@@ -654,12 +654,12 @@ resource "kubernetes_service_account" "serviceaccount" {
       "helm.sh/hook-delete-policy"= "before-hook-creation,hook-succeeded"
     }
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
   }
 
@@ -682,12 +682,12 @@ resource "kubernetes_cluster_role" "webhooks_clusterrole" {
       "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
     }
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
   }
 
@@ -716,12 +716,12 @@ resource "kubernetes_cluster_role_binding" "webhooks_clusterrolebinding" {
       "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
     }
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
   }
 
@@ -757,12 +757,12 @@ resource "kubernetes_role" "webhooks_role" {
       "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
     }
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
   }
 
@@ -792,12 +792,12 @@ resource "kubernetes_role_binding" "webhooks_rolebinding" {
       "helm.sh/hook-delete-policy" = "before-hook-creation,hook-succeeded"
     }
     labels = {
-      "app.kubernetes.io/component" = "admission-webhook"
-      "app.kubernetes.io/instance"   = "ingress-nginx"
-      "app.kubernetes.io/managed-by" = "Helm"
-      "app.kubernetes.io/name"       = "ingress-nginx"
-      "app.kubernetes.io/version"    = "1.1.1"
       "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
     }
   }
 
@@ -847,12 +847,12 @@ resource "kubernetes_job" "job-createSecret" {
       metadata {
         name = "ingress-nginx-admission-create"
         labels = {
-          "app.kubernetes.io/component" = "admission-webhook"
-          "app.kubernetes.io/instance"   = "ingress-nginx"
-          "app.kubernetes.io/managed-by" = "Helm"
-          "app.kubernetes.io/name"       = "ingress-nginx"
-          "app.kubernetes.io/version"    = "1.1.1"
-          "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "helm.sh/chart"                = "ingress-nginx-4.0.15"
+      "app.kubernetes.io/name"       = "ingress-nginx"
+      "app.kubernetes.io/instance"   = "ingress-nginx"
+      "app.kubernetes.io/version"    = "1.1.1"
+      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/component"  = "admission-webhook"
         }
       }
       spec {
@@ -876,7 +876,7 @@ resource "kubernetes_job" "job-createSecret" {
           }
           security_context {
             run_as_non_root        = true
-            run_as_user            = 2000
+            run_as_user            = "2000"
             allow_privilege_escalation = false
           }
         }
@@ -923,12 +923,12 @@ resource "kubernetes_job" "job-patchWebhook" {
       metadata {
         name = "ingress-nginx-admission-patch"
         labels = {
-          "app.kubernetes.io/component" = "admission-webhook"
-          "app.kubernetes.io/instance"   = "ingress-nginx"
-          "app.kubernetes.io/managed-by" = "Helm"
-          "app.kubernetes.io/name"       = "ingress-nginx"
-          "app.kubernetes.io/version"    = "1.1.1"
           "helm.sh/chart"                = "ingress-nginx-4.0.15"
+          "app.kubernetes.io/name"       = "ingress-nginx"
+          "app.kubernetes.io/instance"   = "ingress-nginx"
+          "app.kubernetes.io/version"    = "1.1.1"
+          "app.kubernetes.io/managed-by" = "Helm"
+          "app.kubernetes.io/component"  = "admission-webhook"
         }
       }
       spec {
@@ -955,7 +955,7 @@ resource "kubernetes_job" "job-patchWebhook" {
           security_context {
             allow_privilege_escalation = false
             run_as_non_root           = true
-            run_as_user               = 2000
+            run_as_user               = "2000"
           }
         }
         restart_policy = "OnFailure"
