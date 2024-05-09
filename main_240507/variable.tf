@@ -232,7 +232,7 @@ variable "bastion_config" {
     user_data      = string
   })
   default = {
-    instance_types = "t2.small"
+    instance_types = "t2.medium"
     name           = "Bastion"
     user_data      = "./user_data_file/user_data_bastion.sh"
   }
@@ -246,7 +246,7 @@ variable "cp_config" {
     user_data      = string
   })
   default = {
-    instance_types = "t2.small"
+    instance_types = "t2.medium"
     name           = "Control-Plane"
     user_data      = "./user_data_file/user_data_cp.sh"
   }
@@ -294,7 +294,7 @@ variable "app_node_config" {
   })
   default = {
     name            = "App-Node-Group"
-    instance_types  = "t2.small"
+    instance_types  = "t2.medium"
     desired_size    = 2
     max_size        = 3
     min_size        = 1
@@ -324,7 +324,7 @@ variable "set_node_config" {
   })
   default = {
     name            = "Setting-Node-Group"
-    instance_types  = "t2.small"
+    instance_types  = "t2.medium"
     desired_size    = 2
     max_size        = 3
     min_size        = 1
