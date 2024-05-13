@@ -1,5 +1,7 @@
-DROP TABLE IF EXISTS user;
-CREATE TABLE user (
+USE ssgpang;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
     user_idx int NOT NULL AUTO_INCREMENT,
     user_id varchar(20) NOT NULL,
     user_pw varchar(256) NOT NULL,
@@ -12,9 +14,9 @@ CREATE TABLE user (
     PRIMARY KEY(user_idx)
 );
 
-INSERT INTO user(user_id, user_pw, user_name, user_email, user_phone, user_address, user_role) VALUES ('admin', '12345', '관리자', 'admin@gmail.com', '010-0000-0000', '명왕성', 'role_admin');
-INSERT INTO user(user_id, user_pw, user_name, user_email, user_phone, user_address) VALUES ('user1', '12345', '장재영', 'test@gmail.com', '010-1234-1234', '강남구 도곡동');
-INSERT INTO user(user_id, user_pw, user_name, user_email, user_phone, user_address) VALUES ('user2', '12345', '홍길동', 'user@gmail.com', '010-5678-1472', '서초구 잠실');
+INSERT INTO users(user_id, user_pw, user_name, user_email, user_phone, user_address, user_role) VALUES ('admin', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', '관리자', 'admin@gmail.com', '010-0000-0000', '명왕성', 'role_admin');
+INSERT INTO users(user_id, user_pw, user_name, user_email, user_phone, user_address) VALUES ('user1', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', '장재영', 'test@gmail.com', '010-1234-1234', '강남구 도곡동');
+INSERT INTO users(user_id, user_pw, user_name, user_email, user_phone, user_address) VALUES ('user2', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', '홍길동', 'user@gmail.com', '010-5678-1472', '서초구 잠실');
 
 DROP TABLE IF EXISTS product;
 CREATE TABLE product (
