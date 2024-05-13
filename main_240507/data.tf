@@ -23,3 +23,15 @@ data "aws_ami" "amazon_linux_2023" {
     values = ["hvm"]
   }
 }
+
+################################### Kubernetes Config ###################################
+data "aws_eks_cluster" "final_eks" {
+  name = var.cluster_name
+
+  depends_on = [ module.final_eks ]
+}
+data "aws_eks_cluster_auth" "final_eks" {
+  name = var.cluster_name
+
+  depends_on = [ module.final_eks ]
+}

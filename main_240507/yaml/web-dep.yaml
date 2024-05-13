@@ -33,18 +33,3 @@ spec:
         - name: conf
           configMap:
             name: conf
----
-apiVersion: v1
-kind: Service
-metadata:
-  namespace: dev
-  name: web-svc
-spec:
-  selector:
-    app: web
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 32706
-  type: NodePort
