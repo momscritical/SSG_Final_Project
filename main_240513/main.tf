@@ -206,25 +206,25 @@ module "final_rds" {
   rds_subnet_ids         = module.final_vpc.db_subnet_id
 }
 
-module "final_dumy_data" {
-  source = "./modules/input_dummy_data"
+# module "final_dumy_data" {
+#   source = "./modules/input_dummy_data"
 
-  private_key_location = var.copy_config.private_key_location
-  private_key_dest     = var.copy_config.private_key_dest
-  dummy_file_location  = var.copy_config.dummy_file_location
-  dummy_file_dest      = var.copy_config.dummy_file_dest
-  bastion_ip           = module.final_ec2.bastion_ip
-  cp_ip                = module.final_ec2.cp_ip
-  db_user_name         = var.rds_config.db_user_name
-  db_user_pass         = var.rds_config.db_user_pass
-  rds_address          = module.final_rds.endpoints
-  db_name              = var.rds_config.db_name
+#   private_key_location = var.copy_config.private_key_location
+#   private_key_dest     = var.copy_config.private_key_dest
+#   dummy_file_location  = var.copy_config.dummy_file_location
+#   dummy_file_dest      = var.copy_config.dummy_file_dest
+#   bastion_ip           = module.final_ec2.bastion_ip
+#   cp_ip                = module.final_ec2.cp_ip
+#   db_user_name         = var.rds_config.db_user_name
+#   db_user_pass         = var.rds_config.db_user_pass
+#   rds_address          = module.final_rds.endpoints
+#   db_name              = var.rds_config.db_name
 
-  depends_on = [
-    module.final_ec2,
-    module.final_rds
-  ]
-}
+#   depends_on = [
+#     module.final_ec2,
+#     module.final_rds
+#   ]
+# }
 
 # # Kubernetes Ingress Nginx Controller를 사용하기 때문에 사용 x
 # module "final_lb" {
