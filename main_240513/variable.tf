@@ -216,9 +216,9 @@ variable "key_config" {
     tags                = string
   })
   default = {
-    name                = "final-key"
-    public_key_location = "~/.ssh/final-key.pub"
-    tags                = "Final-Key"
+    name                 = "final-key"
+    public_key_location  = "~/.ssh/final-key.pub"
+    tags                 = "Final-Key"
   }
   sensitive = true
 }
@@ -383,7 +383,7 @@ variable "rds_config" {
     engine_type           = "mysql"
     engine_version        = "8.0.35"
     instance_class        = "db.m5d.large"
-    db_name               = "coupang"
+    db_name               = "ssgpang"
     db_user_name          = "root"
     db_user_pass          = "admin12345"
     multi_az              = true
@@ -391,5 +391,26 @@ variable "rds_config" {
     skip_final_snapshot   = true
     rds_subnet_group_name = "rds-subnet-group"
   }
+  sensitive = true
+}
+
+#################################### Coppy Dummy Data Values ####################################
+variable "copy_config" {
+  description = "Configuration Values for Copying Dummy Data"
+
+  type = object({
+    private_key_location = string
+    private_key_dest     = string
+    dummy_file_location  = string
+    dummy_file_dest      = string
+  })
+
+  default = {
+    private_key_location = "~/.ssh/final-key"
+    private_key_dest     = "/home/ec2-user/.ssh/final-key"
+    dummy_file_location  = "./user_data_file/dummy_data.sql"
+    dummy_file_dest      = "/home/ec2-user/.ssh/dummy_data.sql"
+  }
+
   sensitive = true
 }
