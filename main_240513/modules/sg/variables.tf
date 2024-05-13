@@ -23,12 +23,6 @@ variable "app_sg_name" {
   default     = ""
 }
 
-# variable "was_sg_name" {
-#   description = "The Name of the Security Group for WAS Instance"
-#   type        = string
-#   default     = ""
-# }
-
 variable "set_sg_name" {
   description = "The Name of the Security Group for EKS Setting Node"
   type        = string

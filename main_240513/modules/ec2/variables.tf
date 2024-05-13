@@ -9,7 +9,6 @@ variable "bastion_instance_type" {
   description = "The Instance Type for Bastion Instance"
   type        = string
   default     = ""
-
 }
 
 variable "bastion_sg_id" {
